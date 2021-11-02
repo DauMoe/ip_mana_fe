@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./SideBar.sass";
+import ava from './1.jpg';
 
 //Sass doc: https://sass-lang.com/guide
 
@@ -27,7 +28,7 @@ function SideBar (props) {
     return(
         <div className="sidebar" style={{"height": windowsSize.height + 'px'}}>
             <div className="sidebar_avatar">
-                <img src=""/>
+                <img src={ava}/>
             </div>
         </div>
     );
