@@ -4,7 +4,7 @@ import SideBar from "../SideBar";
 function BlackList (props) {
     return(
         <div className="container">
-            <SideBar/>
+            
         </div>
     );
 }

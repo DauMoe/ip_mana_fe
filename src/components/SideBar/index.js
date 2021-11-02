@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import "./SideBar.sass";
 import ava from './1.jpg';
-import {} from "react-icons/fa";
+import { FaHome, FaBuffer } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 //Sass doc: https://sass-lang.com/guide
 
@@ -35,7 +36,9 @@ function SideBar (props) {
             </div>
             <div className="sidebar_items">
                 <ul>
-                    <li>Home</li>
+                    <li>
+                        <Link to="/blacklist"><FaBuffer/> Blacklist IP</Link>
+                    </li>
                 </ul>
             </div>
         </div>
