@@ -1,11 +1,11 @@
-import { CLOSE_SIDEBAR, OPEN_SIDEBAR } from './ActionsDefinition';
+import { CLOSE_SIDEBAR, OPEN_SIDEBAR, SELECT_ITEM } from './SideBarActionsDefinition';
 
 
 const CLOSED = false;
 const OPEN = true;
 const initState = {
-    is_open: CLOSED,
-    current_index: -1 //Index of current selected item
+    is_open: OPEN,
+    index: -1 //Index of current selected item
 };
 
 const SideBarReducer = (state = initState, payload) => {
@@ -23,6 +23,12 @@ const SideBarReducer = (state = initState, payload) => {
                 is_open: CLOSED
             }
 
+        case SELECT_ITEM:
+            return {
+                ...state,
+                is_open: CLOSED,
+                index: payload.index
+            }
         default:
             return state;
     }
