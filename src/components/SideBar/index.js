@@ -5,13 +5,17 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {FaLessThan, FaGreaterThan} from "react-icons/fa";
 import { OPEN_SIDEBAR, SELECT_ITEM, CLOSE_SIDEBAR } from "../Redux/ReducersAndActions/SideBar/SideBarActionsDefinition";
+import { IconContext } from "react-icons/lib";
 
 //Sass doc: https://sass-lang.com/guide
 //Redux doc: https://viblo.asia/p/redux-hook-da-suong-lai-con-suong-hon-Az45brxQ5xY
 
+const MiniSidebarIconSize = 25;
+const SidebarIconSize = 20;
+
 function SideBar (props) {
     const { ListItems } = props;
-    const { is_open, index } = useSelector(state => state.SideBar);
+    const { is_open, _index } = useSelector(state => state.SideBar);
     const dispatch = useDispatch();
     const getWindowDimensions = () => {
         const { innerWidth: width, innerHeight: height } = window;
@@ -28,7 +32,7 @@ function SideBar (props) {
         }
     }, []);
 
-    const CloseSideBar = () => {
+    const ToogleSideBar = () => {
         if (is_open) {
             dispatch({
                 type: CLOSE_SIDEBAR
@@ -53,7 +57,11 @@ function SideBar (props) {
             {is_open && (
                 <>
                     <div className="sidebar_avatar">
-                        <span onClick={CloseSideBar} className="state_button"><FaLessThan/></span>
+                        <span onClick={ToogleSideBar} className="state_button">
+                            <IconContext.Provider value={{className: "toogle_button"}}>
+                                <FaLessThan/>
+                            </IconContext.Provider>
+                        </span>
                         <img src={ava}/>
                         <br/>
                         <span>Hello, Daumoe!</span>
@@ -64,7 +72,12 @@ function SideBar (props) {
                             {ListItems.map((item, index) => {
                                 return (
                                     <li key={index} onClick={() => SelectItem(index)}>
-                                        <Link to={item.path}>{item.icon}&nbsp;&nbsp; <span>{item.name}</span></Link>
+                                        <Link to={item.path}>
+                                            <IconContext.Provider value={{size: SidebarIconSize}}>
+                                                {item.icon}
+                                            </IconContext.Provider>
+                                            &nbsp;&nbsp; <span>{item.name}</span>
+                                        </Link>
                                     </li>
                                 )
                             })}
@@ -76,7 +89,26 @@ function SideBar (props) {
             {/* Sidebar when close  */}
             {!is_open && (
                 <>
-                    <span onClick={CloseSideBar} className="state_button"><FaGreaterThan/></span>
+                    <div className="mini_sidebar_items">
+                        <ul>
+                            <li onClick={ToogleSideBar}>
+                                <IconContext.Provider value={{className: "toogle_button"}}>
+                                    <FaGreaterThan size={20}/>
+                                </IconContext.Provider>
+                            </li>
+                            {ListItems.map((item, index) => {
+                                return (
+                                    <li key={index} onClick={() => SelectItem(index)} className={(index == _index ? "selected_item" : "")}>
+                                        <Link to={item.path}>
+                                            <IconContext.Provider value={{size: MiniSidebarIconSize, className: (index == _index ? "selected_item" : "")}}>
+                                                {item.icon}
+                                            </IconContext.Provider>
+                                        </Link>
+                                    </li>
+                                )
+                            })}
+                        </ul>
+                    </div>
                 </>
             )}
 

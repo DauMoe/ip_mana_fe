@@ -5,7 +5,7 @@ const CLOSED = false;
 const OPEN = true;
 const initState = {
     is_open: OPEN,
-    index: -1 //Index of current selected item
+    _index: 0 //Index of current selected item
 };
 
 const SideBarReducer = (state = initState, payload) => {
@@ -27,7 +27,7 @@ const SideBarReducer = (state = initState, payload) => {
             return {
                 ...state,
                 is_open: CLOSED,
-                index: payload.index
+                _index: payload.index
             }
         default:
             return state;
