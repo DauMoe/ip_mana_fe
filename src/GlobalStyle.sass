@@ -4,3 +4,80 @@ $sidebar_item_non_selected: #a3a3a3
 $sidebar_selected_bg: #7c7c7c
 $sidebar_width: 300px
 $sidebar_close_width: 60px
+
+$theme_green: #008a8a
+$theme_brown: #362F4B
+
+body
+    margin: 0
+    padding: 0
+    scroll-behavior: smooth
+
+@for $i from 0 through 20 
+    .margin-top-#{$i+5}
+        margin-top: $i+5px
+    .margin-bottom-#{$i+5}
+        margin-bottom: $i+5px
+    .margin-left-#{$i+5}
+        margin-left: $i+5px
+    .margin-right-#{$i+5}
+        margin-right: $i+5px
+    .margin-#{$i}
+        margin: $i+5px
+    .padding-top-#{$i+5}
+        padding-top: $i+5px
+    .padding-bottom-#{$i+5}
+        padding-bottom: $i+5px
+    .padding-left-#{$i+5}
+        padding-left: $i+5px
+    .padding-right-#{$i+5}
+        padding-right: $i+5px
+    .padding-#{$i}
+        padding: $i+5px
+
+
+.hide
+    display: none
+
+.show
+    display: block
+
+.bold
+    font-weight: bold
+
+.theme_green
+    background-color: $theme_green !important
+    color: $white !important
+
+.btn
+    padding: 10px 20px
+    border: none
+    border-radius: 6px
+    background-color: #cacaca
+    color: black
+    cursor: pointer
+
+.pull-right
+    float: right
+
+.text-center
+    text-align: center
+
+.text-right
+    text-align: right
+
+.nice_theme
+    width: 100%
+    thead
+        text-align: center
+        background-color: $theme_brown
+        td
+            font-style: bold
+            padding: 10px 0
+            color: $white
+    tbody
+        tr
+            td
+                padding: 13px 10px
+        tr:nth-child(even)
+            background-color: #dddddd

@@ -4,7 +4,7 @@ import { CLOSE_SIDEBAR, OPEN_SIDEBAR, SELECT_ITEM } from './SideBarActionsDefini
 const CLOSED = false;
 const OPEN = true;
 const initState = {
-    is_open: OPEN,
+    is_open: CLOSED,
     _index: 0 //Index of current selected item
 };
 
