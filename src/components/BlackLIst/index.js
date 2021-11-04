@@ -2,17 +2,16 @@ import React, { useEffect, useState } from "react";
 import swal from "sweetalert";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
-import {BsPlusLg} from "react-icons/bs";
 import {IconContext} from "react-icons/lib";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import {RiEditFill} from "react-icons/ri";
-import {useDispatch, useSelector} from "react-redux";
-import {RiDeleteBin2Fill} from "react-icons/ri";
 import {BLACKLIST_GET_IP, BLACKLIST_REMOVE_IP} from '../API_URL';
 import Modal from "../Modal";
 import "./BlackList.sass"
 import {ERROR, LOADED, LOADING} from "../Redux/ReducersAndActions/Status/StatusActionsDefinition";
+import {BsPlusLg} from "react-icons/bs";
+import {RiEditFill, RiDeleteBin2Fill, RiFileExcel2Fill} from "react-icons/ri";
+import {useSelector, useDispatch} from "react-redux";
 
 //Sweetalert: https://sweetalert.js.org/guides/
 //Toastify: https://fkhadra.github.io/react-toastify/icons
@@ -166,7 +165,8 @@ function BlackList (props) {
     const EditIP = (item) => {
         setEditItem({
             ...item,
-            show: true
+            show: true,
+            title: 'Edit blacklist ip',
         });
     }
 
@@ -176,6 +176,16 @@ function BlackList (props) {
 
     const DismissModal = () => {
         setEditItem({show: false});
+    }
+
+    const Add2BlackList = () => {
+        setEditItem({
+            title: 'Add new blacklist ip',
+            show: true,
+            ip: '',
+            desc: '',
+            create_time: ''
+        })
     }
 
     useEffect(() => {
@@ -190,7 +200,7 @@ function BlackList (props) {
                 CloseModal={DismissModal}
                 WrapClass={"modal_wrap"}
                 show={editItem.show}
-                title={"Edit"}>
+                title={editItem.title}>
                 <div>
                     <input
                         value={editItem.ip}
@@ -242,7 +252,8 @@ function BlackList (props) {
             {!loading && !error && (
                 <>
                     <div className="add_bl">
-                        <button className="btn theme_green pull-right"><BsPlusLg/>&nbsp;&nbsp; Add blacklist IP</button>
+                        <button className="btn theme_green pull-right" onClick={Add2BlackList}><BsPlusLg/>&nbsp;&nbsp; Add blacklist IP</button>
+                        <button className="btn pull-right margin-right-10 theme_brown"><RiFileExcel2Fill/>&nbsp;&nbsp;Add (Excel)</button>
                     </div>
                     {BlackListData.length === 0 && (
                         <div className="center-div">
