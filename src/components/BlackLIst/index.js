@@ -13,7 +13,7 @@ import "./BlackList.sass"
 import {ERROR, LOADED, LOADING} from "../Redux/ReducersAndActions/Status/StatusActionsDefinition";
 
 //Sweetalert: https://sweetalert.js.org/guides/
-//Toastify: https://fkhadra.github.io/react-toastify/introduction/
+//Toastify: https://fkhadra.github.io/react-toastify/icons
 
 const _MONTH = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Sep"];
 
@@ -119,40 +119,32 @@ function BlackList (props) {
                     redirect: 'follow'
                 };
 
-                toast.success("Delete successful!");
-
-                // fetch(BLACKLIST_REMOVE_IP, requestOptions)
-                //     .then(response => response.json())
-                //     .then(result => {
-                //         if (result.code === 200) {
-                //             dispatch({
-                //                 type: LOADED
-                //             });
-                //             toast("Delete successful!", {
-                //                 position: "top-right",
-                //                 autoClose: 4000,
-                //                 hideProgressBar: true,
-                //                 closeOnClick: true,
-                //                 draggable: false,
-                //                 progress: undefined,
-                //                 pauseOnHover: true
-                //             });
-                //             BlackListData.splice(index, 1);
-                //             let afterDel = [...BlackListData];
-                //             setBlackListData(afterDel);
-                //         } else {
-                //             dispatch({
-                //                 type: ERROR,
-                //                 msg: result.msg
-                //             })
-                //         }
-                //     })
-                //     .catch(e => {
-                //         dispatch({
-                //             type: ERROR,
-                //             msg: e
-                //         })
-                //     });
+                fetch(BLACKLIST_REMOVE_IP, requestOptions)
+                    .then(response => response.json())
+                    .then(result => {
+                        if (result.code === 200) {
+                            dispatch({
+                                type: LOADED
+                            });
+                            toast.success("Delete successful!");
+                            BlackListData.splice(index, 1);
+                            let afterDel = [...BlackListData];
+                            setBlackListData(afterDel);
+                        } else {
+                            toast.error("Error while deleting!");
+                            dispatch({
+                                type: ERROR,
+                                msg: result.msg
+                            })
+                        }
+                    })
+                    .catch(e => {
+                        toast.error("Error while deleting!");
+                        dispatch({
+                            type: ERROR,
+                            msg: e
+                        })
+                    });
             }
         })
     }
