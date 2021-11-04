@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from "react";
 import swal from "sweetalert";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.min.css';
 import {BsPlusLg} from "react-icons/bs";
+import {IconContext} from "react-icons/lib";
 import {RiEditFill} from "react-icons/ri";
-import {RiDeleteBin2Fill} from "react-icons/ri";
-import "./BlackList.sass"
-import { BLACKLIST_GET_IP } from '../API_URL';
-import { IconContext } from "react-icons/lib";
-import Modal from "../Modal";
 import {useDispatch, useSelector} from "react-redux";
+import {RiDeleteBin2Fill} from "react-icons/ri";
+import {BLACKLIST_GET_IP, BLACKLIST_REMOVE_IP} from '../API_URL';
+import Modal from "../Modal";
+import "./BlackList.sass"
 import {ERROR, LOADED, LOADING} from "../Redux/ReducersAndActions/Status/StatusActionsDefinition";
 
-//Doc: https://sweetalert.js.org/guides/
+//Sweetalert: https://sweetalert.js.org/guides/
+//Toastify: https://fkhadra.github.io/react-toastify/introduction/
 
 const _MONTH = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Sep"];
 
@@ -81,8 +84,7 @@ function BlackList (props) {
                     dispatch({
                         type: ERROR,
                         msg: result.msg
-                    })
-                    alert(result.msg);
+                    });
                 }
             })
             .catch(e => {
@@ -93,16 +95,64 @@ function BlackList (props) {
             });
     }
 
-    const delIPs = (item) => {
+    const delIPs = (item, index) => {
         swal({
             title: "DELETE",
-            text: `Do you want delete IP: ${item.ip}?`,
+            text: `Do you want delete IP ${item.ip}?`,
             icon: "warning",
             buttons: true,
             dangerMode: true
         }).then(val => {
             if (val) {
                 //Delete IP here
+                let myHeaders = new Headers();
+                myHeaders.append("Content-Type", "application/json");
+
+                let raw = JSON.stringify({
+                    "id": ReplaceCharacters(item.id)
+                });
+
+                let requestOptions = {
+                    method: 'POST',
+                    headers: myHeaders,
+                    body: raw,
+                    redirect: 'follow'
+                };
+
+                toast.success("Delete successful!");
+
+                // fetch(BLACKLIST_REMOVE_IP, requestOptions)
+                //     .then(response => response.json())
+                //     .then(result => {
+                //         if (result.code === 200) {
+                //             dispatch({
+                //                 type: LOADED
+                //             });
+                //             toast("Delete successful!", {
+                //                 position: "top-right",
+                //                 autoClose: 4000,
+                //                 hideProgressBar: true,
+                //                 closeOnClick: true,
+                //                 draggable: false,
+                //                 progress: undefined,
+                //                 pauseOnHover: true
+                //             });
+                //             BlackListData.splice(index, 1);
+                //             let afterDel = [...BlackListData];
+                //             setBlackListData(afterDel);
+                //         } else {
+                //             dispatch({
+                //                 type: ERROR,
+                //                 msg: result.msg
+                //             })
+                //         }
+                //     })
+                //     .catch(e => {
+                //         dispatch({
+                //             type: ERROR,
+                //             msg: e
+                //         })
+                //     });
             }
         })
     }
@@ -124,7 +174,17 @@ function BlackList (props) {
     return(
         <div className="container">
             <Modal show={false} title={"Hello"} content={() => _content()}/>
-
+            <ToastContainer
+                position="top-right"
+                autoClose={3000}
+                hideProgressBar
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                theme="colored"
+                draggable
+                pauseOnHover/>
             {loading && (
                 <div className="center-div">
                     <span className="loader"></span>
@@ -178,7 +238,7 @@ function BlackList (props) {
                                                         <RiEditFill/>
                                                     </IconContext.Provider>
                                                 </span>
-                                                    <span onClick={() => delIPs(item)}>
+                                                    <span onClick={() => delIPs(item, index)}>
                                                     <IconContext.Provider value={{size: 20, color: "#c7003f"}}>
                                                         <RiDeleteBin2Fill/>
                                                     </IconContext.Provider>

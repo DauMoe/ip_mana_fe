@@ -1,5 +1,6 @@
 import React from "react";
 import { Route, BrowserRouter as Router, Switch, Link } from "react-router-dom";
+import { ToastContainer } from "react-toastify";
 import BlackList from "./components/BlackLIst";
 import SideBar from "./components/SideBar";
 import { FaGratipay, FaBuffer, FaCanadianMapleLeaf, FaBan } from "react-icons/fa";
@@ -23,13 +24,13 @@ const ListItems = [{
 
 const App = () => {
   return(
-    <Router>
-      <SideBar ListItems={ListItems}/>
-      <Switch>
-        <Route exact path="/blacklist" component={BlackList}/>
-        <Route component={NotFound}/>
-      </Switch>
-    </Router>
+      <Router>
+        <SideBar ListItems={ListItems}/>
+        <Switch>
+            <Route exact path="/blacklist" component={BlackList}/>
+            <Route component={NotFound}/>
+        </Switch>
+      </Router>
   );
 }
 

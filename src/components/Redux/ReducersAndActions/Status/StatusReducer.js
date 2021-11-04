@@ -1,7 +1,7 @@
 import {ERROR, LOADING, LOADED, SUCCESS} from "./StatusActionsDefinition";
 
 const initState = {
-    loading: false,
+    loading: true,
     error: false,
     _msg: ""
 }
