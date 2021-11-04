@@ -1,23 +1,25 @@
 import React from 'react';
+import { IoMdCloseCircle } from "react-icons/io";
+import {IconContext} from "react-icons";
 import "./Modal.sass";
 
 const Modal = (props) => {
-    const {show, title, content, footer} = props;
+    const { show, title, children, onDismiss, WrapClass, CloseModal } = props;
     if (!show) return null;
     return (
-        <div className="modal_wrap">
-            <div className="modal_container">
+        <div className={WrapClass} onClick={onDismiss}>
+            <div className="modal_container" onClick={e => e.stopPropagation()}>
                 <div className="modal_title">
+                    <span className={"modal_close_btn"} onClick={CloseModal}>
+                        <IconContext.Provider value={{size: 20}}>
+                            <IoMdCloseCircle/>
+                        </IconContext.Provider>
+                    </span>
                     <p>{title}</p>
                 </div>
 
-                <div className="modal_content">
-                    {content}
-                </div>
-
-                <div className="modal_footer">
-
-                </div>
+                {/*Doc: https://reactjs.org/docs/jsx-in-depth.html*/}
+                {children}
             </div>
         </div>
     );

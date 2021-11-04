@@ -27,8 +27,12 @@ const App = () => {
       <Router>
         <SideBar ListItems={ListItems}/>
         <Switch>
-            <Route exact path="/blacklist" component={BlackList}/>
-            <Route component={NotFound}/>
+            <Route exact path="/blacklist">
+                <BlackList _title="Blacklist"/>
+            </Route>
+            <Route>
+                <NotFound _title="404"/>
+            </Route>
         </Switch>
       </Router>
   );

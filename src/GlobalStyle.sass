@@ -4,7 +4,6 @@ $sidebar_item_non_selected: #a3a3a3
 $sidebar_selected_bg: #7c7c7c
 $sidebar_width: 300px
 $sidebar_close_width: 60px
-$f: 60px
 
 $theme_green: #008a8a
 $theme_brown: #362F4B
@@ -72,7 +71,14 @@ body
     100%
         -webkit-transform: rotate(360deg)
 
-
+.form-control
+    width: calc(100% - 20px)
+    min-width: 350px
+    min-height: 30px
+    padding: 3px 10px
+    border-radius: 6px
+    outline: none
+    border: 1px solid black
 
 .hide
     display: none
@@ -105,7 +111,8 @@ body
     text-align: right
 
 .nice_theme
-    width: calc(100% - 40px)
+    //width: calc(100% - 40px)
+    width: 100%
     thead
         text-align: center
         td

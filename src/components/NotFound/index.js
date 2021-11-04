@@ -1,10 +1,11 @@
-import React from "react";
+import React, {useEffect} from "react";
 import './NotFound.sass';
 import {Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {SELECT_ITEM} from "../Redux/ReducersAndActions/SideBar/SideBarActionsDefinition";
 
 const NotFound = (props) => {
+    const {_title}      = props;
     const dispatch      = useDispatch();
     const ChangeState   = () => {
         dispatch({
@@ -12,6 +13,10 @@ const NotFound = (props) => {
             index: 0
         });
     }
+
+    useEffect(() => {
+        document.title = _title + " | IP Manager";
+    }, []);
 
     return(
         <div className="notfound_wrap">

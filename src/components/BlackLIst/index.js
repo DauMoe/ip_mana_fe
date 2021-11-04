@@ -4,6 +4,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 import {BsPlusLg} from "react-icons/bs";
 import {IconContext} from "react-icons/lib";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import {RiEditFill} from "react-icons/ri";
 import {useDispatch, useSelector} from "react-redux";
 import {RiDeleteBin2Fill} from "react-icons/ri";
@@ -19,34 +21,46 @@ const _MONTH = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "
 
 const ReplaceCharacters = (msg) => {
     if (typeof(msg) !== 'string') return msg;
-    return msg.replace(/"/g, '');
+    return msg.replace(/["']/g, "");
 }
 
-const ConvertTimeStamptoString = (timestamp, getDate = true, getTime = true) => {
+const ConvertTimeStamptoString = (timestamp, getDate = true, getTime = true, forInputTag = false) => {
     let msg = "";
     if (timestamp.length === 0) return "";
     let _d = new Date(timestamp);
-    
-    if (getDate) {
-        msg += _MONTH[_d.getMonth()];
-        msg += " ";
-        msg += (_d.getDate() < 10) ? "0" + _d.getDate() : _d.getDate();
-        msg += ", ";
-        msg += _d.getFullYear();
-        msg += " ";
-    }
 
-    if (getTime) {
-        msg += (_d.getHours() < 10) ? "0" + _d.getHours() : _d.getHours();
-        msg += ":";
-        msg += (_d.getMinutes() < 10) ? "0" + _d.getMinutes() : _d.getMinutes();
-        msg += ":";
-        msg += (_d.getSeconds() < 10) ? "0" + _d.getSeconds() : _d.getSeconds();
+    if (forInputTag) {
+        if (getDate) {
+            msg += _d.getFullYear();
+            msg += "-"
+            msg += ((_d.getMonth() + 1) < 10) ? "0" + (_d.getMonth() + 1) : (_d.getMonth() + 1);
+            msg += "-"
+            msg += (_d.getDate() < 10) ? "0" + _d.getDate() : _d.getDate();
+        }
+    } else {
+        if (getDate) {
+            msg += _MONTH[_d.getMonth()];
+            msg += " ";
+            msg += (_d.getDate() < 10) ? "0" + _d.getDate() : _d.getDate();
+            msg += ", ";
+            msg += _d.getFullYear();
+            msg += " ";
+        }
+
+        if (getTime) {
+            msg += (_d.getHours() < 10) ? "0" + _d.getHours() : _d.getHours();
+            msg += ":";
+            msg += (_d.getMinutes() < 10) ? "0" + _d.getMinutes() : _d.getMinutes();
+            msg += ":";
+            msg += (_d.getSeconds() < 10) ? "0" + _d.getSeconds() : _d.getSeconds();
+        }
     }
     return msg;
 }
 
 function BlackList (props) {
+    const { _title }                        = props;
+    const [editItem, setEditItem]           = useState({show: false});
     const [BlackListData, setBlackListData] = useState([]);
     const [TotalPage, setTotalPage]         = useState(0);
     const [offset, setOffSet]               = useState(0);
@@ -150,22 +164,58 @@ function BlackList (props) {
     }
 
     const EditIP = (item) => {
+        setEditItem({
+            ...item,
+            show: true
+        });
+    }
+
+    const SaveEditIP = () => {
 
     }
 
-    const _content = () => {
-        return (
-            <div>Hi, Iam content</div>
-        );
+    const DismissModal = () => {
+        setEditItem({show: false});
     }
 
     useEffect(() => {
+        document.title = _title + " | IP Manager";
         _FetchAllData(offset, LIMIT);
     }, [offset]);
     
     return(
         <div className="container">
-            <Modal show={false} title={"Hello"} content={() => _content()}/>
+
+            <Modal
+                CloseModal={DismissModal}
+                WrapClass={"modal_wrap"}
+                show={editItem.show}
+                title={"Edit"}>
+                <div>
+                    <input
+                        value={editItem.ip}
+                        onChange={e => setEditItem({...editItem, ip: e.target.value})}
+                        className="form-control"
+                        placeholder={"IP"}/>
+                </div>
+                <div className="margin-top-20">
+                    <input
+                        value={editItem.desc}
+                        onChange={e => setEditItem({...editItem, desc: e.target.value})}
+                        className="form-control"
+                        placeholder={"Description"}/>
+                </div>
+                <div className="margin-top-20">
+                    <DatePicker
+                        className="form-control"
+                        selected={editItem.create_time}
+                        onChange={date => setEditItem({...editItem, create_time: date})}/>
+                </div>
+                <div className="margin-top-20 text-center">
+                    <button className="btn theme_green" onClick={SaveEditIP}>Save</button>
+                </div>
+            </Modal>
+
             <ToastContainer
                 position="top-right"
                 autoClose={3000}

@@ -3,7 +3,15 @@
   <component name="ChangeListManager">
     <list default="true" id="d8184264-b93b-48fd-9acf-42cc3e1be3d6" name="Changes" comment="Add loading">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GlobalStyle.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/GlobalStyle.sass" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/BlackLIst/BlackList.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/BlackLIst/BlackList.sass" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/BlackLIst/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/BlackLIst/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Modal/Modal.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Modal/Modal.sass" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Modal/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Modal/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/NotFound/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/NotFound/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -48,7 +56,7 @@
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="preferences.toDoOptions" />
     <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\WebStorm 2021.2.3\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
@@ -73,6 +81,7 @@
       <option name="presentableId" value="Default" />
       <updated>1636011250360</updated>
       <workItem from="1636011252277" duration="12420000" />
+      <workItem from="1636028624063" duration="9380000" />
     </task>
     <task id="LOCAL-00001" summary="Add loading">
       <created>1636015693811</created>
@@ -104,6 +113,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
