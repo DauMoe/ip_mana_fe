@@ -1,0 +1,19 @@
+@use './../../GlobalStyle'
+
+$x: GlobalStyle.$sidebar_close_width
+
+.notfound_wrap
+  position: absolute
+  width: calc(100% - #{$x})
+  height: 100%
+  margin-left: GlobalStyle.$sidebar_close_width
+  background-color: GlobalStyle.$white
+
+.notfound_title
+  display: block
+  font-size: 200px
+  color: #3498db
+
+.notfound_desc
+  display: block
+  font-size: 20px

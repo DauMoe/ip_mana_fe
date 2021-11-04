@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d8184264-b93b-48fd-9acf-42cc3e1be3d6" name="Changes" comment="Add loading">
+      <change afterPath="$PROJECT_DIR$/src/components/NotFound/NotFound.sass" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/BlackLIst/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/BlackLIst/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GlobalStyle.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/GlobalStyle.sass" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/NotFound/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/NotFound/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -13,8 +15,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Sass File" />
         <option value="JavaScript File" />
+        <option value="Sass File" />
       </list>
     </option>
   </component>
@@ -72,7 +74,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1636011250360</updated>
-      <workItem from="1636011252277" duration="9649000" />
+      <workItem from="1636011252277" duration="11293000" />
     </task>
     <task id="LOCAL-00001" summary="Add loading">
       <created>1636015693811</created>
