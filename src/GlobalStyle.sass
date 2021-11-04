@@ -35,6 +35,43 @@ body
     .padding-#{$i}
         padding: $i+5px
 
+.center-div
+    position: absolute
+    top: 50%
+    left: 50%
+    transform: translate(-50%, -50%)
+
+._dot
+    display: inline-block
+    width: 10px
+    height: 10px
+    border-radius: 50%
+    background-color: #008a8a
+    margin: 0 3px 0 3px
+
+.loader
+    display: inline-block
+    width: 40px
+    height: 40px
+    border: 10px solid #f3f3f3
+    border-radius: 50%
+    border-top: 10px solid #3498db
+    -webkit-animation: spin 2s linear infinite
+    animation: spin 2s linear infinite
+
+@keyframes spin
+    0%
+        transform: rotate(0deg)
+    100%
+        transform: rotate(360deg)
+
+@-webkit-keyframes spin
+    0%
+        -webkit-transform: rotate(0deg)
+    100%
+        -webkit-transform: rotate(360deg)
+
+
 
 .hide
     display: none
@@ -67,14 +104,19 @@ body
     text-align: right
 
 .nice_theme
-    width: 100%
+    width: calc(100% - 40px)
+    margin: 20px
     thead
         text-align: center
-        background-color: $theme_brown
         td
-            font-style: bold
+            font-weight: bold
             padding: 10px 0
             color: $white
+            background-color: $theme_brown
+        td:first-child
+            border-radius: 6px 0 0 0
+        td:last-child
+            border-radius: 0 6px 0 0
     tbody
         tr
             td
