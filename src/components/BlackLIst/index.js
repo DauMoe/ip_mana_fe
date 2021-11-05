@@ -5,7 +5,7 @@ import 'react-toastify/dist/ReactToastify.min.css';
 import {IconContext} from "react-icons/lib";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import {BLACKLIST_ADD_IP, BLACKLIST_EDIT_IP, BLACKLIST_GET_IP, BLACKLIST_REMOVE_IP} from '../API_URL';
+import {BLACKLIST_ADD_IP, BLACKLIST_EDIT_IP, BLACKLIST_GET_IP, BLACKLIST_REMOVE_IP, WEB_BASE_NAME, BLACKLIST_ADD_EXCEL} from '../API_URL';
 import Modal from "../Modal";
 import "./BlackList.sass"
 import {ERROR, LOADED, LOADING} from "../Redux/ReducersAndActions/Status/StatusActionsDefinition";
@@ -65,11 +65,12 @@ function BlackList (props) {
     const [BlackListData, setBlackListData] = useState([]);
     const [TotalPage, setTotalPage]         = useState(0);
     const [offset, setOffSet]               = useState(0);
+    const [selectedFile, setSelectedFile]   = useState({uploaded: false, name: "No file", file: null});
     const { loading, error, _msg }          = useSelector(state => state.Status);
     const dispatch                          = useDispatch();
     const LIMIT                             = 10;
 
-    const _FetchAllData = (offset, limit) => {
+    const _FetchAllData = (offset, limit = LIMIT) => {
         dispatch({
             type: LOADING
         });
@@ -226,8 +227,13 @@ function BlackList (props) {
         setEditItem({...editItem, show: false});
     }
 
-    const DismissExceLModal = () => {
+    const DismissExcelModal = () => {
         setExcelModal({...ExcelModal, show: false});
+        setSelectedFile({
+            name: "No file",
+            uploaded: false,
+            file: null
+        });
     }
 
     const Add2BlackList = () => {
@@ -251,7 +257,36 @@ function BlackList (props) {
     }
 
     const UploadExcel = () => {
+        if (selectedFile.file === null) {
+            toast.error("Choose a .xlsx file!");
+            return;
+        }
+        let formdata = new FormData();
+        formdata.append(
+            "blacklist_file",
+            selectedFile.file,
+            selectedFile.name
+        );
 
+        let requestOptions = {
+            method: 'POST',
+            body: formdata,
+            redirect: 'follow'
+        };
+
+        fetch(BLACKLIST_ADD_EXCEL, requestOptions)
+            .then(response => response.json())
+            .then(result => console.log(result))
+            .catch(error => console.log('error', error));
+    }
+
+    const ChangeFiles = e => {
+        setSelectedFile({
+            ...selectedFile,
+            uploaded: true,
+            name: e.target.files[0].name,
+            file: e.target.files[0]
+        });
     }
 
     const CreateNewIP = () => {
@@ -280,7 +315,7 @@ function BlackList (props) {
             .then(result => {
                 if (result.code === 200) {
                     DismissModal();
-                    _FetchAllData(0, LIMIT);
+                    _FetchAllData(0);
                 } else {
                     dispatch({
                         type: ERROR,
@@ -297,15 +332,15 @@ function BlackList (props) {
     }
 
     useEffect(() => {
-        document.title = _title + " | IP Manager";
-        _FetchAllData(offset, LIMIT);
+        document.title = _title + WEB_BASE_NAME;
+        _FetchAllData(offset);
     }, [offset]);
     
     return(
         <div className="container">
 
             <Modal
-                CloseModal={DismissExceLModal}
+                CloseModal={DismissExcelModal}
                 show={ExcelModal.show}
                 WrapClass={"modal_wrap"}
                 title={ExcelModal.title}>
@@ -313,9 +348,12 @@ function BlackList (props) {
                     <li>Download Template from <Link to="/download_template" target="_blank" rel="noopener noreferrer">here</Link></li>
                     <li>Fill all data into template</li>
                     <li><label className="link_style" htmlFor="upload_file">Click here</label> to choose a file to upload</li>
-                    <input className="hide" id="upload_file" type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"/>
+                    <input className="hide" onChange={ChangeFiles} id="upload_file" type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"/>
                 </ol>
-                <button className="btn theme_brown pull-right margin-top-15" onClick={UploadExcel}>Upload file</button>
+                {selectedFile.file !== null && <span className="margin-left-5">File name: {selectedFile.name}</span>}
+                <div className="margin-top-15">
+                    <button className="btn theme_brown pull-right" onClick={UploadExcel}>Upload file</button>
+                </div>
             </Modal>
 
             <Modal

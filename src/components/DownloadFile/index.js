@@ -1,9 +1,12 @@
 import React, {useEffect} from "react";
 import "./DownloadFile.sass";
+import {WEB_BASE_NAME} from "../API_URL";
 
 const DownloadFile = (props) => {
+    const {URI, _title} = props;
     useEffect(() => {
-        window.location.href = props.URI || "";
+        document.title = _title + WEB_BASE_NAME;
+        window.location.href = URI || "";
     }, []);
 
     return (

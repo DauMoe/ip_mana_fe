@@ -3,6 +3,7 @@ import './NotFound.sass';
 import {Link} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {SELECT_ITEM} from "../Redux/ReducersAndActions/SideBar/SideBarActionsDefinition";
+import {WEB_BASE_NAME} from "../API_URL";
 
 const NotFound = (props) => {
     const {_title}      = props;
@@ -15,7 +16,7 @@ const NotFound = (props) => {
     }
 
     useEffect(() => {
-        document.title = _title + " | IP Manager";
+        document.title = _title + WEB_BASE_NAME;
     }, []);
 
     return(

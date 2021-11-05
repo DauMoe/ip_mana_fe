@@ -28,15 +28,21 @@ const App = () => {
       <Router>
         <SideBar ListItems={ListItems}/>
         <Switch>
+
             <Route exact path="/blacklist">
                 <BlackList _title="Blacklist"/>
             </Route>
+
             <Route exact path="/download_template">
-                <DownloadFile URI={TEMPLATE_URL + "CreateBlackListTemplate.xlsx"}/>
+                <DownloadFile
+                    URI={TEMPLATE_URL + "CreateBlackListTemplate.xlsx"}
+                    _title="Download"/>
             </Route>
+
             <Route>
                 <NotFound _title="404"/>
             </Route>
+
         </Switch>
       </Router>
   );
