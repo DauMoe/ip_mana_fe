@@ -11,7 +11,7 @@ const Modal = (props) => {
             <div className="modal_container" onClick={e => e.stopPropagation()}>
                 <div className="modal_title">
                     <span className={"modal_close_btn"} onClick={CloseModal}>
-                        <IconContext.Provider value={{size: 16}}>
+                        <IconContext.Provider value={{size: 16, color: "#939393"}}>
                             <IoMdCloseCircle/>
                         </IconContext.Provider>
                     </span>

@@ -8,11 +8,38 @@ $sidebar_close_width: 60px
 $theme_green: #008a8a
 $theme_brown: #362F4B
 $link_color: #008a8a
+$theme_red: #d70b0b
+$theme_yellow: #fbb220
+$theme_gray: #737373
+
+.gray
+    color: $theme_gray
+
+.theme_green
+    background-color: $theme_green !important
+    color: $white !important
+
+.theme_brown
+    background-color: $theme_brown !important
+    color: $white !important
+
+.theme_red
+    background-color: $theme_red !important
+    color: $white !important
+
+.theme_yellow
+    background-color: $theme_yellow !important
+    color: $white !important
+
+.theme_gray
+    background-color: $theme_gray !important
+    color: $white !important
 
 body
     margin: 0
     padding: 0
     scroll-behavior: smooth
+    font-size: 15px
 
 .link_style
     color: $link_color
@@ -27,31 +54,36 @@ ol
 
 @for $i from 0 through 20 
     .margin-top-#{$i+5}
-        margin-top: #{$i+5}px
+        margin-top: #{$i+5}px !important
     .margin-bottom-#{$i+5}
-        margin-bottom: #{$i+5}px
+        margin-bottom: #{$i+5}px !important
     .margin-left-#{$i+5}
-        margin-left: #{$i+5}px
+        margin-left: #{$i+5}px !important
     .margin-right-#{$i+5}
-        margin-right: #{$i+5}px
+        margin-right: #{$i+5}px !important
     .margin-#{$i}
-        margin: #{$i+5}px
+        margin: #{$i+5}px !important
     .padding-top-#{$i+5}
-        padding-top: #{$i+5}px
+        padding-top: #{$i+5}px !important
     .padding-bottom-#{$i+5}
-        padding-bottom: #{$i+5}px
+        padding-bottom: #{$i+5}px !important
     .padding-left-#{$i+5}
-        padding-left: #{$i+5}px
+        padding-left: #{$i+5}px !important
     .padding-right-#{$i+5}
-        padding-right: #{$i+5}px
+        padding-right: #{$i+5}px !important
     .padding-#{$i}
-        padding: #{$i+5}px
+        padding: #{$i+5}px !important
+    .border-radius-#{$i*5}
+        border-radius: #{$i * 5}px !important
 
 .center-div
     position: absolute
     top: 50%
     left: 50%
     transform: translate(-50%, -50%)
+
+.pointer
+    cursor: pointer
 
 ._dot
     display: inline-block
@@ -90,7 +122,13 @@ ol
     padding: 3px 10px
     border-radius: 6px
     outline: none
-    border: 1px solid black
+    font-size: 15px
+    border: 2px solid black
+
+.center-horizon
+    position: fixed
+    left: 50%
+    transform: translateX(-50%)
 
 .hide
     display: none
@@ -100,14 +138,6 @@ ol
 
 .bold
     font-weight: bold
-
-.theme_green
-    background-color: $theme_green !important
-    color: $white !important
-
-.theme_brown
-    background-color: $theme_brown !important
-    color: $white !important
 
 .btn
     padding: 10px 20px

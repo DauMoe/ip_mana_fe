@@ -2,13 +2,15 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d8184264-b93b-48fd-9acf-42cc3e1be3d6" name="Changes" comment="Add loading">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_05-Nov-21_9_33_AM__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_05-Nov-21_9_33_AM__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/BlackLIst/BlackList.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/BlackLIst/BlackList.sass" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/BlackLIst/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/BlackLIst/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Modal/Modal.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Modal/Modal.sass" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/SideBar/SideBar.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/SideBar/SideBar.sass" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/SideBar/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/SideBar/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GlobalStyle.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/GlobalStyle.sass" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/BlackLIst/BlackList.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/BlackList/BlackList.sass" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/BlackLIst/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/BlackList/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/DownloadFile/DownloadFile.sass" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/DownloadFile/index.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Modal/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Modal/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Redux/ReducersAndActions/Status/StatusReducer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Redux/ReducersAndActions/Status/StatusReducer.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -79,7 +81,7 @@
       <updated>1636011250360</updated>
       <workItem from="1636011252277" duration="12420000" />
       <workItem from="1636028624063" duration="11443000" />
-      <workItem from="1636075567624" duration="4864000" />
+      <workItem from="1636075567624" duration="12369000" />
     </task>
     <task id="LOCAL-00001" summary="Add loading">
       <created>1636015693811</created>

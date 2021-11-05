@@ -22,7 +22,7 @@ const StatusReducer = (state = initState, payload) => {
                 ...state,
                 error: true,
                 loading: false,
-                _msg: payload.msg
+                _msg: payload._msg
             }
 
         case LOADED:

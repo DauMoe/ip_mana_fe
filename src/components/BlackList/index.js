@@ -5,17 +5,36 @@ import 'react-toastify/dist/ReactToastify.min.css';
 import {IconContext} from "react-icons/lib";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import {BLACKLIST_ADD_IP, BLACKLIST_EDIT_IP, BLACKLIST_GET_IP, BLACKLIST_REMOVE_IP, WEB_BASE_NAME, BLACKLIST_ADD_EXCEL} from '../API_URL';
+import {
+    BLACKLIST_ADD_IP,
+    BLACKLIST_EDIT_IP,
+    BLACKLIST_GET_IP,
+    BLACKLIST_REMOVE_IP,
+    WEB_BASE_NAME,
+    BLACKLIST_ADD_EXCEL,
+    TEMPLATE_URL, BLACKLIST_SEARCH_IP
+} from '../API_URL';
 import Modal from "../Modal";
 import "./BlackList.sass"
 import {ERROR, LOADED, LOADING} from "../Redux/ReducersAndActions/Status/StatusActionsDefinition";
-import {BsPlusLg} from "react-icons/bs";
-import {RiEditFill, RiDeleteBin2Fill, RiFileExcel2Fill} from "react-icons/ri";
+import {
+    BiSearchAlt,
+    BsPlusLg,
+    RiEditFill,
+    RiDeleteBin2Fill,
+    RiFileExcel2Fill,
+    IoSearchCircle,
+    IoCloseSharp
+} from "react-icons/all";
 import {useSelector, useDispatch} from "react-redux";
 import {Link} from "react-router-dom";
 
 //Sweetalert: https://sweetalert.js.org/guides/
 //Toastify: https://fkhadra.github.io/react-toastify/icons
+
+const ADD_NEW_MODE  = 0;
+const UPDATE_MODE   = 1;
+const DELETE_MODE   = 2;
 
 const _MONTH = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Sep"];
 
@@ -65,6 +84,7 @@ function BlackList (props) {
     const [BlackListData, setBlackListData] = useState([]);
     const [TotalPage, setTotalPage]         = useState(0);
     const [offset, setOffSet]               = useState(0);
+    const [Search, setSearch]               = useState("");
     const [selectedFile, setSelectedFile]   = useState({uploaded: false, name: "No file", file: null});
     const { loading, error, _msg }          = useSelector(state => state.Status);
     const dispatch                          = useDispatch();
@@ -248,11 +268,30 @@ function BlackList (props) {
         });
     }
 
-    const ExcelFunction = () => {
+    const AddNewExcelFunction = () => {
         setExcelModal({
             ...ExcelModal,
             title: "Create Blacklist IP by Excel",
-            show: true
+            show: true,
+            mode: ADD_NEW_MODE
+        });
+    }
+
+    const UpdateExcelFunction = () => {
+        setExcelModal({
+            ...ExcelModal,
+            title: "Update Blacklist IP by Excel",
+            show: true,
+            mode: UPDATE_MODE
+        });
+    }
+
+    const DeleteExcelFunction = () => {
+        setExcelModal({
+            ...ExcelModal,
+            title: "Delete Blacklist IP by Excel",
+            show: true,
+            mode: DELETE_MODE
         });
     }
 
@@ -352,11 +391,55 @@ function BlackList (props) {
             });
     }
 
+    const SearchByIP = e => {
+        if (Search.trim() === "" && e.keyCode === 13) {
+            _FetchAllData(0);
+        } else if (e.keyCode === 13) {
+            dispatch({type: LOADING});
+            let myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+
+            let raw = JSON.stringify({
+                "ip": e.target.value
+            });
+
+            let requestOptions = {
+                method: 'POST',
+                headers: myHeaders,
+                body: raw,
+                redirect: 'follow'
+            };
+
+            fetch(BLACKLIST_SEARCH_IP, requestOptions)
+                .then(response => response.json())
+                .then(result => {
+                    if (result.code === 200) {
+                        dispatch({type: LOADED})
+                        setBlackListData(result.msg.list);
+                        setTotalPage(result.msg.total);
+                    } else {
+                        dispatch({
+                            type: ERROR,
+                            _msg: result.msg[0]
+                        });
+                    }
+                })
+                .catch(e => {
+                    dispatch({
+                        type: ERROR,
+                        _msg: e
+                    })
+                });
+        }
+    }
+
     useEffect(() => {
         document.title = _title + WEB_BASE_NAME;
         _FetchAllData(offset);
     }, [offset]);
-    
+    if (error) {
+        toast.error(_msg);
+    }
     return(
         <div className="container">
 
@@ -366,14 +449,18 @@ function BlackList (props) {
                 WrapClass={"modal_wrap"}
                 title={ExcelModal.title}>
                 <ol>
-                    <li>Download Template from <Link to="/download_template" target="_blank" rel="noopener noreferrer">here</Link></li>
+                    {ExcelModal.mode === ADD_NEW_MODE && <li>Download template from <Link to={{pathname: TEMPLATE_URL + "Create_BlackList_Template.xlsx"}} target="_blank" rel="noopener noreferrer">here</Link></li>}
+                    {ExcelModal.mode === UPDATE_MODE && <li>Download template from <Link to={{pathname: TEMPLATE_URL + "Update_BlackList_Template.xlsx"}} target="_blank" rel="noopener noreferrer">here</Link></li>}
+                    {ExcelModal.mode === DELETE_MODE && <li>Download template from <Link to={{pathname: TEMPLATE_URL + "Delete_BlackList_Template.xlsx"}} target="_blank" rel="noopener noreferrer">here</Link></li>}
                     <li>Fill all data into template</li>
-                    <li><label className="link_style" htmlFor="upload_file">Click here</label> to choose a file to upload</li>
+                    <li><label className="link_style" htmlFor="upload_file">Click here</label> to choose a file</li>
                     <input className="hide" onChange={ChangeFiles} id="upload_file" type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"/>
                 </ol>
                 {selectedFile.file !== null && <span className="margin-left-5">File name: {selectedFile.name}</span>}
                 <div className="margin-top-15">
-                    <button className="btn theme_brown pull-right" onClick={UploadExcel}>Create</button>
+                    {ExcelModal.mode === ADD_NEW_MODE && <button className="btn theme_green pull-right" onClick={UploadExcel}>Create</button>}
+                    {ExcelModal.mode === UPDATE_MODE && <button className="btn theme_yellow pull-right" onClick={UploadExcel}>Update</button>}
+                    {ExcelModal.mode === DELETE_MODE && <button className="btn theme_red pull-right" onClick={UploadExcel}>Delete</button>}
                 </div>
             </Modal>
 
@@ -410,7 +497,7 @@ function BlackList (props) {
 
             <ToastContainer
                 position="top-right"
-                autoClose={3000}
+                autoClose={10000}
                 hideProgressBar
                 newestOnTop={false}
                 closeOnClick
@@ -419,27 +506,25 @@ function BlackList (props) {
                 theme="colored"
                 draggable
                 pauseOnHover/>
+
             {loading && (
                 <div className="center-div">
                     <span className="loader"/>
                 </div>
             )}
 
-            {error && (
-                <div className="center-div">
-                    <p>{_msg}</p>
-                </div>
-            )}
-
-            {!loading && !error && (
+            {!loading && (
                 <div className="bl_container">
                     <div className="add_bl">
-                        <button className="btn theme_green pull-right" onClick={Add2BlackList}><BsPlusLg/>&nbsp;&nbsp; Add blacklist IP</button>
-                        <button className="btn pull-right margin-right-10 theme_brown" onClick={ExcelFunction}><RiFileExcel2Fill/>&nbsp;&nbsp;Add (Excel)</button>
+                        <input className={"form-control border-radius-100 pull-right margin-left-10"} style={{width: "60px"}} value={Search} onChange={e => setSearch(e.target.value)} onKeyDown={SearchByIP} placeholder={"Search by IP"}/>
+                        <button className="btn margin-right-10 theme_gray" onClick={Add2BlackList}><BsPlusLg/>&nbsp; Add blacklist IP</button>
+                        <button className="btn margin-right-10 theme_green" onClick={AddNewExcelFunction}><RiFileExcel2Fill/>&nbsp;Add (Excel)</button>
+                        <button className="btn margin-right-10 theme_yellow" onClick={UpdateExcelFunction}><RiFileExcel2Fill/>&nbsp;Update (Excel)</button>
+                        <button className="btn margin-right-10 theme_red" onClick={DeleteExcelFunction}><RiFileExcel2Fill/>&nbsp;Delete (Excel)</button>
                     </div>
                     {BlackListData.length === 0 && (
                         <div className="center-div">
-                            <p>No blacklist IP!</p>
+                            <h3>No blacklist IPs founded!</h3>
                         </div>
                     )}
 

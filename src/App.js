@@ -1,13 +1,11 @@
 import React from "react";
 import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
-import BlackList from "./components/BlackLIst";
+import BlackList from "./components/BlackList";
 import SideBar from "./components/SideBar";
 import {IoIosNotifications} from "react-icons/io";
 import { BsFillHddNetworkFill } from "react-icons/bs";
 import {FaBan} from "react-icons/fa";
 import NotFound from "./components/NotFound";
-import {TEMPLATE_URL} from "./components/API_URL";
-import DownloadFile from "./components/DownloadFile";
 
 const ListItems = [{
   icon: <FaBan/>,
@@ -16,10 +14,10 @@ const ListItems = [{
 }, {
   icon: <BsFillHddNetworkFill/>,
   path: "/vlan",
-  name: "VLAN IP"
+  name: "VLAN IP (Pending)"
 }, {
   icon: <IoIosNotifications/>,
-  path: "/noti",
+  path: "/notification",
   name: "Notifications (Pending)"
 }];
 
@@ -31,12 +29,6 @@ const App = () => {
 
             <Route exact path="/blacklist">
                 <BlackList _title="Blacklist"/>
-            </Route>
-
-            <Route exact path="/download_template">
-                <DownloadFile
-                    URI={TEMPLATE_URL + "CreateBlackListTemplate.xlsx"}
-                    _title="Download"/>
             </Route>
 
             <Route>
