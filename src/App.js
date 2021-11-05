@@ -1,5 +1,5 @@
 import React from "react";
-import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
+import {Route, BrowserRouter as Router, Switch, Redirect} from "react-router-dom";
 import BlackList from "./components/BlackList";
 import SideBar from "./components/SideBar";
 import {IoIosNotifications} from "react-icons/io";
@@ -22,8 +22,10 @@ const ListItems = [{
 }];
 
 const App = () => {
+
   return(
       <Router>
+        <Redirect to="/blacklist"/>
         <SideBar ListItems={ListItems}/>
         <Switch>
 

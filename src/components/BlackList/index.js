@@ -12,7 +12,7 @@ import {
     BLACKLIST_REMOVE_IP,
     WEB_BASE_NAME,
     BLACKLIST_ADD_EXCEL,
-    TEMPLATE_URL, BLACKLIST_SEARCH_IP
+    TEMPLATE_URL, BLACKLIST_SEARCH_IP, BLACKLIST_UPDATE_EXCEL, BLACKLIST_DELETE_EXCEL
 } from '../API_URL';
 import Modal from "../Modal";
 import "./BlackList.sass"
@@ -317,7 +317,21 @@ function BlackList (props) {
             redirect: 'follow'
         };
 
-        fetch(BLACKLIST_ADD_EXCEL, requestOptions)
+        let URI;
+
+        if (ExcelModal.mode === ADD_NEW_MODE) {
+            URI = BLACKLIST_ADD_EXCEL;
+        }
+
+        if (ExcelModal.mode === UPDATE_MODE) {
+            URI = BLACKLIST_UPDATE_EXCEL;
+        }
+
+        if (ExcelModal.mode === DELETE_MODE) {
+            URI = BLACKLIST_DELETE_EXCEL;
+        }
+
+        fetch(URI, requestOptions)
             .then(response => response.json())
             .then(result => {
                 DismissExcelModal();
@@ -437,9 +451,12 @@ function BlackList (props) {
         document.title = _title + WEB_BASE_NAME;
         _FetchAllData(offset);
     }, [offset]);
+
     if (error) {
         toast.error(_msg);
+        dispatch({type: LOADED});
     }
+
     return(
         <div className="container">
 
@@ -497,7 +514,7 @@ function BlackList (props) {
 
             <ToastContainer
                 position="top-right"
-                autoClose={10000}
+                autoClose={5000}
                 hideProgressBar
                 newestOnTop={false}
                 closeOnClick
@@ -516,7 +533,7 @@ function BlackList (props) {
             {!loading && (
                 <div className="bl_container">
                     <div className="add_bl">
-                        <input className={"form-control border-radius-100 pull-right margin-left-10"} style={{width: "60px"}} value={Search} onChange={e => setSearch(e.target.value)} onKeyDown={SearchByIP} placeholder={"Search by IP"}/>
+                        <input className={"form-control border-radius-100 pull-right margin-left-10"} style={{"width": "0"}} value={Search} onChange={e => setSearch(e.target.value)} onKeyDown={SearchByIP} placeholder={"Search by IP"}/>
                         <button className="btn margin-right-10 theme_gray" onClick={Add2BlackList}><BsPlusLg/>&nbsp; Add blacklist IP</button>
                         <button className="btn margin-right-10 theme_green" onClick={AddNewExcelFunction}><RiFileExcel2Fill/>&nbsp;Add (Excel)</button>
                         <button className="btn margin-right-10 theme_yellow" onClick={UpdateExcelFunction}><RiFileExcel2Fill/>&nbsp;Update (Excel)</button>
@@ -530,7 +547,7 @@ function BlackList (props) {
 
                     {BlackListData.length !== 0 && (
                         <>
-                            <table className="nice_theme padding-top-20">
+                            <table className="nice_theme margin-top-20">
                                 <thead className="text-center">
                                 <td>STT</td>
                                 <td>Blacklist IPs</td>

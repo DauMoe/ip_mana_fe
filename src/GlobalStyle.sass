@@ -117,7 +117,7 @@ ol
 
 .form-control
     width: calc(100% - 20px)
-    min-width: 350px
+    min-width: 300px
     min-height: 30px
     padding: 3px 10px
     border-radius: 6px
@@ -142,9 +142,12 @@ ol
 .btn
     padding: 10px 20px
     border: none
-    border-radius: 6px
+    border-radius: 4px
     background-color: #cacaca
     color: black
+    font-size: 12px
+    font-family: 'Ubuntu', sans-serif
+    letter-spacing: .01em
     cursor: pointer
 
 .pull-right
@@ -159,6 +162,10 @@ ol
 .nice_theme
     //width: calc(100% - 40px)
     width: 100%
+    box-shadow: 0 0 30px 1px #383838
+    border-radius: 6px 6px 0 0
+    margin: 20px 0
+    background-color: $theme_brown
     thead
         text-align: center
         td
@@ -174,5 +181,7 @@ ol
         tr
             td
                 padding: 13px 10px
-        tr:nth-child(even)
+        tr:nth-child(2n)
             background-color: #dddddd
+        tr:nth-child(2n+1)
+            background-color: $white

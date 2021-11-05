@@ -12,3 +12,5 @@ export const BLACKLIST_REMOVE_IP    = BASE_URL + 'bl_remove_ip';
 export const BLACKLIST_SEARCH_IP    = BASE_URL + 'bl_search_ip';
 export const BLACKLIST_EXPORT_IP    = BASE_URL + 'bl_export_ip';
 export const BLACKLIST_ADD_EXCEL    = BASE_URL + 'bl_new_excel';
+export const BLACKLIST_UPDATE_EXCEL = BASE_URL + 'bl_update_excel';
+export const BLACKLIST_DELETE_EXCEL = BASE_URL + 'bl_delete_excel';
