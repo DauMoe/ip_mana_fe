@@ -48,7 +48,7 @@ function SideBar (props) {
         dispatch({
             type: SELECT_ITEM,
             index: index
-        })
+        });
     }
 
     return(

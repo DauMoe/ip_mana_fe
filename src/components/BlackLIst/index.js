@@ -99,14 +99,14 @@ function BlackList (props) {
                 } else {
                     dispatch({
                         type: ERROR,
-                        msg: result.msg
+                        _msg: result.msg[0]
                     });
                 }
             })
             .catch(e => {
                 dispatch({
                     type: ERROR,
-                    msg: e
+                    _msg: e
                 })
             });
     }
@@ -158,7 +158,7 @@ function BlackList (props) {
                         toast.error("Error while deleting!");
                         dispatch({
                             type: ERROR,
-                            msg: e
+                            _msg: e
                         })
                     });
             }
@@ -258,11 +258,15 @@ function BlackList (props) {
 
     const UploadExcel = () => {
         if (selectedFile.file === null) {
-            toast.error("Choose a .xlsx file!");
+            toast.error("Choose a file!");
             return;
         }
-        let formdata = new FormData();
-        formdata.append(
+
+        dispatch({
+            type: LOADING
+        });
+        let data = new FormData();
+        data.append(
             "blacklist_file",
             selectedFile.file,
             selectedFile.name
@@ -270,14 +274,31 @@ function BlackList (props) {
 
         let requestOptions = {
             method: 'POST',
-            body: formdata,
+            body: data,
             redirect: 'follow'
         };
 
         fetch(BLACKLIST_ADD_EXCEL, requestOptions)
             .then(response => response.json())
-            .then(result => console.log(result))
-            .catch(error => console.log('error', error));
+            .then(result => {
+                DismissExcelModal();
+                if (result.code === 200) {
+                    dispatch({type: LOADED});
+                    toast.success("Create blacklist successful!");
+                    _FetchAllData(0);
+                } else {
+                    dispatch({
+                        type: ERROR,
+                        _msg: result.msg[0]
+                    });
+                }
+            })
+            .catch(e => {
+                dispatch({
+                    type: ERROR,
+                    _msg: e
+                });
+            });
     }
 
     const ChangeFiles = e => {
@@ -352,7 +373,7 @@ function BlackList (props) {
                 </ol>
                 {selectedFile.file !== null && <span className="margin-left-5">File name: {selectedFile.name}</span>}
                 <div className="margin-top-15">
-                    <button className="btn theme_brown pull-right" onClick={UploadExcel}>Upload file</button>
+                    <button className="btn theme_brown pull-right" onClick={UploadExcel}>Create</button>
                 </div>
             </Modal>
 
@@ -411,7 +432,7 @@ function BlackList (props) {
             )}
 
             {!loading && !error && (
-                <>
+                <div className="bl_container">
                     <div className="add_bl">
                         <button className="btn theme_green pull-right" onClick={Add2BlackList}><BsPlusLg/>&nbsp;&nbsp; Add blacklist IP</button>
                         <button className="btn pull-right margin-right-10 theme_brown" onClick={ExcelFunction}><RiFileExcel2Fill/>&nbsp;&nbsp;Add (Excel)</button>
@@ -481,7 +502,7 @@ function BlackList (props) {
                             </div>
                         </>
                     )}
-                </>
+                </div>
             )}
         </div>
     );
