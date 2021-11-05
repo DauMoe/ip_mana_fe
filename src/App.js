@@ -1,12 +1,13 @@
 import React from "react";
-import { Route, BrowserRouter as Router, Switch, Link } from "react-router-dom";
-import { ToastContainer } from "react-toastify";
+import { Route, BrowserRouter as Router, Switch } from "react-router-dom";
 import BlackList from "./components/BlackLIst";
 import SideBar from "./components/SideBar";
-import { FaGratipay, FaBuffer, FaCanadianMapleLeaf, FaBan } from "react-icons/fa";
 import {IoIosNotifications} from "react-icons/io";
 import { BsFillHddNetworkFill } from "react-icons/bs";
+import {FaBan} from "react-icons/fa";
 import NotFound from "./components/NotFound";
+import {TEMPLATE_URL} from "./components/API_URL";
+import DownloadFile from "./components/DownloadFile";
 
 const ListItems = [{
   icon: <FaBan/>,
@@ -29,6 +30,9 @@ const App = () => {
         <Switch>
             <Route exact path="/blacklist">
                 <BlackList _title="Blacklist"/>
+            </Route>
+            <Route exact path="/download_template">
+                <DownloadFile URI={TEMPLATE_URL + "CreateBlackListTemplate.xlsx"}/>
             </Route>
             <Route>
                 <NotFound _title="404"/>

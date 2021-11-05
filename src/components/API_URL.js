@@ -1,4 +1,5 @@
 const BASE_URL = "http://localhost:8080/";
+export const TEMPLATE_URL = BASE_URL + "asset/template/";
 
 export const LOGIN                  = BASE_URL + 'login';
 

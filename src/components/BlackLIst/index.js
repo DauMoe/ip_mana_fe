@@ -5,13 +5,14 @@ import 'react-toastify/dist/ReactToastify.min.css';
 import {IconContext} from "react-icons/lib";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import {BLACKLIST_EDIT_IP, BLACKLIST_GET_IP, BLACKLIST_REMOVE_IP} from '../API_URL';
+import {BLACKLIST_ADD_IP, BLACKLIST_EDIT_IP, BLACKLIST_GET_IP, BLACKLIST_REMOVE_IP} from '../API_URL';
 import Modal from "../Modal";
 import "./BlackList.sass"
 import {ERROR, LOADED, LOADING} from "../Redux/ReducersAndActions/Status/StatusActionsDefinition";
 import {BsPlusLg} from "react-icons/bs";
 import {RiEditFill, RiDeleteBin2Fill, RiFileExcel2Fill} from "react-icons/ri";
 import {useSelector, useDispatch} from "react-redux";
+import {Link} from "react-router-dom";
 
 //Sweetalert: https://sweetalert.js.org/guides/
 //Toastify: https://fkhadra.github.io/react-toastify/icons
@@ -25,7 +26,7 @@ const ReplaceCharacters = (msg) => {
 
 const ConvertTimeStamptoString = (timestamp, getDate = true, getTime = true, forInputTag = false) => {
     let msg = "";
-    if (timestamp.length === 0) return "";
+    if (!timestamp || timestamp.length === 0) return "";
     let _d = new Date(timestamp);
 
     if (forInputTag) {
@@ -60,6 +61,7 @@ const ConvertTimeStamptoString = (timestamp, getDate = true, getTime = true, for
 function BlackList (props) {
     const { _title }                        = props;
     const [editItem, setEditItem]           = useState({show: false});
+    const [ExcelModal, setExcelModal]       = useState({show: false});
     const [BlackListData, setBlackListData] = useState([]);
     const [TotalPage, setTotalPage]         = useState(0);
     const [offset, setOffSet]               = useState(0);
@@ -162,11 +164,13 @@ function BlackList (props) {
         })
     }
 
-    const EditIP = (item) => {
+    const EditIP = (item, index) => {
         setEditItem({
             ...item,
             show: true,
             title: 'Edit blacklist ip',
+            index: index,
+            editMode: true
         });
     }
 
@@ -198,8 +202,11 @@ function BlackList (props) {
                     dispatch({
                         type: LOADED
                     });
-
                     toast.success("Update successful!");
+                    let tempData = BlackListData;
+                    tempData[editItem.index] = JSON.parse(JSON.stringify(editItem));
+                    setBlackListData(tempData);
+                    DismissModal();
                 } else {
                     dispatch({
                         type: ERROR,
@@ -216,21 +223,77 @@ function BlackList (props) {
     }
 
     const DismissModal = () => {
-        setEditItem({show: false});
+        setEditItem({...editItem, show: false});
+    }
+
+    const DismissExceLModal = () => {
+        setExcelModal({...ExcelModal, show: false});
     }
 
     const Add2BlackList = () => {
         setEditItem({
-            title: 'Add new blacklist ip',
+            title: 'Add new Blacklist IP',
             show: true,
             ip: '',
             desc: '',
-            create_time: ''
+            create_time: '',
+            editMode: false,
+            index: -1
+        });
+    }
+
+    const ExcelFunction = () => {
+        setExcelModal({
+            ...ExcelModal,
+            title: "Create Blacklist IP by Excel",
+            show: true
         });
     }
 
     const UploadExcel = () => {
 
+    }
+
+    const CreateNewIP = () => {
+        if (!editItem.ip || editItem.ip.length === 0) {
+            toast.error("IP is required!");
+            return;
+        }
+        let myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        let raw = JSON.stringify({
+            "ip": editItem.ip,
+            "desc": editItem.desc,
+            "create_time": editItem.create_time,
+        });
+
+        let requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+
+        fetch(BLACKLIST_ADD_IP, requestOptions)
+            .then(response => response.json())
+            .then(result => {
+                if (result.code === 200) {
+                    DismissModal();
+                    _FetchAllData(0, LIMIT);
+                } else {
+                    dispatch({
+                        type: ERROR,
+                        _msg: result.msg[0]
+                    });
+                }
+            })
+            .catch(e => {
+                dispatch({
+                    type: ERROR,
+                    _msg: e
+                });
+            });
     }
 
     useEffect(() => {
@@ -240,6 +303,20 @@ function BlackList (props) {
     
     return(
         <div className="container">
+
+            <Modal
+                CloseModal={DismissExceLModal}
+                show={ExcelModal.show}
+                WrapClass={"modal_wrap"}
+                title={ExcelModal.title}>
+                <ol>
+                    <li>Download Template from <Link to="/download_template" target="_blank" rel="noopener noreferrer">here</Link></li>
+                    <li>Fill all data into template</li>
+                    <li><label className="link_style" htmlFor="upload_file">Click here</label> to choose a file to upload</li>
+                    <input className="hide" id="upload_file" type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"/>
+                </ol>
+                <button className="btn theme_brown pull-right margin-top-15" onClick={UploadExcel}>Upload file</button>
+            </Modal>
 
             <Modal
                 CloseModal={DismissModal}
@@ -267,7 +344,8 @@ function BlackList (props) {
                         onChange={date => setEditItem({...editItem, create_time: date})}/>
                 </div>
                 <div className="margin-top-20 text-center">
-                    <button className="btn theme_green" onClick={SaveEditIP}>Save</button>
+                    {editItem.editMode && <button className="btn theme_green" onClick={SaveEditIP}>Save</button>}
+                    {!editItem.editMode && <button className="btn theme_green" onClick={CreateNewIP}>Create new</button>}
                 </div>
             </Modal>
 
@@ -284,7 +362,7 @@ function BlackList (props) {
                 pauseOnHover/>
             {loading && (
                 <div className="center-div">
-                    <span className="loader"></span>
+                    <span className="loader"/>
                 </div>
             )}
 
@@ -297,8 +375,8 @@ function BlackList (props) {
             {!loading && !error && (
                 <>
                     <div className="add_bl">
-                        <button className="btn theme_green pull-right" onClick={UploadExcel}><BsPlusLg/>&nbsp;&nbsp; Add blacklist IP</button>
-                        <button className="btn pull-right margin-right-10 theme_brown"><RiFileExcel2Fill/>&nbsp;&nbsp;Add (Excel)</button>
+                        <button className="btn theme_green pull-right" onClick={Add2BlackList}><BsPlusLg/>&nbsp;&nbsp; Add blacklist IP</button>
+                        <button className="btn pull-right margin-right-10 theme_brown" onClick={ExcelFunction}><RiFileExcel2Fill/>&nbsp;&nbsp;Add (Excel)</button>
                     </div>
                     {BlackListData.length === 0 && (
                         <div className="center-div">
@@ -331,7 +409,7 @@ function BlackList (props) {
                                                 <td>{ConvertTimeStamptoString(ReplaceCharacters(item.createdAt))}</td>
                                                 <td>{ConvertTimeStamptoString(ReplaceCharacters(item.updatedAt))}</td>
                                                 <td className="table_icon text-center">
-                                                <span className="margin-right-20" onClick={() => EditIP(item)}>
+                                                <span className="margin-right-20" onClick={() => EditIP(item, index)}>
                                                     <IconContext.Provider value={{size: 20, color: "#1886b5"}}>
                                                         <RiEditFill/>
                                                     </IconContext.Provider>

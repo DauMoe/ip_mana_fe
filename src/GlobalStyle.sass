@@ -7,11 +7,23 @@ $sidebar_close_width: 60px
 
 $theme_green: #008a8a
 $theme_brown: #362F4B
+$link_color: #008a8a
 
 body
     margin: 0
     padding: 0
     scroll-behavior: smooth
+
+.link_style
+    color: $link_color
+    text-decoration: underline
+    cursor: pointer
+
+ol
+    margin: 0 0 0 20px
+    padding: 0
+    li
+        margin: 10px 0
 
 @for $i from 0 through 20 
     .margin-top-#{$i+5}
