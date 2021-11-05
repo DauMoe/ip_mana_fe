@@ -5,7 +5,7 @@ import 'react-toastify/dist/ReactToastify.min.css';
 import {IconContext} from "react-icons/lib";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import {BLACKLIST_GET_IP, BLACKLIST_REMOVE_IP} from '../API_URL';
+import {BLACKLIST_EDIT_IP, BLACKLIST_GET_IP, BLACKLIST_REMOVE_IP} from '../API_URL';
 import Modal from "../Modal";
 import "./BlackList.sass"
 import {ERROR, LOADED, LOADING} from "../Redux/ReducersAndActions/Status/StatusActionsDefinition";
@@ -171,7 +171,48 @@ function BlackList (props) {
     }
 
     const SaveEditIP = () => {
+        dispatch({
+            type: LOADING
+        });
+        let myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
 
+        let raw = JSON.stringify({
+            "id": editItem.id,
+            "ip": editItem.ip,
+            "desc": editItem.desc,
+            "create_time": editItem.create_time
+        });
+
+        let requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+
+        fetch(BLACKLIST_EDIT_IP, requestOptions)
+            .then(response => response.json())
+            .then(result => {
+                if (result.code === 200) {
+                    dispatch({
+                        type: LOADED
+                    });
+
+                    toast.success("Update successful!");
+                } else {
+                    dispatch({
+                        type: ERROR,
+                        _msg: result.msg[0]
+                    });
+                }
+            })
+            .catch(e => {
+                dispatch({
+                    type: ERROR,
+                    _msg: e
+                });
+            });
     }
 
     const DismissModal = () => {
@@ -185,7 +226,11 @@ function BlackList (props) {
             ip: '',
             desc: '',
             create_time: ''
-        })
+        });
+    }
+
+    const UploadExcel = () => {
+
     }
 
     useEffect(() => {
@@ -252,7 +297,7 @@ function BlackList (props) {
             {!loading && !error && (
                 <>
                     <div className="add_bl">
-                        <button className="btn theme_green pull-right" onClick={Add2BlackList}><BsPlusLg/>&nbsp;&nbsp; Add blacklist IP</button>
+                        <button className="btn theme_green pull-right" onClick={UploadExcel}><BsPlusLg/>&nbsp;&nbsp; Add blacklist IP</button>
                         <button className="btn pull-right margin-right-10 theme_brown"><RiFileExcel2Fill/>&nbsp;&nbsp;Add (Excel)</button>
                     </div>
                     {BlackListData.length === 0 && (
