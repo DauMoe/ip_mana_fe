@@ -17,7 +17,7 @@ import {
     BLACKLIST_UPDATE_EXCEL,
     BLACKLIST_DELETE_EXCEL,
     BLACKLIST_EXPORT_EXCEL,
-    REPORT_URL, BASE_URL
+    BASE_URL, BLACKLIST_IMPORTED_IP_TODAY_EXCEL
 } from '../API_URL';
 import Modal from "../Modal";
 import "./BlackList.sass"
@@ -341,6 +341,17 @@ function BlackList (props) {
                     dispatch({type: LOADED});
                     toast.success("Create blacklist successful!");
                     _FetchAllData(0);
+                } else if (result.code === 202) {
+                    const link = document.createElement('a');
+                    link.href = BASE_URL + result.msg[0].url;
+                    link.setAttribute("target", "_blank");
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    dispatch({
+                        type: ERROR,
+                        _msg: "Duplicate IPs"
+                    });
                 } else {
                     dispatch({
                         type: ERROR,
@@ -490,6 +501,47 @@ function BlackList (props) {
         });
     }
 
+    const ExportImportedIPTodayExcel = () => {
+        let myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        let raw = JSON.stringify({
+            "createdAt_from": new Date().setUTCHours(0,0,0,0),
+            "createdAt_to": new Date().setUTCHours(23,59,59,999)
+        });
+
+        let requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: raw,
+            redirect: 'follow'
+        };
+
+        fetch(BLACKLIST_IMPORTED_IP_TODAY_EXCEL, requestOptions)
+            .then(response => response.json())
+            .then(result => {
+                if (result.code === 200) {
+                    const link = document.createElement('a');
+                    link.href = BASE_URL + result.msg[0].url;
+                    link.setAttribute("target", "_blank");
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                } else {
+                    dispatch({
+                        type: ERROR,
+                        _msg: result.msg[0]
+                    });
+                }
+            })
+            .catch(e => {
+                dispatch({
+                    type: ERROR,
+                    _msg: e
+                });
+            });
+    }
+
     useEffect(() => {
         document.title = _title + WEB_BASE_NAME;
         _FetchAllData(offset);
@@ -556,15 +608,15 @@ function BlackList (props) {
             </Modal>
 
             <ToastContainer
-                position="top-right"
-                autoClose={5000}
-                hideProgressBar
+                position="top-center"
+                autoClose={3000}
+                hideProgressBar={false}
                 newestOnTop={false}
-                closeOnClick
+                closeOnClick={true}
                 rtl={false}
-                pauseOnFocusLoss
+                pauseOnFocusLoss={false}
                 theme="colored"
-                draggable
+                draggable={false}
                 pauseOnHover/>
 
             {loading && (
@@ -582,6 +634,7 @@ function BlackList (props) {
                         <button className="btn margin-right-10 theme_yellow" onClick={UpdateExcelFunction}><RiFileExcel2Fill/>&nbsp;Update (Excel)</button>
                         <button className="btn margin-right-10 theme_red" onClick={DeleteExcelFunction}><RiFileExcel2Fill/>&nbsp;Delete (Excel)</button>
                         <button className="btn margin-right-10 theme_cyan" onClick={ExportAllExcel}><RiFileExcel2Fill/>&nbsp;Export (Excel)</button>
+                        <button className="btn margin-right-10 theme_cyan" onClick={ExportImportedIPTodayExcel}><RiFileExcel2Fill/>&nbsp;Export Imported IP Today (Excel)</button>
                     </div>
                     {BlackListData.length === 0 && (
                         <div className="center-div">
@@ -593,9 +646,9 @@ function BlackList (props) {
                         <>
                             <table className="nice_theme margin-top-20">
                                 <thead className="text-center">
-                                <td>STT</td>
+                                <td>Index</td>
                                 <td>Blacklist IPs</td>
-                                <td>Description</td>
+                                <td>Validity</td>
                                 <td>Create time</td>
                                 <td>Create at</td>
                                 <td>Last update</td>
@@ -610,7 +663,7 @@ function BlackList (props) {
                                                 <td className="bold">{ReplaceCharacters(item.ip)}</td>
                                                 {/* <td>{ReplaceCharacters(item.desc) === "" ? "<Không có mô tả>" : ReplaceCharacters(item.desc)}</td> */}
                                                 <td>{ReplaceCharacters(item.desc)}</td>
-                                                <td>{ConvertTimeStamptoString(Number.parseInt(ReplaceCharacters(item.create_time)))}</td>
+                                                <td>{ConvertTimeStamptoString(ReplaceCharacters(item.create_time))}</td>
                                                 <td>{ConvertTimeStamptoString(ReplaceCharacters(item.createdAt))}</td>
                                                 <td>{ConvertTimeStamptoString(ReplaceCharacters(item.updatedAt))}</td>
                                                 <td className="table_icon text-center">

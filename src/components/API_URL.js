@@ -1,7 +1,7 @@
-export const BASE_URL = "http://localhost:8080/";
-export const TEMPLATE_URL = BASE_URL + "asset/template/";
-export const REPORT_URL = BASE_URL + "asset/report/";
-export const WEB_BASE_NAME = " | IP  Manager";
+export const BASE_URL               = process.env.REACT_APP_BASEURL;
+export const TEMPLATE_URL           = BASE_URL + "asset/template/";
+export const REPORT_URL             = BASE_URL + "asset/report/";
+export const WEB_BASE_NAME          = " | IP  Manager";
 
 export const LOGIN                  = BASE_URL + 'login';
 
@@ -15,3 +15,5 @@ export const BLACKLIST_EXPORT_EXCEL = BASE_URL + 'bl_export_excel';
 export const BLACKLIST_ADD_EXCEL    = BASE_URL + 'bl_new_excel';
 export const BLACKLIST_UPDATE_EXCEL = BASE_URL + 'bl_update_excel';
 export const BLACKLIST_DELETE_EXCEL = BASE_URL + 'bl_delete_excel';
+
+export const BLACKLIST_IMPORTED_IP_TODAY_EXCEL = BASE_URL + 'bl_list_imported_ip_excel';
