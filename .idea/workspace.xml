@@ -3,9 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="d8184264-b93b-48fd-9acf-42cc3e1be3d6" name="Changes" comment="DONE Search">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GlobalStyle.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/GlobalStyle.sass" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/API_URL.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/API_URL.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/BlackList/BlackList.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/BlackList/BlackList.sass" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/BlackList/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/BlackList/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -77,7 +77,7 @@
       <updated>1636011250360</updated>
       <workItem from="1636011252277" duration="12420000" />
       <workItem from="1636028624063" duration="11443000" />
-      <workItem from="1636075567624" duration="15550000" />
+      <workItem from="1636075567624" duration="18696000" />
     </task>
     <task id="LOCAL-00001" summary="Add loading">
       <created>1636015693811</created>

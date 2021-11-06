@@ -12,19 +12,21 @@ import {
     BLACKLIST_REMOVE_IP,
     WEB_BASE_NAME,
     BLACKLIST_ADD_EXCEL,
-    TEMPLATE_URL, BLACKLIST_SEARCH_IP, BLACKLIST_UPDATE_EXCEL, BLACKLIST_DELETE_EXCEL
+    TEMPLATE_URL,
+    BLACKLIST_SEARCH_IP,
+    BLACKLIST_UPDATE_EXCEL,
+    BLACKLIST_DELETE_EXCEL,
+    BLACKLIST_EXPORT_EXCEL,
+    REPORT_URL, BASE_URL
 } from '../API_URL';
 import Modal from "../Modal";
 import "./BlackList.sass"
 import {ERROR, LOADED, LOADING} from "../Redux/ReducersAndActions/Status/StatusActionsDefinition";
 import {
-    BiSearchAlt,
     BsPlusLg,
     RiEditFill,
     RiDeleteBin2Fill,
-    RiFileExcel2Fill,
-    IoSearchCircle,
-    IoCloseSharp
+    RiFileExcel2Fill
 } from "react-icons/all";
 import {useSelector, useDispatch} from "react-redux";
 import {Link} from "react-router-dom";
@@ -182,7 +184,7 @@ function BlackList (props) {
                         })
                     });
             }
-        })
+        });
     }
 
     const EditIP = (item, index) => {
@@ -447,6 +449,47 @@ function BlackList (props) {
         }
     }
 
+    const ExportAllExcel = () => {
+        swal({
+            title: "LARGE DATA",
+            text: `We will export all data and it's so large. Continue?`,
+            icon: "warning",
+            buttons: true,
+            dangerMode: true
+        }).then(val => {
+            if (val) {
+                let requestOptions = {
+                    method: 'POST',
+                    redirect: 'follow'
+                };
+
+                fetch(BLACKLIST_EXPORT_EXCEL, requestOptions)
+                    .then(response => response.json())
+                    .then(result => {
+                        if (result.code === 200) {
+                            const link = document.createElement('a');
+                            link.href = BASE_URL + result.msg[0].url;
+                            link.setAttribute("target", "_blank");
+                            document.body.appendChild(link);
+                            link.click();
+                            document.body.removeChild(link);
+                        } else {
+                            dispatch({
+                                type: ERROR,
+                                _msg: result.msg[0]
+                            });
+                        }
+                    })
+                    .catch(e => {
+                        dispatch({
+                            type: ERROR,
+                            _msg: e
+                        });
+                    });
+            }
+        });
+    }
+
     useEffect(() => {
         document.title = _title + WEB_BASE_NAME;
         _FetchAllData(offset);
@@ -538,6 +581,7 @@ function BlackList (props) {
                         <button className="btn margin-right-10 theme_green" onClick={AddNewExcelFunction}><RiFileExcel2Fill/>&nbsp;Add (Excel)</button>
                         <button className="btn margin-right-10 theme_yellow" onClick={UpdateExcelFunction}><RiFileExcel2Fill/>&nbsp;Update (Excel)</button>
                         <button className="btn margin-right-10 theme_red" onClick={DeleteExcelFunction}><RiFileExcel2Fill/>&nbsp;Delete (Excel)</button>
+                        <button className="btn margin-right-10 theme_cyan" onClick={ExportAllExcel}><RiFileExcel2Fill/>&nbsp;Export (Excel)</button>
                     </div>
                     {BlackListData.length === 0 && (
                         <div className="center-div">
