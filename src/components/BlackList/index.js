@@ -30,6 +30,8 @@ import {
 } from "react-icons/all";
 import {useSelector, useDispatch} from "react-redux";
 import {Link} from "react-router-dom";
+import Loading from "../Loading";
+import {ConvertTimeStamptoString, ReplaceCharacters} from "../Utils";
 
 //Sweetalert: https://sweetalert.js.org/guides/
 //Toastify: https://fkhadra.github.io/react-toastify/icons
@@ -37,47 +39,6 @@ import {Link} from "react-router-dom";
 const ADD_NEW_MODE  = 0;
 const UPDATE_MODE   = 1;
 const DELETE_MODE   = 2;
-
-const _MONTH = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Sep"];
-
-const ReplaceCharacters = (msg) => {
-    if (typeof(msg) !== 'string') return msg;
-    return msg.replace(/["']/g, "");
-}
-
-const ConvertTimeStamptoString = (timestamp, getDate = true, getTime = true, forInputTag = false) => {
-    let msg = "";
-    if (!timestamp || timestamp.length === 0) return "";
-    let _d = new Date(timestamp);
-
-    if (forInputTag) {
-        if (getDate) {
-            msg += _d.getFullYear();
-            msg += "-"
-            msg += ((_d.getMonth() + 1) < 10) ? "0" + (_d.getMonth() + 1) : (_d.getMonth() + 1);
-            msg += "-"
-            msg += (_d.getDate() < 10) ? "0" + _d.getDate() : _d.getDate();
-        }
-    } else {
-        if (getDate) {
-            msg += _MONTH[_d.getMonth()];
-            msg += " ";
-            msg += (_d.getDate() < 10) ? "0" + _d.getDate() : _d.getDate();
-            msg += ", ";
-            msg += _d.getFullYear();
-            msg += " ";
-        }
-
-        if (getTime) {
-            msg += (_d.getHours() < 10) ? "0" + _d.getHours() : _d.getHours();
-            msg += ":";
-            msg += (_d.getMinutes() < 10) ? "0" + _d.getMinutes() : _d.getMinutes();
-            msg += ":";
-            msg += (_d.getSeconds() < 10) ? "0" + _d.getSeconds() : _d.getSeconds();
-        }
-    }
-    return msg;
-}
 
 function BlackList (props) {
     const { _title }                        = props;
@@ -619,11 +580,7 @@ function BlackList (props) {
                 draggable={false}
                 pauseOnHover/>
 
-            {loading && (
-                <div className="center-div">
-                    <span className="loader"/>
-                </div>
-            )}
+            {loading && <Loading/>}
 
             {!loading && (
                 <div className="bl_container">

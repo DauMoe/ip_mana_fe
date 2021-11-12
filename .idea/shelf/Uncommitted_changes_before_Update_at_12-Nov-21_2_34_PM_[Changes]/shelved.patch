@@ -1,0 +1,436 @@
+Index: src/GlobalStyle.sass
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>$sidebar_color: #33383E\r\n$white: white\r\n$sidebar_item_non_selected: #a3a3a3\r\n$sidebar_selected_bg: #7c7c7c\r\n$sidebar_width: 300px\r\n$sidebar_close_width: 60px\r\n\r\n$theme_green: #008a8a\r\n$theme_brown: #362F4B\r\n$link_color: #008a8a\r\n\r\nbody\r\n    margin: 0\r\n    padding: 0\r\n    scroll-behavior: smooth\r\n\r\n.link_style\r\n    color: $link_color\r\n    text-decoration: underline\r\n    cursor: pointer\r\n\r\nol\r\n    margin: 0 0 0 20px\r\n    padding: 0\r\n    li\r\n        margin: 10px 0\r\n\r\n@for $i from 0 through 20 \r\n    .margin-top-#{$i+5}\r\n        margin-top: #{$i+5}px\r\n    .margin-bottom-#{$i+5}\r\n        margin-bottom: #{$i+5}px\r\n    .margin-left-#{$i+5}\r\n        margin-left: #{$i+5}px\r\n    .margin-right-#{$i+5}\r\n        margin-right: #{$i+5}px\r\n    .margin-#{$i}\r\n        margin: #{$i+5}px\r\n    .padding-top-#{$i+5}\r\n        padding-top: #{$i+5}px\r\n    .padding-bottom-#{$i+5}\r\n        padding-bottom: #{$i+5}px\r\n    .padding-left-#{$i+5}\r\n        padding-left: #{$i+5}px\r\n    .padding-right-#{$i+5}\r\n        padding-right: #{$i+5}px\r\n    .padding-#{$i}\r\n        padding: #{$i+5}px\r\n\r\n.center-div\r\n    position: absolute\r\n    top: 50%\r\n    left: 50%\r\n    transform: translate(-50%, -50%)\r\n\r\n._dot\r\n    display: inline-block\r\n    width: 10px\r\n    height: 10px\r\n    border-radius: 50%\r\n    background-color: #008a8a\r\n    margin: 0 3px 0 3px\r\n\r\n.loader\r\n    display: inline-block\r\n    width: 40px\r\n    height: 40px\r\n    border: 10px solid #f3f3f3\r\n    border-radius: 50%\r\n    border-top: 10px solid #3498db\r\n    -webkit-animation: spin 2s linear infinite\r\n    animation: spin 2s linear infinite\r\n\r\n@keyframes spin\r\n    0%\r\n        transform: rotate(0deg)\r\n    100%\r\n        transform: rotate(360deg)\r\n\r\n@-webkit-keyframes spin\r\n    0%\r\n        -webkit-transform: rotate(0deg)\r\n    100%\r\n        -webkit-transform: rotate(360deg)\r\n\r\n.form-control\r\n    width: calc(100% - 20px)\r\n    min-width: 350px\r\n    min-height: 30px\r\n    padding: 3px 10px\r\n    border-radius: 6px\r\n    outline: none\r\n    border: 1px solid black\r\n\r\n.hide\r\n    display: none\r\n\r\n.show\r\n    display: block\r\n\r\n.bold\r\n    font-weight: bold\r\n\r\n.theme_green\r\n    background-color: $theme_green !important\r\n    color: $white !important\r\n\r\n.theme_brown\r\n    background-color: $theme_brown !important\r\n    color: $white !important\r\n\r\n.btn\r\n    padding: 10px 20px\r\n    border: none\r\n    border-radius: 6px\r\n    background-color: #cacaca\r\n    color: black\r\n    cursor: pointer\r\n\r\n.pull-right\r\n    float: right\r\n\r\n.text-center\r\n    text-align: center\r\n\r\n.text-right\r\n    text-align: right\r\n\r\n.nice_theme\r\n    //width: calc(100% - 40px)\r\n    width: 100%\r\n    thead\r\n        text-align: center\r\n        td\r\n            font-weight: bold\r\n            padding: 10px 0\r\n            color: $white\r\n            background-color: $theme_brown\r\n        td:first-child\r\n            border-radius: 6px 0 0 0\r\n        td:last-child\r\n            border-radius: 0 6px 0 0\r\n    tbody\r\n        tr\r\n            td\r\n                padding: 13px 10px\r\n        tr:nth-child(even)\r\n            background-color: #dddddd
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/GlobalStyle.sass b/src/GlobalStyle.sass
+--- a/src/GlobalStyle.sass	(revision 800d29ceeca4326313862e07b647f0794b408363)
++++ b/src/GlobalStyle.sass	(date 1636700895935)
+@@ -126,6 +126,48 @@
+ .text-right
+     text-align: right
+ 
++.container
++    margin-left: $sidebar_close_width
++    padding: 30px
++
++.pagination
++    span:first-child, span:last-child
++        color: green
++        border: none
++        padding: 0
++        margin: 0
++    span
++        cursor: pointer
++        border-radius: 3px
++        margin: 4px
++        padding: 6px 13px
++        border: 1px solid #cacaca
++        background-color: $white
++
++    span:hover
++        background-color: #808080
++        color: $white
++
++.modal_wrap
++    position: fixed
++    top: 0
++    left: 0
++    z-index: 100000
++    overflow-x: hidden
++    width: 100%
++    height: 100%
++    background-color: rgba(184, 184, 184, 0.45)
++    transition: opacity 250ms 700ms ease
++
++.modal_container
++    position: absolute
++    z-index: 100002
++    top: 50%
++    left: 50%
++    padding: 30px
++    transform: translate(-50%, -50%)
++    background-color: $white
++
+ .nice_theme
+     //width: calc(100% - 40px)
+     width: 100%
+Index: src/components/BlackLIst/index.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import React, { useEffect, useState } from \"react\";\r\nimport swal from \"sweetalert\";\r\nimport { ToastContainer, toast } from 'react-toastify';\r\nimport 'react-toastify/dist/ReactToastify.min.css';\r\nimport {IconContext} from \"react-icons/lib\";\r\nimport DatePicker from \"react-datepicker\";\r\nimport \"react-datepicker/dist/react-datepicker.css\";\r\nimport {BLACKLIST_ADD_IP, BLACKLIST_EDIT_IP, BLACKLIST_GET_IP, BLACKLIST_REMOVE_IP, WEB_BASE_NAME, BLACKLIST_ADD_EXCEL} from '../API_URL';\r\nimport Modal from \"../Modal\";\r\nimport \"./BlackList.sass\"\r\nimport {ERROR, LOADED, LOADING} from \"../Redux/ReducersAndActions/Status/StatusActionsDefinition\";\r\nimport {BsPlusLg} from \"react-icons/bs\";\r\nimport {RiEditFill, RiDeleteBin2Fill, RiFileExcel2Fill} from \"react-icons/ri\";\r\nimport {useSelector, useDispatch} from \"react-redux\";\r\nimport {Link} from \"react-router-dom\";\r\n\r\n//Sweetalert: https://sweetalert.js.org/guides/\r\n//Toastify: https://fkhadra.github.io/react-toastify/icons\r\n\r\nconst _MONTH = [\"Jan\", \"Feb\", \"Mar\", \"Apr\", \"May\", \"Jun\", \"Jul\", \"Aug\", \"Sep\", \"Oct\", \"Nov\", \"Sep\"];\r\n\r\nconst ReplaceCharacters = (msg) => {\r\n    if (typeof(msg) !== 'string') return msg;\r\n    return msg.replace(/[\"']/g, \"\");\r\n}\r\n\r\nconst ConvertTimeStamptoString = (timestamp, getDate = true, getTime = true, forInputTag = false) => {\r\n    let msg = \"\";\r\n    if (!timestamp || timestamp.length === 0) return \"\";\r\n    let _d = new Date(timestamp);\r\n\r\n    if (forInputTag) {\r\n        if (getDate) {\r\n            msg += _d.getFullYear();\r\n            msg += \"-\"\r\n            msg += ((_d.getMonth() + 1) < 10) ? \"0\" + (_d.getMonth() + 1) : (_d.getMonth() + 1);\r\n            msg += \"-\"\r\n            msg += (_d.getDate() < 10) ? \"0\" + _d.getDate() : _d.getDate();\r\n        }\r\n    } else {\r\n        if (getDate) {\r\n            msg += _MONTH[_d.getMonth()];\r\n            msg += \" \";\r\n            msg += (_d.getDate() < 10) ? \"0\" + _d.getDate() : _d.getDate();\r\n            msg += \", \";\r\n            msg += _d.getFullYear();\r\n            msg += \" \";\r\n        }\r\n\r\n        if (getTime) {\r\n            msg += (_d.getHours() < 10) ? \"0\" + _d.getHours() : _d.getHours();\r\n            msg += \":\";\r\n            msg += (_d.getMinutes() < 10) ? \"0\" + _d.getMinutes() : _d.getMinutes();\r\n            msg += \":\";\r\n            msg += (_d.getSeconds() < 10) ? \"0\" + _d.getSeconds() : _d.getSeconds();\r\n        }\r\n    }\r\n    return msg;\r\n}\r\n\r\nfunction BlackList (props) {\r\n    const { _title }                        = props;\r\n    const [editItem, setEditItem]           = useState({show: false});\r\n    const [ExcelModal, setExcelModal]       = useState({show: false});\r\n    const [BlackListData, setBlackListData] = useState([]);\r\n    const [TotalPage, setTotalPage]         = useState(0);\r\n    const [offset, setOffSet]               = useState(0);\r\n    const [selectedFile, setSelectedFile]   = useState({uploaded: false, name: \"No file\", file: null});\r\n    const { loading, error, _msg }          = useSelector(state => state.Status);\r\n    const dispatch                          = useDispatch();\r\n    const LIMIT                             = 10;\r\n\r\n    const _FetchAllData = (offset, limit = LIMIT) => {\r\n        dispatch({\r\n            type: LOADING\r\n        });\r\n        let myHeaders = new Headers();\r\n        myHeaders.append(\"Content-Type\", \"application/json\");\r\n\r\n        let raw = JSON.stringify({\r\n            \"limit\": limit,\r\n            \"offset\": offset\r\n        });\r\n\r\n        let requestOptions = {\r\n            method: 'POST',\r\n            headers: myHeaders,\r\n            body: raw,\r\n            redirect: 'follow'\r\n        };\r\n          \r\n        fetch(BLACKLIST_GET_IP, requestOptions)\r\n            .then(response => response.json())\r\n            .then(result => {\r\n                if (result.code === 200) {\r\n                    dispatch({type: LOADED})\r\n                    setBlackListData(result.msg.list);\r\n                    setTotalPage(result.msg.total);\r\n                } else {\r\n                    dispatch({\r\n                        type: ERROR,\r\n                        msg: result.msg\r\n                    });\r\n                }\r\n            })\r\n            .catch(e => {\r\n                dispatch({\r\n                    type: ERROR,\r\n                    msg: e\r\n                })\r\n            });\r\n    }\r\n\r\n    const delIPs = (item, index) => {\r\n        swal({\r\n            title: \"DELETE\",\r\n            text: `Do you want delete IP ${item.ip}?`,\r\n            icon: \"warning\",\r\n            buttons: true,\r\n            dangerMode: true\r\n        }).then(val => {\r\n            if (val) {\r\n                //Delete IP here\r\n                let myHeaders = new Headers();\r\n                myHeaders.append(\"Content-Type\", \"application/json\");\r\n\r\n                let raw = JSON.stringify({\r\n                    \"id\": ReplaceCharacters(item.id)\r\n                });\r\n\r\n                let requestOptions = {\r\n                    method: 'POST',\r\n                    headers: myHeaders,\r\n                    body: raw,\r\n                    redirect: 'follow'\r\n                };\r\n\r\n                fetch(BLACKLIST_REMOVE_IP, requestOptions)\r\n                    .then(response => response.json())\r\n                    .then(result => {\r\n                        if (result.code === 200) {\r\n                            dispatch({\r\n                                type: LOADED\r\n                            });\r\n                            toast.success(\"Delete successful!\");\r\n                            BlackListData.splice(index, 1);\r\n                            let afterDel = [...BlackListData];\r\n                            setBlackListData(afterDel);\r\n                        } else {\r\n                            toast.error(\"Error while deleting!\");\r\n                            dispatch({\r\n                                type: ERROR,\r\n                                msg: result.msg\r\n                            })\r\n                        }\r\n                    })\r\n                    .catch(e => {\r\n                        toast.error(\"Error while deleting!\");\r\n                        dispatch({\r\n                            type: ERROR,\r\n                            msg: e\r\n                        })\r\n                    });\r\n            }\r\n        })\r\n    }\r\n\r\n    const EditIP = (item, index) => {\r\n        setEditItem({\r\n            ...item,\r\n            show: true,\r\n            title: 'Edit blacklist ip',\r\n            index: index,\r\n            editMode: true\r\n        });\r\n    }\r\n\r\n    const SaveEditIP = () => {\r\n        dispatch({\r\n            type: LOADING\r\n        });\r\n        let myHeaders = new Headers();\r\n        myHeaders.append(\"Content-Type\", \"application/json\");\r\n\r\n        let raw = JSON.stringify({\r\n            \"id\": editItem.id,\r\n            \"ip\": editItem.ip,\r\n            \"desc\": editItem.desc,\r\n            \"create_time\": editItem.create_time\r\n        });\r\n\r\n        let requestOptions = {\r\n            method: 'POST',\r\n            headers: myHeaders,\r\n            body: raw,\r\n            redirect: 'follow'\r\n        };\r\n\r\n        fetch(BLACKLIST_EDIT_IP, requestOptions)\r\n            .then(response => response.json())\r\n            .then(result => {\r\n                if (result.code === 200) {\r\n                    dispatch({\r\n                        type: LOADED\r\n                    });\r\n                    toast.success(\"Update successful!\");\r\n                    let tempData = BlackListData;\r\n                    tempData[editItem.index] = JSON.parse(JSON.stringify(editItem));\r\n                    setBlackListData(tempData);\r\n                    DismissModal();\r\n                } else {\r\n                    dispatch({\r\n                        type: ERROR,\r\n                        _msg: result.msg[0]\r\n                    });\r\n                }\r\n            })\r\n            .catch(e => {\r\n                dispatch({\r\n                    type: ERROR,\r\n                    _msg: e\r\n                });\r\n            });\r\n    }\r\n\r\n    const DismissModal = () => {\r\n        setEditItem({...editItem, show: false});\r\n    }\r\n\r\n    const DismissExcelModal = () => {\r\n        setExcelModal({...ExcelModal, show: false});\r\n        setSelectedFile({\r\n            name: \"No file\",\r\n            uploaded: false,\r\n            file: null\r\n        });\r\n    }\r\n\r\n    const Add2BlackList = () => {\r\n        setEditItem({\r\n            title: 'Add new Blacklist IP',\r\n            show: true,\r\n            ip: '',\r\n            desc: '',\r\n            create_time: '',\r\n            editMode: false,\r\n            index: -1\r\n        });\r\n    }\r\n\r\n    const ExcelFunction = () => {\r\n        setExcelModal({\r\n            ...ExcelModal,\r\n            title: \"Create Blacklist IP by Excel\",\r\n            show: true\r\n        });\r\n    }\r\n\r\n    const UploadExcel = () => {\r\n        if (selectedFile.file === null) {\r\n            toast.error(\"Choose a .xlsx file!\");\r\n            return;\r\n        }\r\n        let formdata = new FormData();\r\n        formdata.append(\r\n            \"blacklist_file\",\r\n            selectedFile.file,\r\n            selectedFile.name\r\n        );\r\n\r\n        let requestOptions = {\r\n            method: 'POST',\r\n            body: formdata,\r\n            redirect: 'follow'\r\n        };\r\n\r\n        fetch(BLACKLIST_ADD_EXCEL, requestOptions)\r\n            .then(response => response.json())\r\n            .then(result => console.log(result))\r\n            .catch(error => console.log('error', error));\r\n    }\r\n\r\n    const ChangeFiles = e => {\r\n        setSelectedFile({\r\n            ...selectedFile,\r\n            uploaded: true,\r\n            name: e.target.files[0].name,\r\n            file: e.target.files[0]\r\n        });\r\n    }\r\n\r\n    const CreateNewIP = () => {\r\n        if (!editItem.ip || editItem.ip.length === 0) {\r\n            toast.error(\"IP is required!\");\r\n            return;\r\n        }\r\n        let myHeaders = new Headers();\r\n        myHeaders.append(\"Content-Type\", \"application/json\");\r\n\r\n        let raw = JSON.stringify({\r\n            \"ip\": editItem.ip,\r\n            \"desc\": editItem.desc,\r\n            \"create_time\": editItem.create_time,\r\n        });\r\n\r\n        let requestOptions = {\r\n            method: 'POST',\r\n            headers: myHeaders,\r\n            body: raw,\r\n            redirect: 'follow'\r\n        };\r\n\r\n        fetch(BLACKLIST_ADD_IP, requestOptions)\r\n            .then(response => response.json())\r\n            .then(result => {\r\n                if (result.code === 200) {\r\n                    DismissModal();\r\n                    _FetchAllData(0);\r\n                } else {\r\n                    dispatch({\r\n                        type: ERROR,\r\n                        _msg: result.msg[0]\r\n                    });\r\n                }\r\n            })\r\n            .catch(e => {\r\n                dispatch({\r\n                    type: ERROR,\r\n                    _msg: e\r\n                });\r\n            });\r\n    }\r\n\r\n    useEffect(() => {\r\n        document.title = _title + WEB_BASE_NAME;\r\n        _FetchAllData(offset);\r\n    }, [offset]);\r\n    \r\n    return(\r\n        <div className=\"container\">\r\n\r\n            <Modal\r\n                CloseModal={DismissExcelModal}\r\n                show={ExcelModal.show}\r\n                WrapClass={\"modal_wrap\"}\r\n                title={ExcelModal.title}>\r\n                <ol>\r\n                    <li>Download Template from <Link to=\"/download_template\" target=\"_blank\" rel=\"noopener noreferrer\">here</Link></li>\r\n                    <li>Fill all data into template</li>\r\n                    <li><label className=\"link_style\" htmlFor=\"upload_file\">Click here</label> to choose a file to upload</li>\r\n                    <input className=\"hide\" onChange={ChangeFiles} id=\"upload_file\" type=\"file\" accept=\"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet\"/>\r\n                </ol>\r\n                {selectedFile.file !== null && <span className=\"margin-left-5\">File name: {selectedFile.name}</span>}\r\n                <div className=\"margin-top-15\">\r\n                    <button className=\"btn theme_brown pull-right\" onClick={UploadExcel}>Upload file</button>\r\n                </div>\r\n            </Modal>\r\n\r\n            <Modal\r\n                CloseModal={DismissModal}\r\n                WrapClass={\"modal_wrap\"}\r\n                show={editItem.show}\r\n                title={editItem.title}>\r\n                <div>\r\n                    <input\r\n                        value={editItem.ip}\r\n                        onChange={e => setEditItem({...editItem, ip: e.target.value})}\r\n                        className=\"form-control\"\r\n                        placeholder={\"IP\"}/>\r\n                </div>\r\n                <div className=\"margin-top-20\">\r\n                    <input\r\n                        value={editItem.desc}\r\n                        onChange={e => setEditItem({...editItem, desc: e.target.value})}\r\n                        className=\"form-control\"\r\n                        placeholder={\"Description\"}/>\r\n                </div>\r\n                <div className=\"margin-top-20\">\r\n                    <DatePicker\r\n                        className=\"form-control\"\r\n                        selected={editItem.create_time}\r\n                        onChange={date => setEditItem({...editItem, create_time: date})}/>\r\n                </div>\r\n                <div className=\"margin-top-20 text-center\">\r\n                    {editItem.editMode && <button className=\"btn theme_green\" onClick={SaveEditIP}>Save</button>}\r\n                    {!editItem.editMode && <button className=\"btn theme_green\" onClick={CreateNewIP}>Create new</button>}\r\n                </div>\r\n            </Modal>\r\n\r\n            <ToastContainer\r\n                position=\"top-right\"\r\n                autoClose={3000}\r\n                hideProgressBar\r\n                newestOnTop={false}\r\n                closeOnClick\r\n                rtl={false}\r\n                pauseOnFocusLoss\r\n                theme=\"colored\"\r\n                draggable\r\n                pauseOnHover/>\r\n            {loading && (\r\n                <div className=\"center-div\">\r\n                    <span className=\"loader\"/>\r\n                </div>\r\n            )}\r\n\r\n            {error && (\r\n                <div className=\"center-div\">\r\n                    <p>{_msg}</p>\r\n                </div>\r\n            )}\r\n\r\n            {!loading && !error && (\r\n                <>\r\n                    <div className=\"add_bl\">\r\n                        <button className=\"btn theme_green pull-right\" onClick={Add2BlackList}><BsPlusLg/>&nbsp;&nbsp; Add blacklist IP</button>\r\n                        <button className=\"btn pull-right margin-right-10 theme_brown\" onClick={ExcelFunction}><RiFileExcel2Fill/>&nbsp;&nbsp;Add (Excel)</button>\r\n                    </div>\r\n                    {BlackListData.length === 0 && (\r\n                        <div className=\"center-div\">\r\n                            <p>No blacklist IP!</p>\r\n                        </div>\r\n                    )}\r\n\r\n                    {BlackListData.length !== 0 && (\r\n                        <>\r\n                            <table className=\"nice_theme padding-top-20\">\r\n                                <thead className=\"text-center\">\r\n                                <td>STT</td>\r\n                                <td>Blacklist IPs</td>\r\n                                <td>Description</td>\r\n                                <td>Create time</td>\r\n                                <td>Create at</td>\r\n                                <td>Last update</td>\r\n                                <td>Edit / Del</td>\r\n                                </thead>\r\n                                <tbody>\r\n                                {\r\n                                    BlackListData.map((item, index) => {\r\n                                        return(\r\n                                            <tr key={item.id}>\r\n                                                <td className=\"text-center\">{offset+index+1}</td>\r\n                                                <td className=\"bold\">{ReplaceCharacters(item.ip)}</td>\r\n                                                {/* <td>{ReplaceCharacters(item.desc) === \"\" ? \"<Không có mô tả>\" : ReplaceCharacters(item.desc)}</td> */}\r\n                                                <td>{ReplaceCharacters(item.desc)}</td>\r\n                                                <td>{ConvertTimeStamptoString(Number.parseInt(ReplaceCharacters(item.create_time)))}</td>\r\n                                                <td>{ConvertTimeStamptoString(ReplaceCharacters(item.createdAt))}</td>\r\n                                                <td>{ConvertTimeStamptoString(ReplaceCharacters(item.updatedAt))}</td>\r\n                                                <td className=\"table_icon text-center\">\r\n                                                <span className=\"margin-right-20\" onClick={() => EditIP(item, index)}>\r\n                                                    <IconContext.Provider value={{size: 20, color: \"#1886b5\"}}>\r\n                                                        <RiEditFill/>\r\n                                                    </IconContext.Provider>\r\n                                                </span>\r\n                                                    <span onClick={() => delIPs(item, index)}>\r\n                                                    <IconContext.Provider value={{size: 20, color: \"#c7003f\"}}>\r\n                                                        <RiDeleteBin2Fill/>\r\n                                                    </IconContext.Provider>\r\n                                                </span>\r\n                                                </td>\r\n                                            </tr>\r\n                                        );\r\n                                    })\r\n                                }\r\n                                </tbody>\r\n                            </table>\r\n\r\n                            <div style={{display: \"inline-block\"}}>\r\n                                Page {offset/LIMIT + 1} / {Math.ceil(TotalPage/LIMIT)}\r\n                            </div>\r\n\r\n                            <div className=\"pagination padding-top-20 padding-right-10 pull-right\">\r\n                                <span>&lt;&lt;</span>\r\n                                {Array\r\n                                    .from(\r\n                                        {length: Math.ceil(TotalPage/LIMIT)},\r\n                                        (_, i) => {\r\n                                            return (<span onClick={() => setOffSet(i*LIMIT)} key={i}>{i+1}</span>)\r\n                                        })}\r\n                                <span>&gt;&gt;</span>\r\n                            </div>\r\n                        </>\r\n                    )}\r\n                </>\r\n            )}\r\n        </div>\r\n    );\r\n}\r\n\r\nexport default BlackList;
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/components/BlackLIst/index.js b/src/components/BlackLIst/index.js
+--- a/src/components/BlackLIst/index.js	(revision 800d29ceeca4326313862e07b647f0794b408363)
++++ b/src/components/BlackLIst/index.js	(date 1636702323150)
+@@ -13,6 +13,7 @@
+ import {RiEditFill, RiDeleteBin2Fill, RiFileExcel2Fill} from "react-icons/ri";
+ import {useSelector, useDispatch} from "react-redux";
+ import {Link} from "react-router-dom";
++import Loading from "../Loading";
+ 
+ //Sweetalert: https://sweetalert.js.org/guides/
+ //Toastify: https://fkhadra.github.io/react-toastify/icons
+@@ -398,11 +399,7 @@
+                 theme="colored"
+                 draggable
+                 pauseOnHover/>
+-            {loading && (
+-                <div className="center-div">
+-                    <span className="loader"/>
+-                </div>
+-            )}
++            {loading && <Loading/>}
+ 
+             {error && (
+                 <div className="center-div">
+Index: src/components/BlackLIst/BlackList.sass
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>@use './../../GlobalStyle'\r\n\r\n.container\r\n    margin-left: GlobalStyle.$sidebar_close_width\r\n    padding: 30px\r\n\r\n.pagination\r\n    span:first-child, span:last-child\r\n        color: green\r\n        border: none\r\n        padding: 0\r\n        margin: 0\r\n    span\r\n        cursor: pointer\r\n        border-radius: 3px\r\n        margin: 4px\r\n        padding: 6px 13px\r\n        border: 1px solid #cacaca\r\n        background-color: GlobalStyle.$white\r\n    \r\n    span:hover\r\n        background-color: #808080\r\n        color: GlobalStyle.$white\r\n\r\n.modal_wrap\r\n    position: fixed\r\n    top: 0\r\n    left: 0\r\n    z-index: 100000\r\n    overflow-x: hidden\r\n    width: 100%\r\n    height: 100%\r\n    background-color: rgba(184, 184, 184, 0.45)\r\n    transition: opacity 250ms 700ms ease\r\n\r\n.modal_container\r\n    position: absolute\r\n    z-index: 100002\r\n    top: 50%\r\n    left: 50%\r\n    padding: 30px\r\n    transform: translate(-50%, -50%)\r\n    background-color: GlobalStyle.$white
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/components/BlackLIst/BlackList.sass b/src/components/BlackLIst/BlackList.sass
+--- a/src/components/BlackLIst/BlackList.sass	(revision 800d29ceeca4326313862e07b647f0794b408363)
++++ b/src/components/BlackLIst/BlackList.sass	(date 1636700869291)
+@@ -1,43 +1,1 @@
+-@use './../../GlobalStyle'
+-
+-.container
+-    margin-left: GlobalStyle.$sidebar_close_width
+-    padding: 30px
+-
+-.pagination
+-    span:first-child, span:last-child
+-        color: green
+-        border: none
+-        padding: 0
+-        margin: 0
+-    span
+-        cursor: pointer
+-        border-radius: 3px
+-        margin: 4px
+-        padding: 6px 13px
+-        border: 1px solid #cacaca
+-        background-color: GlobalStyle.$white
+-    
+-    span:hover
+-        background-color: #808080
+-        color: GlobalStyle.$white
+-
+-.modal_wrap
+-    position: fixed
+-    top: 0
+-    left: 0
+-    z-index: 100000
+-    overflow-x: hidden
+-    width: 100%
+-    height: 100%
+-    background-color: rgba(184, 184, 184, 0.45)
+-    transition: opacity 250ms 700ms ease
+-
+-.modal_container
+-    position: absolute
+-    z-index: 100002
+-    top: 50%
+-    left: 50%
+-    padding: 30px
+-    transform: translate(-50%, -50%)
+-    background-color: GlobalStyle.$white
+\ No newline at end of file
++@use './../../GlobalStyle'
+\ No newline at end of file
+Index: .idea/inspectionProfiles/Project_Default.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/inspectionProfiles/Project_Default.xml b/.idea/inspectionProfiles/Project_Default.xml
+deleted file mode 100644
+--- a/.idea/inspectionProfiles/Project_Default.xml	(revision 800d29ceeca4326313862e07b647f0794b408363)
++++ /dev/null	(revision 800d29ceeca4326313862e07b647f0794b408363)
+@@ -1,6 +0,0 @@
+-<component name="InspectionProjectProfileManager">
+-  <profile version="1.0">
+-    <option name="myName" value="Project Default" />
+-    <inspection_tool class="Eslint" enabled="true" level="WARNING" enabled_by_default="true" />
+-  </profile>
+-</component>
+\ No newline at end of file
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_05-Nov-21_9_33_AM_[Changes]/shelved.patch
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Update_at_05-Nov-21_9_33_AM_[Changes]/shelved.patch b/.idea/shelf/Uncommitted_changes_before_Update_at_05-Nov-21_9_33_AM_[Changes]/shelved.patch
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_Update_at_05-Nov-21_9_33_AM_[Changes]/shelved.patch	(revision 800d29ceeca4326313862e07b647f0794b408363)
++++ /dev/null	(revision 800d29ceeca4326313862e07b647f0794b408363)
+@@ -1,47 +0,0 @@
+-Index: .idea/workspace.xml
+-IDEA additional info:
+-Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+-<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"d8184264-b93b-48fd-9acf-42cc3e1be3d6\" name=\"Changes\" comment=\"Add loading\">\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/components/BlackLIst/BlackList.sass\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/components/BlackLIst/BlackList.sass\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"JavaScript File\" />\r\n        <option value=\"Sass File\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"GitSEFilterConfiguration\">\r\n    <file-type-list>\r\n      <filtered-out-file-type name=\"LOCAL_BRANCH\" />\r\n      <filtered-out-file-type name=\"REMOTE_BRANCH\" />\r\n      <filtered-out-file-type name=\"TAG\" />\r\n      <filtered-out-file-type name=\"COMMIT_BY_MESSAGE\" />\r\n    </file-type-list>\r\n  </component>\r\n  <component name=\"ProjectId\" id=\"20RdHpu95oJoAX2OTFebkIbijgI\" />\r\n  <component name=\"ProjectLevelVcsManager\">\r\n    <ConfirmationsSetting value=\"2\" id=\"Add\" />\r\n  </component>\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\">\r\n    <property name=\"ASKED_ADD_EXTERNAL_FILES\" value=\"true\" />\r\n    <property name=\"ASKED_SHARE_PROJECT_CONFIGURATION_FILES\" value=\"true\" />\r\n    <property name=\"RunOnceActivity.OpenProjectViewOnStart\" value=\"true\" />\r\n    <property name=\"RunOnceActivity.ShowReadmeOnStart\" value=\"true\" />\r\n    <property name=\"WebServerToolWindowFactoryState\" value=\"false\" />\r\n    <property name=\"last_opened_file_path\" value=\"$PROJECT_DIR$/../..\" />\r\n    <property name=\"list.type.of.created.stylesheet\" value=\"Sass\" />\r\n    <property name=\"node.js.detected.package.eslint\" value=\"true\" />\r\n    <property name=\"node.js.selected.package.eslint\" value=\"(autodetect)\" />\r\n    <property name=\"nodejs_package_manager_path\" value=\"npm\" />\r\n    <property name=\"settings.editor.selected.configurable\" value=\"preferences.pluginManager\" />\r\n    <property name=\"ts.external.directory.path\" value=\"C:\\Program Files\\JetBrains\\WebStorm 2021.2.3\\plugins\\JavaScriptLanguage\\jsLanguageServicesImpl\\external\" />\r\n    <property name=\"vue.rearranger.settings.migration\" value=\"true\" />\r\n  </component>\r\n  <component name=\"RunManager\">\r\n    <configuration name=\"start\" type=\"js.build_tools.npm\" nameIsGenerated=\"true\">\r\n      <package-json value=\"$PROJECT_DIR$/package.json\" />\r\n      <command value=\"start\" />\r\n      <node-interpreter value=\"project\" />\r\n      <envs />\r\n      <method v=\"2\" />\r\n    </configuration>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"SvnConfiguration\">\r\n    <configuration>C:\\Users\\lehuy\\AppData\\Roaming\\Subversion</configuration>\r\n  </component>\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"d8184264-b93b-48fd-9acf-42cc3e1be3d6\" name=\"Changes\" comment=\"\" />\r\n      <created>1636011250360</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1636011250360</updated>\r\n      <workItem from=\"1636011252277\" duration=\"12420000\" />\r\n    </task>\r\n    <task id=\"LOCAL-00001\" summary=\"Add loading\">\r\n      <created>1636015693811</created>\r\n      <option name=\"number\" value=\"00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1636015693811</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00002\" summary=\"Add loading\">\r\n      <created>1636024014638</created>\r\n      <option name=\"number\" value=\"00002\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1636024014638</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"3\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"TypeScriptGeneratedFilesManager\">\r\n    <option name=\"version\" value=\"3\" />\r\n  </component>\r\n  <component name=\"Vcs.Log.Tabs.Properties\">\r\n    <option name=\"TAB_STATES\">\r\n      <map>\r\n        <entry key=\"MAIN\">\r\n          <value>\r\n            <State />\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <option name=\"ADD_EXTERNAL_FILES_SILENTLY\" value=\"true\" />\r\n    <MESSAGE value=\"Add loading\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"Add loading\" />\r\n  </component>\r\n</project>
+-Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+-<+>UTF-8
+-===================================================================
+-diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+---- a/.idea/workspace.xml	(revision 60c664c8737c2d3433319919b1ea7bfeed6e09e8)
+-+++ b/.idea/workspace.xml	(date 1636079568910)
+-@@ -1,10 +1,7 @@
+- <?xml version="1.0" encoding="UTF-8"?>
+- <project version="4">
+-   <component name="ChangeListManager">
+--    <list default="true" id="d8184264-b93b-48fd-9acf-42cc3e1be3d6" name="Changes" comment="Add loading">
+--      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+--      <change beforePath="$PROJECT_DIR$/src/components/BlackLIst/BlackList.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/BlackLIst/BlackList.sass" afterDir="false" />
+--    </list>
+-+    <list default="true" id="d8184264-b93b-48fd-9acf-42cc3e1be3d6" name="Changes" comment="Add loading" />
+-     <option name="SHOW_DIALOG" value="false" />
+-     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+-     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+-@@ -72,7 +69,7 @@
+-       <option name="number" value="Default" />
+-       <option name="presentableId" value="Default" />
+-       <updated>1636011250360</updated>
+--      <workItem from="1636011252277" duration="12420000" />
+-+      <workItem from="1636011252277" duration="12450000" />
+-     </task>
+-     <task id="LOCAL-00001" summary="Add loading">
+-       <created>1636015693811</created>
+-@@ -88,7 +85,14 @@
+-       <option name="project" value="LOCAL" />
+-       <updated>1636024014638</updated>
+-     </task>
+--    <option name="localTasksCounter" value="3" />
+-+    <task id="LOCAL-00003" summary="Add loading">
+-+      <created>1636024194924</created>
+-+      <option name="number" value="00003" />
+-+      <option name="presentableId" value="LOCAL-00003" />
+-+      <option name="project" value="LOCAL" />
+-+      <updated>1636024194925</updated>
+-+    </task>
+-+    <option name="localTasksCounter" value="4" />
+-     <servers />
+-   </component>
+-   <component name="TypeScriptGeneratedFilesManager">
+Index: .idea/shelf/Uncommitted_changes_before_Update_at_05-Nov-21_9_33_AM__Changes_.xml
+===================================================================
+diff --git a/.idea/shelf/Uncommitted_changes_before_Update_at_05-Nov-21_9_33_AM__Changes_.xml b/.idea/shelf/Uncommitted_changes_before_Update_at_05-Nov-21_9_33_AM__Changes_.xml
+deleted file mode 100644
+--- a/.idea/shelf/Uncommitted_changes_before_Update_at_05-Nov-21_9_33_AM__Changes_.xml	(revision 800d29ceeca4326313862e07b647f0794b408363)
++++ /dev/null	(revision 800d29ceeca4326313862e07b647f0794b408363)
+@@ -1,4 +0,0 @@
+-<changelist name="Uncommitted_changes_before_Update_at_05-Nov-21_9_33_AM_[Changes]" date="1636079629355" recycled="true" deleted="true">
+-  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_05-Nov-21_9_33_AM_[Changes]/shelved.patch" />
+-  <option name="DESCRIPTION" value="Uncommitted changes before Update at 05-Nov-21 9:33 AM [Changes]" />
+-</changelist>
+\ No newline at end of file
+Index: src/components/VLAN/VLAN.sass
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/components/VLAN/VLAN.sass b/src/components/VLAN/VLAN.sass
+new file mode 100644
+--- /dev/null	(date 1636700869268)
++++ b/src/components/VLAN/VLAN.sass	(date 1636700869268)
+@@ -0,0 +1,5 @@
++@use '/src/GlobalStyle'
++
++.vlan_container
++  margin-left: GlobalStyle.$sidebar_close_width
++  padding: 30px
+\ No newline at end of file
+Index: src/components/VLAN/index.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/components/VLAN/index.js b/src/components/VLAN/index.js
+new file mode 100644
+--- /dev/null	(date 1636702473792)
++++ b/src/components/VLAN/index.js	(date 1636702473792)
+@@ -0,0 +1,59 @@
++import React, {useEffect, useState} from "react";
++import {useDispatch, useSelector} from "react-redux";
++import {ERROR, LOADED} from "../Redux/ReducersAndActions/Status/StatusActionsDefinition";
++import Loading from "../Loading";
++
++function VLAN (props) {
++    const [data, setData]                   = useState([]);
++    const [offset, setOffset]               = useState(0);
++    const { _title }                        = props;
++    const dispatch                          = useDispatch();
++    const { loading, error, _msg }          = useSelector(state => state.Status);
++    const LIMIT                             = 10;
++
++    const __FetchFunction = (URL, body, callback) => {
++        let myHeaders = new Headers();
++        myHeaders.append("Content-Type", "application/json");
++
++        let requestOptions = {
++            method: 'POST',
++            headers: myHeaders,
++            body: JSON.stringify(body),
++            redirect: 'follow'
++        };
++
++        fetch(URL, requestOptions)
++            .then(res => res.json())
++            .then(result => {
++                if (result.code === 200) {
++                    dispatch({type: LOADED})
++                    callback(result);
++                } else {
++                    dispatch({
++                        type: ERROR,
++                        msg: result.msg
++                    });
++                }
++            })
++            .catch(e => {
++                dispatch({
++                    type: ERROR,
++                    msg: e
++                })
++            });
++    }
++
++    useEffect(() => {
++
++    }, [offset]);
++
++    return (
++        <>
++            {loading && <Loading/>}
++
++
++        </>
++    );
++}
++
++export default VLAN;
+\ No newline at end of file
+Index: src/components/Loading/index.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/components/Loading/index.js b/src/components/Loading/index.js
+new file mode 100644
+--- /dev/null	(date 1636702455221)
++++ b/src/components/Loading/index.js	(date 1636702455221)
+@@ -0,0 +1,14 @@
++import React from 'react';
++import './Loading.sass'
++
++function Loading (props) {
++    return(
++        <div className="loading_container">
++            <div className="center-div">
++                <span className="loader"/>
++            </div>
++        </div>
++    );
++}
++
++export default Loading;
+\ No newline at end of file
+Index: src/components/Loading/Loading.sass
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/components/Loading/Loading.sass b/src/components/Loading/Loading.sass
+new file mode 100644
+--- /dev/null	(date 1636702455231)
++++ b/src/components/Loading/Loading.sass	(date 1636702455231)
+@@ -0,0 +1,9 @@
++@use './../../GlobalStyle'
++
++.loading_container
++  position: fixed
++  top: 0
++  left: 0
++  width: 100%
++  height: 100%
++  background: #cacaca
+\ No newline at end of file
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"d8184264-b93b-48fd-9acf-42cc3e1be3d6\" name=\"Changes\" comment=\"Add loading\">\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/App.js\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/App.js\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/GlobalStyle.sass\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/GlobalStyle.sass\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/components/API_URL.js\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/components/API_URL.js\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/components/BlackLIst/index.js\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/components/BlackLIst/index.js\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/components/DownloadFile/index.js\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/components/DownloadFile/index.js\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/src/components/NotFound/index.js\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/src/components/NotFound/index.js\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"JavaScript File\" />\r\n        <option value=\"Sass File\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"GitSEFilterConfiguration\">\r\n    <file-type-list>\r\n      <filtered-out-file-type name=\"LOCAL_BRANCH\" />\r\n      <filtered-out-file-type name=\"REMOTE_BRANCH\" />\r\n      <filtered-out-file-type name=\"TAG\" />\r\n      <filtered-out-file-type name=\"COMMIT_BY_MESSAGE\" />\r\n    </file-type-list>\r\n  </component>\r\n  <component name=\"ProjectId\" id=\"20RdHpu95oJoAX2OTFebkIbijgI\" />\r\n  <component name=\"ProjectLevelVcsManager\">\r\n    <ConfirmationsSetting value=\"2\" id=\"Add\" />\r\n  </component>\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\">\r\n    <property name=\"ASKED_ADD_EXTERNAL_FILES\" value=\"true\" />\r\n    <property name=\"ASKED_SHARE_PROJECT_CONFIGURATION_FILES\" value=\"true\" />\r\n    <property name=\"RunOnceActivity.OpenProjectViewOnStart\" value=\"true\" />\r\n    <property name=\"RunOnceActivity.ShowReadmeOnStart\" value=\"true\" />\r\n    <property name=\"WebServerToolWindowFactoryState\" value=\"false\" />\r\n    <property name=\"last_opened_file_path\" value=\"$PROJECT_DIR$\" />\r\n    <property name=\"list.type.of.created.stylesheet\" value=\"Sass\" />\r\n    <property name=\"node.js.detected.package.eslint\" value=\"true\" />\r\n    <property name=\"node.js.selected.package.eslint\" value=\"(autodetect)\" />\r\n    <property name=\"nodejs_package_manager_path\" value=\"npm\" />\r\n    <property name=\"settings.editor.selected.configurable\" value=\"editor.preferences.fonts.default\" />\r\n    <property name=\"ts.external.directory.path\" value=\"C:\\Program Files\\JetBrains\\WebStorm 2021.2.3\\plugins\\JavaScriptLanguage\\jsLanguageServicesImpl\\external\" />\r\n    <property name=\"vue.rearranger.settings.migration\" value=\"true\" />\r\n  </component>\r\n  <component name=\"RunManager\">\r\n    <configuration name=\"start\" type=\"js.build_tools.npm\" nameIsGenerated=\"true\">\r\n      <package-json value=\"$PROJECT_DIR$/package.json\" />\r\n      <command value=\"start\" />\r\n      <node-interpreter value=\"project\" />\r\n      <envs />\r\n      <method v=\"2\" />\r\n    </configuration>\r\n  </component>\r\n  <component name=\"SpellCheckerSettings\" RuntimeDictionaries=\"0\" Folders=\"0\" CustomDictionaries=\"0\" DefaultDictionary=\"application-level\" UseSingleDictionary=\"true\" transferred=\"true\" />\r\n  <component name=\"SvnConfiguration\">\r\n    <configuration>C:\\Users\\lehuy\\AppData\\Roaming\\Subversion</configuration>\r\n  </component>\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"d8184264-b93b-48fd-9acf-42cc3e1be3d6\" name=\"Changes\" comment=\"\" />\r\n      <created>1636011250360</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1636011250360</updated>\r\n      <workItem from=\"1636011252277\" duration=\"12420000\" />\r\n    </task>\r\n    <task id=\"LOCAL-00001\" summary=\"Add loading\">\r\n      <created>1636015693811</created>\r\n      <option name=\"number\" value=\"00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1636015693811</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00002\" summary=\"Add loading\">\r\n      <created>1636024014638</created>\r\n      <option name=\"number\" value=\"00002\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00002\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1636024014638</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"3\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"TypeScriptGeneratedFilesManager\">\r\n    <option name=\"version\" value=\"3\" />\r\n  </component>\r\n  <component name=\"Vcs.Log.Tabs.Properties\">\r\n    <option name=\"TAB_STATES\">\r\n      <map>\r\n        <entry key=\"MAIN\">\r\n          <value>\r\n            <State />\r\n          </value>\r\n        </entry>\r\n      </map>\r\n    </option>\r\n    <option name=\"oldMeFiltersMigrated\" value=\"true\" />\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <option name=\"ADD_EXTERNAL_FILES_SILENTLY\" value=\"true\" />\r\n    <MESSAGE value=\"Add loading\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"Add loading\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision 800d29ceeca4326313862e07b647f0794b408363)
++++ b/.idea/workspace.xml	(date 1636702455349)
+@@ -2,13 +2,17 @@
+ <project version="4">
+   <component name="ChangeListManager">
+     <list default="true" id="d8184264-b93b-48fd-9acf-42cc3e1be3d6" name="Changes" comment="Add loading">
++      <change afterPath="$PROJECT_DIR$/src/components/Loading/Loading.sass" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/components/Loading/index.js" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/components/VLAN/VLAN.sass" afterDir="false" />
++      <change afterPath="$PROJECT_DIR$/src/components/VLAN/index.js" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_05-Nov-21_9_33_AM_[Changes]/shelved.patch" beforeDir="false" />
++      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_05-Nov-21_9_33_AM__Changes_.xml" beforeDir="false" />
+       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/GlobalStyle.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/GlobalStyle.sass" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/components/API_URL.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/API_URL.js" afterDir="false" />
++      <change beforePath="$PROJECT_DIR$/src/components/BlackLIst/BlackList.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/BlackLIst/BlackList.sass" afterDir="false" />
+       <change beforePath="$PROJECT_DIR$/src/components/BlackLIst/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/BlackLIst/index.js" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/components/DownloadFile/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/DownloadFile/index.js" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/src/components/NotFound/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/NotFound/index.js" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+     <option name="HIGHLIGHT_CONFLICTS" value="true" />
+@@ -18,6 +22,7 @@
+   <component name="FileTemplateManagerImpl">
+     <option name="RECENT_TEMPLATES">
+       <list>
++        <option value="TypeScript File" />
+         <option value="JavaScript File" />
+         <option value="Sass File" />
+       </list>
+@@ -51,10 +56,13 @@
+     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+     <property name="list.type.of.created.stylesheet" value="Sass" />
+     <property name="node.js.detected.package.eslint" value="true" />
++    <property name="node.js.detected.package.standard" value="true" />
+     <property name="node.js.selected.package.eslint" value="(autodetect)" />
++    <property name="node.js.selected.package.standard" value="" />
+     <property name="nodejs_package_manager_path" value="npm" />
+-    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
+-    <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\WebStorm 2021.2.3\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
++    <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
++    <property name="settings.editor.selected.configurable" value="settings.typescriptcompiler" />
++    <property name="ts.external.directory.path" value="D:\Pet Project\ip_manager\ip_mana_fe\node_modules\typescript\lib" />
+     <property name="vue.rearranger.settings.migration" value="true" />
+   </component>
+   <component name="RunManager">
+@@ -78,6 +86,8 @@
+       <option name="presentableId" value="Default" />
+       <updated>1636011250360</updated>
+       <workItem from="1636011252277" duration="12420000" />
++      <workItem from="1636691540491" duration="461000" />
++      <workItem from="1636692039049" duration="2856000" />
+     </task>
+     <task id="LOCAL-00001" summary="Add loading">
+       <created>1636015693811</created>
+@@ -116,4 +126,8 @@
+     <MESSAGE value="Add loading" />
+     <option name="LAST_COMMIT_MESSAGE" value="Add loading" />
+   </component>
++  <component name="XSLT-Support.FileAssociations.UIState">
++    <expand />
++    <select />
++  </component>
+ </project>
+\ No newline at end of file

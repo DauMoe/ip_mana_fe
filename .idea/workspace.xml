@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d8184264-b93b-48fd-9acf-42cc3e1be3d6" name="Changes" comment="DONE Search">
-      <change afterPath="$PROJECT_DIR$/.env.development" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.env.production" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+    <list default="true" id="d8184264-b93b-48fd-9acf-42cc3e1be3d6" name="Changes" comment="Add loading">
+      <change afterPath="$PROJECT_DIR$/src/components/Loading/Loading.sass" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Loading/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Utils.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/VLAN/VLAN.sass" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/VLAN/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_05-Nov-21_7_20_PM__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_05-Nov-21_7_20_PM__Changes_.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_05-Nov-21_9_33_AM_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_05-Nov-21_9_33_AM__Changes_.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/public/index.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/API_URL.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/API_URL.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/GlobalStyle.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/GlobalStyle.sass" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/BlackList/BlackList.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/BlackList/BlackList.sass" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/BlackList/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/BlackList/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Modal/Modal.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Modal/Modal.sass" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -131,5 +134,9 @@
     <MESSAGE value="Add loading" />
     <MESSAGE value="DONE Search" />
     <option name="LAST_COMMIT_MESSAGE" value="DONE Search" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>
