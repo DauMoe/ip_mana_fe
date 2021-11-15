@@ -57,6 +57,13 @@ ol
     li
         margin: 10px 0
 
+@for $i from 0 through 12
+    .col-#{$i}
+        display: inline-block
+        width: #{100%*$i/12}
+        min-height: 1px
+        //margin: 0 -15px
+
 @for $i from 0 through 20 
     .margin-top-#{$i+5}
         margin-top: #{$i+5}px !important
@@ -215,15 +222,16 @@ ol
     background-color: $theme_brown
     thead
         text-align: center
-        td
-            font-weight: bold
-            padding: 10px 0
-            color: $white
-            background-color: $theme_brown
-        td:first-child
-            border-radius: 6px 0 0 0
-        td:last-child
-            border-radius: 0 6px 0 0
+        tr
+            th
+                font-weight: bold
+                padding: 10px 0
+                color: $white
+                background-color: $theme_brown
+            th:first-child
+                border-radius: 6px 0 0 0
+            th:last-child
+                border-radius: 0 6px 0 0
     tbody
         tr
             td
@@ -232,3 +240,23 @@ ol
             background-color: #dddddd
         tr:nth-child(2n+1)
             background-color: $white
+
+.container
+    margin-left: $sidebar_close_width
+    padding: 30px
+
+.bl_container .vlan_container
+    animation-name: _show
+    animation-duration: .8s
+
+@keyframes _show
+    from
+        opacity: 0
+    to
+        opacity: 1
+
+@keyframes show_modal
+    from
+        opacity: 0
+    to
+        opacity: 1

@@ -6,6 +6,7 @@ import {IoIosNotifications} from "react-icons/io";
 import { BsFillHddNetworkFill } from "react-icons/bs";
 import {FaBan} from "react-icons/fa";
 import NotFound from "./components/NotFound";
+import VLAN from "./components/VLAN";
 
 const ListItems = [{
   icon: <FaBan/>,
@@ -14,7 +15,7 @@ const ListItems = [{
 }, {
   icon: <BsFillHddNetworkFill/>,
   path: "/vlan",
-  name: "VLAN IP (Pending)"
+  name: "VLAN IP"
 }, {
   icon: <IoIosNotifications/>,
   path: "/notification",
@@ -25,12 +26,16 @@ const App = () => {
 
   return(
       <Router>
-        <Redirect to="/blacklist"/>
+        <Redirect to="/vlan"/>
         <SideBar ListItems={ListItems}/>
         <Switch>
 
             <Route exact path="/blacklist">
                 <BlackList _title="Blacklist"/>
+            </Route>
+
+            <Route exact path="/vlan">
+                <VLAN _title="VLAN"/>
             </Route>
 
             <Route>

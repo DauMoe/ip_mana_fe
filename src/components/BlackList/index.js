@@ -595,7 +595,7 @@ function BlackList (props) {
                     </div>
                     {BlackListData.length === 0 && (
                         <div className="center-div">
-                            <h3>No blacklist IPs founded!</h3>
+                            <h3>No blacklist IP!</h3>
                         </div>
                     )}
 
@@ -603,13 +603,15 @@ function BlackList (props) {
                         <>
                             <table className="nice_theme margin-top-20">
                                 <thead className="text-center">
-                                <td>Index</td>
-                                <td>Blacklist IPs</td>
-                                <td>Validity</td>
-                                <td>Create time</td>
-                                <td>Create at</td>
-                                <td>Last update</td>
-                                <td>Edit / Del</td>
+                                    <tr>
+                                        <th>Index</th>
+                                        <th>Blacklist IPs</th>
+                                        <th>Validity</th>
+                                        <th>Create time</th>
+                                        <th>Create at</th>
+                                        <th>Last update</th>
+                                        <th>Edit / Del</th>
+                                    </tr>
                                 </thead>
                                 <tbody>
                                 {
@@ -625,7 +627,7 @@ function BlackList (props) {
                                                 <td>{ConvertTimeStamptoString(ReplaceCharacters(item.updatedAt))}</td>
                                                 <td className="table_icon text-center">
                                                 <span className="margin-right-20" onClick={() => EditIP(item, index)}>
-                                                    <IconContext.Provider value={{size: 20, color: "#1886b5"}}>
+                                                    <IconContext.Provider value={{size: 20, color: "#0ec48b"}}>
                                                         <RiEditFill/>
                                                     </IconContext.Provider>
                                                 </span>
