@@ -25,7 +25,7 @@ function VLAN (props) {
     const EDIT_VLAN_MODE = 0;
     const ADD_VLAN_MODE = 1;
     const DELETE_VLAN_MODE = 2;
-    const DETAIL_VLAN_MODE = 4;
+    const DETAIL_VLAN_MODE = 3;
 
     const __FetchFunction = (URL, body, callback) => {
         let myHeaders = new Headers();
@@ -139,15 +139,16 @@ function VLAN (props) {
                 CloseModal={DismissModal}
                 WrapClass={"modal_wrap"}
                 show={editItem.show}
+                ModalWidth={editItem.mode===EDIT_VLAN_MODE ? "60%" : undefined}
                 title={editItem.title}>
                 {
                     editItem.mode === EDIT_VLAN_MODE && Object.keys(editItem.data).length>0 && Object.keys(editItem.data.properties).map(function (item, index) {
                         return (
                             <div key={index} className="margin-top-20">
-                                <label className="bold" htmlFor={"__" + item}>{item}</label>
+                                <label className="bold" htmlFor={item}>{editItem.data.properties[`${item}`].displayName}</label>
                                 <input
                                     id={item}
-                                    value={editItem.data.properties[`${item}`]}
+                                    value={editItem.data.properties[`${item}`].value}
                                     onChange={e => {
                                         setEditItem(prevState => ({
                                             ...prevState,
@@ -155,13 +156,17 @@ function VLAN (props) {
                                                 ...editItem.data,
                                                 properties: {
                                                     ...editItem.data.properties,
-                                                    [e.target.id]: e.target.value
+                                                    [e.target.id]: {
+                                                        ...editItem.data.properties[e.target.id],
+                                                        value: e.target.value
+                                                    }
                                                 }
                                             }
                                         }));
                                     }}
                                     className="form-control"
-                                    placeholder={item}/>
+                                    placeholder={editItem.data.properties[`${item}`].desc}/>
+                                <span className={"err_msg margin-top-5"}>{editItem.data.properties[`${item}`].desc}</span>
                             </div>
                         )
                     })
@@ -173,9 +178,9 @@ function VLAN (props) {
                             return(
                                 <div key={"____" + index} className="margin-top-15">
                                     <span className="col-1"/>
-                                    <span className="col-4 bold">{item}: </span>
+                                    <span className="col-5 bold">{editItem.data.properties[`${item}`].displayName}: </span>
                                     <span className="col-1"/>
-                                    <span className="col-6">{editItem.data.properties[`${item}`]}</span>
+                                    <span className="col-5">{editItem.data.properties[`${item}`].value}</span>
                                 </div>
                             )
                         })

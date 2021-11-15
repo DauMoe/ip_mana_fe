@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d8184264-b93b-48fd-9acf-42cc3e1be3d6" name="Changes" comment="DOING VLAN">
+    <list default="true" id="d8184264-b93b-48fd-9acf-42cc3e1be3d6" name="Changes" comment="DONE Search">
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12-Nov-21_2_34_PM__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12-Nov-21_2_34_PM__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GlobalStyle.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/GlobalStyle.sass" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Modal/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Modal/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Redux/StoreRedux.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Redux/StoreRedux.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/VLAN/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/VLAN/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
