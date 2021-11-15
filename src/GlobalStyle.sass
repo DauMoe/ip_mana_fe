@@ -4,6 +4,7 @@ $sidebar_item_non_selected: #a3a3a3
 $sidebar_selected_bg: #7c7c7c
 $sidebar_width: 300px
 $sidebar_close_width: 60px
+$ScrollBarWidth: 3px
 
 $theme_green: #008a8a
 $theme_brown: #362F4B
@@ -136,6 +137,7 @@ ol
     outline: none
     font-size: 15px
     border: 2px solid black
+    margin-top: 10px
 
 .center-horizon
     position: fixed
@@ -203,6 +205,17 @@ ol
     height: 100%
     background-color: rgba(184, 184, 184, 0.45)
     transition: opacity 250ms 700ms ease
+
+::-webkit-scrollbar
+    width: $ScrollBarWidth
+    height: $ScrollBarWidth
+
+::-webkit-scrollbar-track-piece
+    background-color: $white
+
+::-webkit-scrollbar-thumb:vertical
+    height: $ScrollBarWidth
+    background-color: $theme_cyan
 
 .modal_container
     position: absolute

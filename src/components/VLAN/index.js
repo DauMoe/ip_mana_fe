@@ -143,16 +143,22 @@ function VLAN (props) {
                 {
                     editItem.mode === EDIT_VLAN_MODE && Object.keys(editItem.data).length>0 && Object.keys(editItem.data.properties).map(function (item, index) {
                         return (
-                            <div key={"_____" + index} className="margin-top-20">
+                            <div key={index} className="margin-top-20">
                                 <label className="bold" htmlFor={"__" + item}>{item}</label>
                                 <input
-                                    id={"__" + item}
+                                    id={item}
                                     value={editItem.data.properties[`${item}`]}
                                     onChange={e => {
-                                        let newVal = {...editItem.data};
-                                        console.log(newVal.properties[`${item}`]);
-                                        newVal.properties[`${item}`] = e.target.value;
-                                        setEditItem(...editItem, newVal);
+                                        setEditItem(prevState => ({
+                                            ...prevState,
+                                            data: {
+                                                ...editItem.data,
+                                                properties: {
+                                                    ...editItem.data.properties,
+                                                    [e.target.id]: e.target.value
+                                                }
+                                            }
+                                        }));
                                     }}
                                     className="form-control"
                                     placeholder={item}/>

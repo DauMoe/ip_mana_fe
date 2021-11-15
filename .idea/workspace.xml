@@ -1,18 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d8184264-b93b-48fd-9acf-42cc3e1be3d6" name="Changes" comment="Add loading">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_05-Nov-21_7_20_PM_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_05-Nov-21_7_20_PM__Changes_.xml" beforeDir="false" />
+    <list default="true" id="d8184264-b93b-48fd-9acf-42cc3e1be3d6" name="Changes" comment="DOING VLAN">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GlobalStyle.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/GlobalStyle.sass" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/API_URL.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/API_URL.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/BlackList/BlackList.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/BlackList/BlackList.sass" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/BlackList/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/BlackList/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Modal/Modal.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Modal/Modal.sass" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/SideBar/SideBar.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/SideBar/SideBar.sass" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/VLAN/VLAN.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/VLAN/VLAN.sass" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Modal/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Modal/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/VLAN/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/VLAN/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -88,7 +80,7 @@
       <workItem from="1636075567624" duration="21518000" />
       <workItem from="1636215684703" duration="42000" />
       <workItem from="1636215736393" duration="3545000" />
-      <workItem from="1636962901878" duration="10548000" />
+      <workItem from="1636962901878" duration="13017000" />
     </task>
     <task id="LOCAL-00001" summary="Add loading">
       <created>1636015693811</created>
@@ -111,7 +103,14 @@
       <option name="project" value="LOCAL" />
       <updated>1636141215869</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="DOING VLAN">
+      <created>1636973625742</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1636973625742</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -133,7 +132,8 @@
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="Add loading" />
     <MESSAGE value="DONE Search" />
-    <option name="LAST_COMMIT_MESSAGE" value="DONE Search" />
+    <MESSAGE value="DOING VLAN" />
+    <option name="LAST_COMMIT_MESSAGE" value="DOING VLAN" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
