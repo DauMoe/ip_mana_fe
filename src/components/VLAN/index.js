@@ -135,7 +135,7 @@ function VLAN (props) {
                 pauseOnHover/>
 
             <Modal
-                onDismiss={editItem.mode===DETAIL_VLAN_MODE ? DismissModal : undefined}
+                onClickOut={editItem.mode===DETAIL_VLAN_MODE ? DismissModal : undefined}
                 CloseModal={DismissModal}
                 WrapClass={"modal_wrap"}
                 show={editItem.show}

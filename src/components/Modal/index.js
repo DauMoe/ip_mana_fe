@@ -4,10 +4,10 @@ import {IconContext} from "react-icons";
 import "./Modal.sass";
 
 const Modal = (props) => {
-    const { show, title, children, onDismiss, WrapClass, CloseModal, ModalWidth } = props;
+    const { show, title, children, onClickOut, WrapClass, CloseModal, ModalWidth } = props;
     if (!show) return null;
     return (
-        <div className={WrapClass} onClick={onDismiss}>
+        <div className={WrapClass} onClick={onClickOut}>
             <div className={"modal_container"} style={ModalWidth ? {width: ModalWidth} : undefined} onClick={e => e.stopPropagation()}>
                 <div className="modal_title">
                     <span className={"modal_close_btn"} onClick={CloseModal}>
