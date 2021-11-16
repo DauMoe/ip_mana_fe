@@ -22,7 +22,15 @@ export const BLACKLIST_IMPORTED_IP_TODAY_EXCEL = BL_URL + 'bl_list_imported_ip_e
 
 /*      VLAN API URL    */
 const VLAN_URL                      = BASE_URL + 'vlan/';
-export const ADD_PROPERTIES         = VLAN_URL + "/add_properties";
-export const ADD_NEW_IP             = VLAN_URL + "/new_vlan_ip";
-export const GET_PRO_BY_ID          = VLAN_URL + "/get_pro_by_id";
-export const VLAN_GET_IP            = VLAN_URL + "/get_vlan_ip"
+export const ADD_PROPERTIES         = VLAN_URL + "add_properties";
+export const ADD_NEW_IP             = VLAN_URL + "new_vlan_ip";
+export const GET_PRO_BY_ID          = VLAN_URL + "get_pro_by_id";
+export const VLAN_GET_IP            = VLAN_URL + "get_vlan_ip"
+
+
+/*      Rules API URL   */
+
+const RULES_URL                     = BASE_URL + 'rules/';
+export const LIST_RULES             = RULES_URL + 'get_rule_name';
+export const ADD_RULE               = RULES_URL + 'add_new_rule';
+export const RULE_INFO              = RULES_URL + 'get_rule_info';

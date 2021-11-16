@@ -65,7 +65,6 @@ ol
         display: inline-block
         width: math.div(100%*$i, 12)
         min-height: 1px
-        //margin: 0 -15px
 
 @for $i from 0 through 20 
     .margin-top-#{$i+5}
@@ -76,7 +75,7 @@ ol
         margin-left: #{$i+5}px !important
     .margin-right-#{$i+5}
         margin-right: #{$i+5}px !important
-    .margin-#{$i}
+    .margin-#{$i+5}
         margin: #{$i+5}px !important
     .padding-top-#{$i+5}
         padding-top: #{$i+5}px !important
@@ -86,7 +85,7 @@ ol
         padding-left: #{$i+5}px !important
     .padding-right-#{$i+5}
         padding-right: #{$i+5}px !important
-    .padding-#{$i}
+    .padding-#{$i+5}
         padding: #{$i+5}px !important
     .border-radius-#{$i*5}
         border-radius: #{$i * 5}px !important
@@ -132,7 +131,7 @@ ol
 
 .form-control
     width: calc(100% - 20px)
-    min-width: 300px
+    //min-width: 300px
     min-height: 30px
     padding: 3px 10px
     border-radius: 6px
@@ -140,6 +139,10 @@ ol
     font-size: 15px
     border: 2px solid black
     margin-top: 10px
+
+.form-control:disabled
+    background-color: rgba(180, 180, 180, 0.31)
+    cursor: not-allowed
 
 .center-horizon
     position: fixed
@@ -218,7 +221,7 @@ ol
 
 ::-webkit-scrollbar-thumb:vertical
     height: $ScrollBarWidth
-    background-color: $theme_cyan
+    background-color: $theme_brown
 
 .modal_container
     position: absolute
@@ -262,13 +265,36 @@ ol
         tr:nth-child(2n+1)
             background-color: $white
 
+.box-style
+    border: 2px solid transparent
+    border-radius: 10px
+    -webkit-box-shadow: 0 0 21px 0 #000000
+    box-shadow: 0 0 21px 0 #000000
+
+.title
+    margin: 0
+    padding: 0
+    font-weight: bold
+    font-size: 25px
+
 .container
     margin-left: $sidebar_close_width
     padding: 30px
+    height: calc(100vh - 60px)
 
 .bl_container .vlan_container
     animation-name: _show
     animation-duration: .8s
+
+.list-container
+    height: calc(100% - 60px)
+    overflow-y: auto
+
+.list-item
+    padding: 10px
+    background-color: rgba(196, 196, 196, 0.22)
+    cursor: pointer
+    margin: 5px
 
 @keyframes _show
     from

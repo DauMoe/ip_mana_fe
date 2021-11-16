@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d8184264-b93b-48fd-9acf-42cc3e1be3d6" name="Changes" comment="DONE Search">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12-Nov-21_2_34_PM__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12-Nov-21_2_34_PM__Changes_.xml" afterDir="false" />
+    <list default="true" id="d8184264-b93b-48fd-9acf-42cc3e1be3d6" name="Changes" comment="DOING Rules">
+      <change afterPath="$PROJECT_DIR$/src/Animation.sass" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Rules/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GlobalStyle.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/GlobalStyle.sass" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Modal/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Modal/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Redux/StoreRedux.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Redux/StoreRedux.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/VLAN/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/VLAN/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/API_URL.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/API_URL.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -112,7 +112,14 @@
       <option name="project" value="LOCAL" />
       <updated>1636973625742</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="DOING Rules">
+      <created>1636997395557</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1636997395557</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -135,7 +142,8 @@
     <MESSAGE value="Add loading" />
     <MESSAGE value="DONE Search" />
     <MESSAGE value="DOING VLAN" />
-    <option name="LAST_COMMIT_MESSAGE" value="DOING VLAN" />
+    <MESSAGE value="DOING Rules" />
+    <option name="LAST_COMMIT_MESSAGE" value="DOING Rules" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
