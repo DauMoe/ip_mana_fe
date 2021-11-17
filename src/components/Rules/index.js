@@ -122,6 +122,7 @@ function Rules (props) {
                     width: 'calc(100% - 350px)',
                     height: 'calc(100% - 30px)',
                     marginLeft: '50px',
+                    marginTop: '50px',
                     display: 'inline-block',
                     overflow: 'auto',
                     padding: '10px'}}>
