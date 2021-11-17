@@ -4,6 +4,8 @@ import {LIST_RULES, RULE_INFO, WEB_BASE_NAME} from "../API_URL";
 import {useDispatch, useSelector} from "react-redux";
 import {ERROR, LOADED} from "../Redux/ReducersAndActions/Status/StatusActionsDefinition";
 import {Link} from "react-router-dom";
+import {RiFunctionFill, RiFunctionLine} from "react-icons/all";
+import {IconContext} from "react-icons";
 
 
 function Rules (props) {
@@ -90,13 +92,15 @@ function Rules (props) {
         __FetchFunction(LIST_RULES, undefined, function (res) {
             setRulesData(res);
             OriginRulesData = JSON.parse(JSON.stringify(res));
-            GetRuleInfo({id: res[0].id});
+            if (res.length > 0) {
+                GetRuleInfo({id: res[0].id});
+            }
         });
     }, []);
 
     return(
         <div className="container">
-            <div className="box-style" style={{height: "calc(100% - 40px)", padding: '20px', display: 'flex'}}>
+            <div className="box-style" style={{height: "calc(100% - 40px)", padding: '20px', display: 'flex', position: 'relative'}}>
 
                 <div style={{width: '300px', height: 'calc(100% - 30px)', display: 'inline-block'}}>
                     <input className="form-control" disabled={true} onKeyDown={SearchByRuleName} placeholder="Find by rule's name ..."/>
@@ -120,7 +124,7 @@ function Rules (props) {
 
                 <div style={{
                     width: 'calc(100% - 350px)',
-                    height: 'calc(100% - 30px)',
+                    height: 'calc(100% - 70px)',
                     marginLeft: '50px',
                     marginTop: '50px',
                     display: 'inline-block',
@@ -169,13 +173,30 @@ function Rules (props) {
                             <span className="bold">Test regex: </span>
                         </label>
                         <input className="form-control" id="test_regex" placeholder="Type something" value={testRegex.value} onChange={CheckRegex}/>
-                        {testRegex.notMatchRegex && <small>Not match regex</small>}
+                        {testRegex.notMatchRegex && <small className="error">Not match regex</small>}
                     </div>
 
                     <div className="margin-top-20">
                         <small className="italic">(Created: {detailData.createdAt}, Last update: {detailData.updatedAt})</small>
                     </div>
                 </div>
+
+                <div style={{
+
+                }}>
+                    <span className="fab-button">
+                        <IconContext.Provider value={{size: 25, color: 'white'}}>
+                            <RiFunctionLine/>
+                        </IconContext.Provider>
+                    </span>
+
+                    <div className="application-box flex">
+                        <button className="btn theme_cyan margin-10">New Rule</button>
+                        <button className="btn theme_cyan margin-10">New Rule</button>
+                        <button className="btn theme_cyan margin-10">New Rule</button>
+                    </div>
+                </div>
+
             </div>
         </div>
     );

@@ -168,9 +168,9 @@ ol
     border-radius: 4px
     background-color: #cacaca
     color: black
-    font-size: 12px
+    font-size: 14px
     font-family: 'Ubuntu', sans-serif
-    letter-spacing: .01em
+    letter-spacing: .02em
     cursor: pointer
 
 .pull-right
@@ -269,6 +269,44 @@ ol
         tr:nth-child(2n+1)
             background-color: $white
 
+$transition: 0.2s ease
+.fab-button
+    position: absolute
+    right: 10px
+    bottom: 10px
+    padding: 12px
+    border-radius: 50%
+    background-color: black
+    cursor: pointer
+    transition: padding $transition, bottom $transition, right $transition
+
+.application-box
+    position: absolute
+    display: inline-block
+    padding: 20px
+    border-radius: 5px
+    background-color: white
+    right: 10px
+    bottom: 90px
+    border: 2px solid black
+
+.application-box::after
+    position: absolute
+    right: 10px
+    bottom: -21px
+    display: block
+    content: ""
+    width: 0
+    height: 0
+    border-left: 20px solid white
+    border-right: 20px solid white
+    border-top: 20px solid black
+
+.flex
+    display: flex
+    flex-direction: column
+
+
 .box-style
     border: 2px solid transparent
     border-radius: 10px
@@ -285,6 +323,10 @@ ol
     margin-left: $sidebar_close_width
     padding: 30px
     height: calc(100vh - 60px)
+
+.error
+    font-style: italic
+    color: $theme_red
 
 .bl_container .vlan_container
     animation-name: _show
