@@ -4,7 +4,7 @@ import {LIST_RULES, RULE_INFO, WEB_BASE_NAME} from "../API_URL";
 import {useDispatch, useSelector} from "react-redux";
 import {ERROR, LOADED} from "../Redux/ReducersAndActions/Status/StatusActionsDefinition";
 import {Link} from "react-router-dom";
-import {RiFunctionFill, RiFunctionLine} from "react-icons/all";
+import {FaRegWindowClose, RiFunctionLine, MdOutlineSave, BiAddToQueue} from "react-icons/all";
 import {IconContext} from "react-icons";
 
 
@@ -51,7 +51,8 @@ function Rules (props) {
             });
     }
 
-    const ToggleApplicationBox = () => {
+    const ToggleApplicationBox = (e) => {
+        e.stopPropagation();
         setShowAppBox(!showAppBox);
     }
 
@@ -104,7 +105,7 @@ function Rules (props) {
     }, []);
 
     return(
-        <div className="container">
+        <div className="container" onClick={() => setShowAppBox(false)}>
             <div className="box-style" style={{height: "calc(100% - 40px)", padding: '20px', display: 'flex', position: 'relative'}}>
 
                 <div style={{width: '300px', height: 'calc(100% - 30px)', display: 'inline-block'}}>
@@ -136,7 +137,7 @@ function Rules (props) {
                     overflow: 'auto',
                     padding: '10px'}}>
 
-                    <div>
+                    <div className="margin-top-20">
                         <label htmlFor="name">
                             <span className="bold">Rule's name:</span>
                         </label>
@@ -184,11 +185,24 @@ function Rules (props) {
                     <div className="margin-top-20">
                         <small className="italic">(Created: {detailData.createdAt}, Last update: {detailData.updatedAt})</small>
                     </div>
+
+                    <div className="margin-top-20">
+                        <button className="btn pull-right theme_red margin-left-10">
+                            <IconContext.Provider value={{size: 22, color: 'white', className: 'middle-btn'}}>
+                                <FaRegWindowClose/>
+                            </IconContext.Provider>
+                            &nbsp;Delete rule
+                        </button>
+                        <button className="btn pull-right theme_cyan">
+                            <IconContext.Provider value={{size: 22, color: 'white', className: 'middle-btn'}}>
+                                <MdOutlineSave/>
+                            </IconContext.Provider>
+                            &nbsp;Save change
+                        </button>
+                    </div>
                 </div>
 
-                <div style={{
-
-                }}>
+                <div onClick={e => e.stopPropagation()}>
                     <span className="fab-button" onClick={ToggleApplicationBox}>
                         <IconContext.Provider value={{size: 25, color: 'white'}}>
                             <RiFunctionLine/>
@@ -196,9 +210,11 @@ function Rules (props) {
                     </span>
 
                     <div className={showAppBox ? "application-box flex" : "application-box"}>
-                        <button className="btn theme_cyan margin-10">New Rule</button>
-                        <button className="btn theme_cyan margin-10">New Rule</button>
-                        <button className="btn theme_cyan margin-10">New Rule</button>
+                        <button className="btn theme_green700 margin-10">
+                            <IconContext.Provider value={{size: 22, className: 'middle-btn'}}>
+                                <BiAddToQueue/>
+                            </IconContext.Provider>
+                            &nbsp;New Rule</button>
                     </div>
                 </div>
 
