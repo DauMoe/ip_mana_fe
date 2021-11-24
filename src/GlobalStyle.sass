@@ -276,19 +276,27 @@ $transition: 0.2s ease
     bottom: 10px
     padding: 12px
     border-radius: 50%
-    background-color: black
+    background-color: #c24914
     cursor: pointer
     transition: padding $transition, bottom $transition, right $transition
 
 .application-box
     position: absolute
-    display: inline-block
+    display: none
     padding: 20px
     border-radius: 5px
     background-color: white
     right: 10px
     bottom: 90px
-    border: 2px solid black
+    border: 2px solid #fc8621
+    animation-name: show_app_box
+    animation-duration: .7s
+
+@keyframes show_app_box
+    from
+        opacity: 0
+    to
+        opacity: 1
 
 .application-box::after
     position: absolute
@@ -300,7 +308,7 @@ $transition: 0.2s ease
     height: 0
     border-left: 20px solid white
     border-right: 20px solid white
-    border-top: 20px solid black
+    border-top: 20px solid #fc8621
 
 .flex
     display: flex

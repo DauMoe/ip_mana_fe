@@ -13,6 +13,7 @@ function Rules (props) {
     const dispatch                              = useDispatch();
     const {loading, error, _msg}                = useSelector(state => state.Status);
     const [detailData, setDetailData]           = useState({});
+    const [showAppBox, setShowAppBox]           = useState(false);
     const [rulesData, setRulesData]             = useState([]);
     const [searchKeyWord, setSearchKeyWord]     = useState("");
     const [testRegex, setTestRegex]             = useState({notMatchRegex: false, value: ""});
@@ -48,6 +49,10 @@ function Rules (props) {
                     msg: e
                 })
             });
+    }
+
+    const ToggleApplicationBox = () => {
+        setShowAppBox(!showAppBox);
     }
 
     const SearchByRuleName = e => {
@@ -184,13 +189,13 @@ function Rules (props) {
                 <div style={{
 
                 }}>
-                    <span className="fab-button">
+                    <span className="fab-button" onClick={ToggleApplicationBox}>
                         <IconContext.Provider value={{size: 25, color: 'white'}}>
                             <RiFunctionLine/>
                         </IconContext.Provider>
                     </span>
 
-                    <div className="application-box flex">
+                    <div className={showAppBox ? "application-box flex" : "application-box"}>
                         <button className="btn theme_cyan margin-10">New Rule</button>
                         <button className="btn theme_cyan margin-10">New Rule</button>
                         <button className="btn theme_cyan margin-10">New Rule</button>
