@@ -585,7 +585,7 @@ function BlackList (props) {
             {!loading && (
                 <div className="bl_container">
                     <div className="add_bl">
-                        <input className={"form-control border-radius-100 pull-right margin-left-10"} style={{"width": "0"}} value={Search} onChange={e => setSearch(e.target.value)} onKeyDown={SearchByIP} placeholder={"Search by IP"}/>
+                        <input className={"form-control border-radius-100 pull-right margin-left-10"} style={{"width": "150px"}} value={Search} onChange={e => setSearch(e.target.value)} onKeyDown={SearchByIP} placeholder={"Search by IP"}/>
                         <button className="btn margin-right-10 theme_gray" onClick={Add2BlackList}><BsPlusLg/>&nbsp; Add blacklist IP</button>
                         <button className="btn margin-right-10 theme_green" onClick={AddNewExcelFunction}><RiFileExcel2Fill/>&nbsp;Add (Excel)</button>
                         <button className="btn margin-right-10 theme_yellow" onClick={UpdateExcelFunction}><RiFileExcel2Fill/>&nbsp;Update (Excel)</button>

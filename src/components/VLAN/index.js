@@ -199,7 +199,6 @@ function VLAN (props) {
                     )}
 
                     {VLANData.length !== 0 && (
-
                         <>
                             <table className="nice_theme margin-top-20">
                                 <thead className="text-center">

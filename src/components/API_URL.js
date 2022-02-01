@@ -31,6 +31,7 @@ export const VLAN_GET_IP            = VLAN_URL + "get_vlan_ip"
 /*      Rules API URL   */
 
 const RULES_URL                     = BASE_URL + 'rules/';
-export const LIST_RULES             = RULES_URL + 'get_rule_name';
-export const ADD_RULE               = RULES_URL + 'add_new_rule';
-export const RULE_INFO              = RULES_URL + 'get_rule_info';
+export const LIST_RULES             = RULES_URL + 'list';
+export const INSERT_RULE            = RULES_URL + 'insert';
+export const UPDATE_RULE            = RULES_URL + 'update';
+export const DELETE_RULE            = RULES_URL + 'delete';
