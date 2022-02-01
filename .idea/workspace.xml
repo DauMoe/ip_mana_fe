@@ -1,14 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d8184264-b93b-48fd-9acf-42cc3e1be3d6" name="Changes" comment="DOING VLAN">
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12-Nov-21_2_34_PM_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12-Nov-21_2_34_PM__Changes_.xml" beforeDir="false" />
+    <list default="true" id="d8184264-b93b-48fd-9acf-42cc3e1be3d6" name="Changes" comment="DOING rule">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/API_URL.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/API_URL.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/BlackList/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/BlackList/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Rules/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Rules/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/VLAN/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/VLAN/index.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,6 +21,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitSEFilterConfiguration">
@@ -87,7 +89,7 @@
       <workItem from="1637146588531" duration="836000" />
       <workItem from="1639726664995" duration="603000" />
       <workItem from="1642854194805" duration="2632000" />
-      <workItem from="1643706994537" duration="9419000" />
+      <workItem from="1643706994537" duration="11811000" />
     </task>
     <task id="LOCAL-00001" summary="Add loading">
       <created>1636015693811</created>
@@ -131,7 +133,14 @@
       <option name="project" value="LOCAL" />
       <updated>1637142306433</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="DOING rule">
+      <created>1643722618533</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1643722618533</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -155,7 +164,8 @@
     <MESSAGE value="DONE Search" />
     <MESSAGE value="DOING Rules" />
     <MESSAGE value="DOING VLAN" />
-    <option name="LAST_COMMIT_MESSAGE" value="DOING VLAN" />
+    <MESSAGE value="DOING rule" />
+    <option name="LAST_COMMIT_MESSAGE" value="DOING rule" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

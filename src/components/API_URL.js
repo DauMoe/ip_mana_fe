@@ -27,11 +27,16 @@ export const ADD_NEW_IP             = VLAN_URL + "new_vlan_ip";
 export const GET_PRO_BY_ID          = VLAN_URL + "get_pro_by_id";
 export const VLAN_GET_IP            = VLAN_URL + "get_vlan_ip"
 
-
 /*      Rules API URL   */
-
 const RULES_URL                     = BASE_URL + 'rules/';
 export const LIST_RULES             = RULES_URL + 'list';
 export const INSERT_RULE            = RULES_URL + 'insert';
 export const UPDATE_RULE            = RULES_URL + 'update';
 export const DELETE_RULE            = RULES_URL + 'delete';
+
+/*      ObjectType API URL   */
+const OBJ_TYPE_URL                  = BASE_URL + 'obj_type/';
+export const LIST_OBJ_TYPE          = OBJ_TYPE_URL + 'list';
+export const INSERT_OBJ_TYPE        = OBJ_TYPE_URL + 'insert';
+export const DELETE_OBJ_TYPE        = OBJ_TYPE_URL + 'delete';
+export const UPDATE_OBJ_TYPE        = OBJ_TYPE_URL + 'update';

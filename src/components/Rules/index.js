@@ -260,7 +260,7 @@ function Rules (props) {
                         ) : rulesData.map((item, index) => {
                             return (
                                 <div
-                                    key={item.id}
+                                    key={item.rule_id}
                                     className="list-item"
                                     onClick={_ => GetRuleInfo(item)}>
                                     {item.rule_name}
