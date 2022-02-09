@@ -78,10 +78,8 @@ function Rules (props) {
             ...testRegex,
             notMatchRegex: false,
             value: ""
-        })
-        __FetchFunction(RULE_INFO, {id: item.id}, function(res) {
-            setDetailData(res[0]);
         });
+        setDetailData(item);
     }
 
     const CheckRegex = e => {
@@ -118,10 +116,10 @@ function Rules (props) {
                         ) : rulesData.map((item, index) => {
                             return (
                                 <div
-                                    key={item.id}
+                                    key={index}
                                     className="list-item"
                                     onClick={_ => GetRuleInfo(item)}>
-                                    {item.name}
+                                    {item.rule_name}
                                 </div>
                             )
                         })}
@@ -141,10 +139,10 @@ function Rules (props) {
                         <label htmlFor="name">
                             <span className="bold">Rule's name:</span>
                         </label>
-                        <input className="form-control" id="name" value={detailData.name} onChange={e => {
+                        <input className="form-control" id="name" value={detailData.rule_name} onChange={e => {
                             setDetailData({
                                 ...detailData,
-                                name: e.target.value
+                                rule_name: e.target.value
                             })
                         }}/>
                     </div>
@@ -153,10 +151,10 @@ function Rules (props) {
                         <label htmlFor="desc">
                             <span className="bold">Rule's description:</span>
                         </label>
-                        <input className="form-control" id="desc" value={detailData.desc} onChange={e => {
+                        <input className="form-control" id="desc" value={detailData.rule_desc} onChange={e => {
                             setDetailData({
                                 ...detailData,
-                                desc: e.target.value
+                                rule_desc: e.target.value
                             })
                         }}/>
                     </div>
@@ -166,10 +164,10 @@ function Rules (props) {
                             <span className="bold">Rule's regex: </span>
                             (Regex instruction <Link target="_blank" to={{pathname: "https://docs.microsoft.com/en-us/dotnet/standard/base-types/regular-expression-language-quick-reference"}}>here</Link>)
                         </label>
-                        <input className="form-control" id="reg" value={detailData.regex} onChange={e => {
+                        <input className="form-control" id="reg" value={detailData.rule_regex} onChange={e => {
                             setDetailData({
                                 ...detailData,
-                                regex: e.target.value
+                                rule_regex: e.target.value
                             })
                         }}/>
                     </div>
@@ -183,7 +181,7 @@ function Rules (props) {
                     </div>
 
                     <div className="margin-top-20">
-                        <small className="italic">(Created: {detailData.createdAt}, Last update: {detailData.updatedAt})</small>
+                        <small className="italic">(Created: {detailData.created_at}, Last update: {detailData.updated_at})</small>
                     </div>
 
                     <div className="margin-top-20">

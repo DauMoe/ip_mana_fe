@@ -5,20 +5,6 @@ import 'react-toastify/dist/ReactToastify.min.css';
 import {IconContext} from "react-icons/lib";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import {
-    BLACKLIST_ADD_IP,
-    BLACKLIST_EDIT_IP,
-    BLACKLIST_GET_IP,
-    BLACKLIST_REMOVE_IP,
-    WEB_BASE_NAME,
-    BLACKLIST_ADD_EXCEL,
-    TEMPLATE_URL,
-    BLACKLIST_SEARCH_IP,
-    BLACKLIST_UPDATE_EXCEL,
-    BLACKLIST_DELETE_EXCEL,
-    BLACKLIST_EXPORT_EXCEL,
-    BASE_URL, BLACKLIST_IMPORTED_IP_TODAY_EXCEL
-} from '../API_URL';
 import Modal from "../Modal";
 import "./BlackList.sass"
 import {ERROR, LOADED, LOADING} from "../Redux/ReducersAndActions/Status/StatusActionsDefinition";
@@ -32,6 +18,7 @@ import {useSelector, useDispatch} from "react-redux";
 import {Link} from "react-router-dom";
 import Loading from "../Loading";
 import {ConvertTimeStamptoString, ReplaceCharacters} from "../Utils";
+import {BASE_URL, WEB_BASE_NAME} from "../API_URL";
 
 //Sweetalert: https://sweetalert.js.org/guides/
 //Toastify: https://fkhadra.github.io/react-toastify/icons
@@ -72,7 +59,7 @@ function BlackList (props) {
             redirect: 'follow'
         };
           
-        fetch(BLACKLIST_GET_IP, requestOptions)
+        fetch("", requestOptions)
             .then(response => response.json())
             .then(result => {
                 if (result.code === 200) {
@@ -118,7 +105,7 @@ function BlackList (props) {
                     redirect: 'follow'
                 };
 
-                fetch(BLACKLIST_REMOVE_IP, requestOptions)
+                fetch("", requestOptions)
                     .then(response => response.json())
                     .then(result => {
                         if (result.code === 200) {
@@ -179,7 +166,7 @@ function BlackList (props) {
             redirect: 'follow'
         };
 
-        fetch(BLACKLIST_EDIT_IP, requestOptions)
+        fetch("", requestOptions)
             .then(response => response.json())
             .then(result => {
                 if (result.code === 200) {
@@ -283,15 +270,15 @@ function BlackList (props) {
         let URI;
 
         if (ExcelModal.mode === ADD_NEW_MODE) {
-            URI = BLACKLIST_ADD_EXCEL;
+            URI = "";
         }
 
         if (ExcelModal.mode === UPDATE_MODE) {
-            URI = BLACKLIST_UPDATE_EXCEL;
+            URI = "";
         }
 
         if (ExcelModal.mode === DELETE_MODE) {
-            URI = BLACKLIST_DELETE_EXCEL;
+            URI = "";
         }
 
         fetch(URI, requestOptions)
@@ -358,7 +345,7 @@ function BlackList (props) {
             redirect: 'follow'
         };
 
-        fetch(BLACKLIST_ADD_IP, requestOptions)
+        fetch("", requestOptions)
             .then(response => response.json())
             .then(result => {
                 if (result.code === 200) {
@@ -398,7 +385,7 @@ function BlackList (props) {
                 redirect: 'follow'
             };
 
-            fetch(BLACKLIST_SEARCH_IP, requestOptions)
+            fetch("", requestOptions)
                 .then(response => response.json())
                 .then(result => {
                     if (result.code === 200) {
@@ -435,7 +422,7 @@ function BlackList (props) {
                     redirect: 'follow'
                 };
 
-                fetch(BLACKLIST_EXPORT_EXCEL, requestOptions)
+                fetch("", requestOptions)
                     .then(response => response.json())
                     .then(result => {
                         if (result.code === 200) {
@@ -478,7 +465,7 @@ function BlackList (props) {
             redirect: 'follow'
         };
 
-        fetch(BLACKLIST_IMPORTED_IP_TODAY_EXCEL, requestOptions)
+        fetch("", requestOptions)
             .then(response => response.json())
             .then(result => {
                 if (result.code === 200) {
@@ -522,9 +509,9 @@ function BlackList (props) {
                 WrapClass={"modal_wrap"}
                 title={ExcelModal.title}>
                 <ol>
-                    {ExcelModal.mode === ADD_NEW_MODE && <li>Download template from <Link to={{pathname: TEMPLATE_URL + "Create_BlackList_Template.xlsx"}} target="_blank" rel="noopener noreferrer">here</Link></li>}
-                    {ExcelModal.mode === UPDATE_MODE && <li>Download template from <Link to={{pathname: TEMPLATE_URL + "Update_BlackList_Template.xlsx"}} target="_blank" rel="noopener noreferrer">here</Link></li>}
-                    {ExcelModal.mode === DELETE_MODE && <li>Download template from <Link to={{pathname: TEMPLATE_URL + "Delete_BlackList_Template.xlsx"}} target="_blank" rel="noopener noreferrer">here</Link></li>}
+                    {ExcelModal.mode === ADD_NEW_MODE && <li>Download template from <Link to={{pathname: "" + "Create_BlackList_Template.xlsx"}} target="_blank" rel="noopener noreferrer">here</Link></li>}
+                    {ExcelModal.mode === UPDATE_MODE && <li>Download template from <Link to={{pathname: "" + "Update_BlackList_Template.xlsx"}} target="_blank" rel="noopener noreferrer">here</Link></li>}
+                    {ExcelModal.mode === DELETE_MODE && <li>Download template from <Link to={{pathname: "" + "Delete_BlackList_Template.xlsx"}} target="_blank" rel="noopener noreferrer">here</Link></li>}
                     <li>Fill all data into template</li>
                     <li><label className="link_style" htmlFor="upload_file">Click here</label> to choose a file</li>
                     <input className="hide" onChange={ChangeFiles} id="upload_file" type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"/>

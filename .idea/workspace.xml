@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d8184264-b93b-48fd-9acf-42cc3e1be3d6" name="Changes" comment="DOING Rules">
-      <change afterPath="$PROJECT_DIR$/src/Animation.sass" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Rules/index.js" afterDir="false" />
+    <list default="true" id="9b1ec0a8-2949-43d5-a7d0-bc0ffe2950ff" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/components/ObjectA/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12-Nov-21_2_34_PM_[Changes]/shelved.patch" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12-Nov-21_2_34_PM__Changes_.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/watcherTasks.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.vscode/settings.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GlobalStyle.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/GlobalStyle.sass" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/API_URL.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/API_URL.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/BlackList/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/BlackList/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Rules/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Rules/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/VLAN/VLAN.sass" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/VLAN/index.js" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,7 +25,6 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Sass File" />
         <option value="JavaScript File" />
       </list>
     </option>
@@ -25,101 +32,35 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitSEFilterConfiguration">
-    <file-type-list>
-      <filtered-out-file-type name="LOCAL_BRANCH" />
-      <filtered-out-file-type name="REMOTE_BRANCH" />
-      <filtered-out-file-type name="TAG" />
-      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
-    </file-type-list>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectId" id="20RdHpu95oJoAX2OTFebkIbijgI" />
-  <component name="ProjectLevelVcsManager">
-    <ConfirmationsSetting value="2" id="Add" />
-  </component>
+  <component name="ProjectId" id="24sN7UYgTYTq8ECRo6FMmHWWNNx" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
-    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
-    <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="aspect.path.notification.shown" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../ip_mana" />
-    <property name="list.type.of.created.stylesheet" value="Sass" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="settings.editor.selected.configurable" value="preferences.toDoOptions" />
-    <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\WebStorm 2021.2.3\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
+    <property name="settings.editor.selected.configurable" value="MTConfigurable" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
-  <component name="RunManager">
-    <configuration name="start" type="js.build_tools.npm" nameIsGenerated="true">
-      <package-json value="$PROJECT_DIR$/package.json" />
-      <command value="start" />
-      <node-interpreter value="project" />
-      <envs />
-      <method v="2" />
-    </configuration>
-  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
-  <component name="SvnConfiguration">
-    <configuration>C:\Users\lehuy\AppData\Roaming\Subversion</configuration>
-  </component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="d8184264-b93b-48fd-9acf-42cc3e1be3d6" name="Changes" comment="" />
-      <created>1636011250360</created>
+      <changelist id="9b1ec0a8-2949-43d5-a7d0-bc0ffe2950ff" name="Changes" comment="" />
+      <created>1644415166448</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1636011250360</updated>
-      <workItem from="1636011252277" duration="12420000" />
-      <workItem from="1636028624063" duration="11443000" />
-      <workItem from="1636075567624" duration="21518000" />
-      <workItem from="1636215684703" duration="42000" />
-      <workItem from="1636215736393" duration="3545000" />
-      <workItem from="1636962901878" duration="13017000" />
+      <updated>1644415166448</updated>
+      <workItem from="1644415168536" duration="7050000" />
     </task>
-    <task id="LOCAL-00001" summary="Add loading">
-      <created>1636015693811</created>
-      <option name="number" value="00001" />
-      <option name="presentableId" value="LOCAL-00001" />
-      <option name="project" value="LOCAL" />
-      <updated>1636015693811</updated>
-    </task>
-    <task id="LOCAL-00002" summary="Add loading">
-      <created>1636024014638</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1636024014638</updated>
-    </task>
-    <task id="LOCAL-00003" summary="DONE Search">
-      <created>1636141215869</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1636141215869</updated>
-    </task>
-    <task id="LOCAL-00004" summary="DOING VLAN">
-      <created>1636973625742</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1636973625742</updated>
-    </task>
-    <task id="LOCAL-00005" summary="DOING Rules">
-      <created>1636997395557</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1636997395557</updated>
-    </task>
-    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -135,18 +76,5 @@
         </entry>
       </map>
     </option>
-    <option name="oldMeFiltersMigrated" value="true" />
-  </component>
-  <component name="VcsManagerConfiguration">
-    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
-    <MESSAGE value="Add loading" />
-    <MESSAGE value="DONE Search" />
-    <MESSAGE value="DOING VLAN" />
-    <MESSAGE value="DOING Rules" />
-    <option name="LAST_COMMIT_MESSAGE" value="DOING Rules" />
-  </component>
-  <component name="XSLT-Support.FileAssociations.UIState">
-    <expand />
-    <select />
   </component>
 </project>
