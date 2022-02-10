@@ -1,12 +1,12 @@
 import React, {useEffect, useState} from "react";
 import {useDispatch} from "react-redux";
 import {ERROR, LOADED} from "../Redux/ReducersAndActions/Status/StatusActionsDefinition";
-import {GET_PRO_BY_OBJ_ID, LIST_OBJECT, LIST_RULES, WEB_BASE_NAME} from "../API_URL";
+import {GET_PRO_BY_OBJ_ID, LIST_OBJECT, WEB_BASE_NAME} from "../API_URL";
 import {IconContext} from "react-icons";
 import {BiAddToQueue, FaRegWindowClose, MdOutlineSave, RiFunctionLine} from "react-icons/all";
 
 function ObjectA(props) {
-    const {_title, _obj_type_id} = props;
+    const {_title, _obj_type_id, _obj_type_name} = props;
     const dispatch = useDispatch();
     const [DetailData, setDetailData] = useState([]);
     const [ObjectData, setObjectData] = useState([]);
@@ -79,15 +79,18 @@ function ObjectA(props) {
                 i.match_regex = true;
             }
             setObjectData(response);
+            if (response.length > 0) {
+                GetObjectInfo(response[0]);
+            }
         });
-    }, []);
+    }, [_obj_type_id]);
 
     return(
         <div className="container" onClick={() => setShowAppBox(false)}>
             <div className="box-style" style={{height: "calc(100% - 40px)", padding: '20px', display: 'flex', position: 'relative'}}>
 
                 <div style={{width: '300px', height: 'calc(100% - 30px)', display: 'inline-block'}}>
-                    <input className="form-control" disabled={true} onKeyDown={SearchByObjectName} placeholder="Find by object name ..."/>
+                    <input className="form-control" disabled={true} onKeyDown={SearchByObjectName} placeholder={`Find by ${_obj_type_name.toLowerCase()} name ...`}/>
                     <div className="list-container margin-top-10">
                         {ObjectData.length === 0 ? (
                             <div>
@@ -112,11 +115,17 @@ function ObjectA(props) {
                             width: 'calc(100% - 350px)',
                             height: 'calc(100% - 70px)',
                             marginLeft: '50px',
-                            marginTop: '50px',
                             display: 'inline-block',
                             overflow: 'auto',
                             padding: '10px'}}>
-
+                            <div style={{
+                                width: "100%",
+                                display: "block",
+                                textAlign: "right",
+                                textTransform: "capitalize"
+                            }}>
+                                {DetailData.length>0 && <h2>{_obj_type_name.toLowerCase()} : {DetailData[0].obj_name}</h2>}
+                            </div>
                             {
                                 DetailData.map(function(item, index) {
                                     return (
@@ -124,7 +133,7 @@ function ObjectA(props) {
                                             <label htmlFor={"_pro_item_" + index}>
                                                 <span className="bold">{item.pro_name}:</span>
                                             </label>
-                                            <input className={(item.match_regex === false) ? "form-control form-control-err" : "form-control"} placeholder={"Fill value"} id={"_pro_item_" + index} value={item.pro_value} onChange={e => ChangeProValue(e, index)}/>
+                                            <input className={(item.match_regex === false) ? "form-control form-control-err" : "form-control"} placeholder={item.pro_desc} id={"_pro_item_" + index} value={item.pro_value} onChange={e => ChangeProValue(e, index)}/>
                                             <small className="italic">(Created: {item.created_at}, Last update: {item.updated_at})</small><br/>
                                             {item.match_regex === false && (<small style={{color: "red"}}>Not match rule of property!</small>)}
                                         </div>

@@ -1,76 +1,76 @@
-@use './../../GlobalStyle'
-
-.sidebar
-    display: inline-block
-    position: fixed
-    top: 0
-    left: 0
-    background-color: GlobalStyle.$sidebar_color
-
-.open
-    width: GlobalStyle.$sidebar_width
-
-.closed
-    width: GlobalStyle.$sidebar_close_width
-    
-.toogle_button
-    color: GlobalStyle.$white
-
-.sidebar_avatar
-    position: relative
-    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("./ava_area_bg.jpg") center center no-repeat
-    padding: 50px 0 30px 0
-    text-align: center
-    img
-        width: 100px
-        height: 100px
-        border-radius: 50%
-    span
-        color: GlobalStyle.$white
-        margin-top: 10px
-        display: inline-block
-    span.state_button
-        cursor: pointer
-        color: GlobalStyle.$white
-        position: absolute
-        top: 10px
-        right: 10px
-        padding: 8px 8px 6px 8px
-        // background-color: GlobalStyle.$sidebar_item_non_selected
-        border-radius: 3px
-
-.sidebar_items
-    ul
-        list-style-type: none
-        padding: 0
-        li 
-            // border-bottom: 1px solid GlobalStyle.$sidebar_item_non_selected
-            padding: 20px 0 20px 50px
-            a
-                text-decoration: none
-                color: GlobalStyle.$sidebar_item_non_selected
-                span:hover
-                    text-decoration: underline
-                    cursor: pointer
-                    color: GlobalStyle.$white            
-        li:first-child
-            // border-top: 1px solid GlobalStyle.$sidebar_item_non_selected
-        li.selected
-            background-color: GlobalStyle.$white          
-
-
-.selected_item
-    color: #474747
-    background-color: GlobalStyle.$sidebar_selected_bg
-
-.mini_sidebar_items
-    ul
-        margin: 0
-        padding: 0
-        li
-            text-align: center       
-            padding: 20px 0
-            list-style-type: none
-            a
-                color: GlobalStyle.$sidebar_item_non_selected   
-    
+//@use './../../GlobalStyle'
+//
+//.sidebar
+//    display: inline-block
+//    position: fixed
+//    top: 0
+//    left: 0
+//    background-color: GlobalStyle.$sidebar_color
+//
+//.open
+//    width: GlobalStyle.$sidebar_width
+//
+//.closed
+//    width: GlobalStyle.$sidebar_close_width
+//
+//.toogle_button
+//    color: GlobalStyle.$white
+//
+//.sidebar_avatar
+//    position: relative
+//    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url("./ava_area_bg.jpg") center center no-repeat
+//    padding: 50px 0 30px 0
+//    text-align: center
+//    img
+//        width: 100px
+//        height: 100px
+//        border-radius: 50%
+//    span
+//        color: GlobalStyle.$white
+//        margin-top: 10px
+//        display: inline-block
+//    span.state_button
+//        cursor: pointer
+//        color: GlobalStyle.$white
+//        position: absolute
+//        top: 10px
+//        right: 10px
+//        padding: 8px 8px 6px 8px
+//        // background-color: GlobalStyle.$sidebar_item_non_selected
+//        border-radius: 3px
+//
+//.sidebar_items
+//    ul
+//        list-style-type: none
+//        padding: 0
+//        li
+//            // border-bottom: 1px solid GlobalStyle.$sidebar_item_non_selected
+//            padding: 20px 0 20px 50px
+//            a
+//                text-decoration: none
+//                color: GlobalStyle.$sidebar_item_non_selected
+//                span:hover
+//                    text-decoration: underline
+//                    cursor: pointer
+//                    color: GlobalStyle.$white
+//        li:first-child
+//            // border-top: 1px solid GlobalStyle.$sidebar_item_non_selected
+//        li.selected
+//            background-color: GlobalStyle.$white
+//
+//
+//.selected_item
+//    color: #474747
+//    background-color: GlobalStyle.$sidebar_selected_bg
+//
+//.mini_sidebar_items
+//    ul
+//        margin: 0
+//        padding: 0
+//        li
+//            text-align: center
+//            padding: 20px 0
+//            list-style-type: none
+//            a
+//                color: GlobalStyle.$sidebar_item_non_selected
+//
