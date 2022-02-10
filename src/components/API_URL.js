@@ -9,6 +9,7 @@ export const LOGIN                  = BASE_URL + 'login';
 const OBJECT_URL                    = BASE_URL + 'obj/';
 export const LIST_OBJECT            = OBJECT_URL + 'list';
 export const GET_PRO_BY_OBJ_ID      = OBJECT_URL + 'get_object_info';
+export const UPDATE_PRO_VALUE       = OBJECT_URL + 'update_property';
 
 
 /*      OBJECT TYPE API URL    */

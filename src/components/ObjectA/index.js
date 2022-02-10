@@ -1,9 +1,11 @@
 import React, {useEffect, useState} from "react";
 import {useDispatch} from "react-redux";
 import {ERROR, LOADED} from "../Redux/ReducersAndActions/Status/StatusActionsDefinition";
-import {GET_PRO_BY_OBJ_ID, LIST_OBJECT, WEB_BASE_NAME} from "../API_URL";
+import {GET_PRO_BY_OBJ_ID, LIST_OBJECT, UPDATE_PRO_VALUE, WEB_BASE_NAME} from "../API_URL";
 import {IconContext} from "react-icons";
 import {BiAddToQueue, FaRegWindowClose, MdOutlineSave, RiFunctionLine} from "react-icons/all";
+import {toast, ToastContainer} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.min.css';
 
 function ObjectA(props) {
     const {_title, _obj_type_id, _obj_type_name} = props;
@@ -52,6 +54,34 @@ function ObjectA(props) {
 
     }
 
+    const SaveChangeObject = () => {
+        let HasErr = false;
+        for (let i of DetailData) {
+            if (i.match_regex === false) {
+                toast.error(`Value of ${i.pro_name} property is not match rule's regex!`);
+                HasErr = true;
+                break;
+            }
+        }
+        if (!HasErr) {
+            let list_property = [];
+            for (let i of DetailData) {
+                list_property.push({
+                    "obj_id": i.obj_id,
+                    "pro_id": i.pro_id,
+                    "pro_value": i.pro_value
+                });
+            }
+            let BodyData = {
+                "list_property": list_property
+            }
+            __FetchFunction(UPDATE_PRO_VALUE, BodyData, function (response) {
+                toast.success(response);
+                GetObjectInfo(DetailData[0])
+            });
+        }
+    }
+
     const GetObjectInfo = (item) => {
         let BodyData = {
             "obj_id": item.obj_id
@@ -87,6 +117,18 @@ function ObjectA(props) {
 
     return(
         <div className="container" onClick={() => setShowAppBox(false)}>
+            <ToastContainer
+                position="top-center"
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick={true}
+                rtl={false}
+                pauseOnFocusLoss={false}
+                theme="colored"
+                draggable={false}
+                pauseOnHover/>
+
             <div className="box-style" style={{height: "calc(100% - 40px)", padding: '20px', display: 'flex', position: 'relative'}}>
 
                 <div style={{width: '300px', height: 'calc(100% - 30px)', display: 'inline-block'}}>
@@ -131,11 +173,11 @@ function ObjectA(props) {
                                     return (
                                         <div className="margin-top-20" key={index}>
                                             <label htmlFor={"_pro_item_" + index}>
-                                                <span className="bold">{item.pro_name}:</span>
+                                                <span className="bold" style={{textTransform: "capitalize"}}>{item.pro_name.toLowerCase()}:</span>
                                             </label>
                                             <input className={(item.match_regex === false) ? "form-control form-control-err" : "form-control"} placeholder={item.pro_desc} id={"_pro_item_" + index} value={item.pro_value} onChange={e => ChangeProValue(e, index)}/>
                                             <small className="italic">(Created: {item.created_at}, Last update: {item.updated_at})</small><br/>
-                                            {item.match_regex === false && (<small style={{color: "red"}}>Not match rule of property!</small>)}
+                                            {item.match_regex === false && (<small style={{color: "red"}}>Not match rule of {item.pro_name.toLowerCase()}!</small>)}
                                         </div>
                                     );
                                 })
@@ -148,7 +190,7 @@ function ObjectA(props) {
                                     </IconContext.Provider>
                                     &nbsp;Delete rule
                                 </button>
-                                <button className="btn pull-right theme_cyan">
+                                <button className="btn pull-right theme_cyan" onClick={SaveChangeObject}>
                                     <IconContext.Provider value={{size: 22, color: 'white', className: 'middle-btn'}}>
                                         <MdOutlineSave/>
                                     </IconContext.Provider>
