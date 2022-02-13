@@ -46,8 +46,9 @@ function ObjectA(props) {
             });
     }
 
-    const ToggleApplicationBox = () => {
-
+    const ToggleApplicationBox = (e) => {
+        e.stopPropagation();
+        setShowAppBox(!ShowAppBox);
     }
 
     const SearchByObjectName = () => {
@@ -77,12 +78,19 @@ function ObjectA(props) {
             }
             __FetchFunction(UPDATE_PRO_VALUE, BodyData, function (response) {
                 toast.success(response);
-                GetObjectInfo(DetailData[0])
+                GetObjectInfo(DetailData[0], 0);
             });
         }
     }
 
-    const GetObjectInfo = (item) => {
+    const GetObjectInfo = (item, index = -1) => {
+        if (index > -1) {
+            const ObjectDataCopy = [...ObjectData];
+            ObjectDataCopy.map(function(obj, obj_index) {
+                obj.selected = (obj_index === index);
+            });
+            // setObjectData(ObjectDataCopy);
+        }
         let BodyData = {
             "obj_id": item.obj_id
         };
@@ -110,7 +118,7 @@ function ObjectA(props) {
             }
             setObjectData(response);
             if (response.length > 0) {
-                GetObjectInfo(response[0]);
+                GetObjectInfo(response[0], 0);
             }
         });
     }, [_obj_type_id]);
@@ -142,8 +150,8 @@ function ObjectA(props) {
                             return (
                                 <div
                                     key={index}
-                                    className="list-item"
-                                    onClick={_ => GetObjectInfo(item)}>
+                                    className={item.selected === true ? "list-item theme_green" : "list-item"}
+                                    onClick={_ => GetObjectInfo(item, index)}>
                                     {item.obj_name}
                                 </div>
                             )
@@ -212,7 +220,7 @@ function ObjectA(props) {
                                 <IconContext.Provider value={{size: 22, className: 'middle-btn'}}>
                                     <BiAddToQueue/>
                                 </IconContext.Provider>
-                                &nbsp;New ObjectA</button>
+                                &nbsp;Create new object</button>
                         </div>
                     </div>
             </div>

@@ -1,5 +1,5 @@
 import {Menu, MenuItem, ProSidebar, SidebarContent, SidebarFooter, SidebarHeader} from "react-pro-sidebar";
-import {FaGem, FaHeart, FaGithub, IoIosArrowDropleftCircle, IoIosArrowDroprightCircle} from "react-icons/all";
+import * as Icons from "react-icons/all";
 import React, {useEffect, useState} from "react";
 import {Link} from "react-router-dom";
 import SideBarBackGroundImage from './sidebar_bg.png';
@@ -16,6 +16,15 @@ function SideBarCustom(props) {
         return { width, height };
     }
     const [windowsSize, setWindowSize] = useState(getWindowDimensions());
+
+    const DynamicIcon = (IconName) => {
+        //Doc: https://stackoverflow.com/questions/65576629/how-to-render-react-icon-depending-on-string-from-database
+        const IconComponent = Icons[IconName];
+        if (!IconComponent) { // Return a default one
+            return <Icons.FaBeer />;
+        }
+        return <IconComponent />;
+    }
 
     useEffect(function() {
         function handleResize()  {
@@ -58,7 +67,7 @@ function SideBarCustom(props) {
                 >
                     <span onClick={() => setSideBarState(!SideBarClosing)}>
                         <IconContext.Provider value={{"size": "30"}}>
-                            {SideBarClosing === false ? <IoIosArrowDropleftCircle/> : <IoIosArrowDroprightCircle/>}
+                            {SideBarClosing === false ? <Icons.IoIosArrowDropleftCircle/> : <Icons.IoIosArrowDroprightCircle/>}
                         </IconContext.Provider>
                     </span>
                     {SideBarClosing === false && <span style={{display: "inline-block", "marginLeft": "10px"}}>IP Manager</span>}
@@ -69,7 +78,7 @@ function SideBarCustom(props) {
                         list_item.map(function(item, index) {
                             return(
                                 <Menu key={`sidebar_item_${index}`} iconShape="circle">
-                                    <MenuItem icon={item.icon}>{item.name}<Link onClick={() => setSideBarState(true)} to={item.path}/></MenuItem>
+                                    <MenuItem icon={DynamicIcon(item.icon)}>{item.name}<Link onClick={() => setSideBarState(true)} to={item.path}/></MenuItem>
                                 </Menu>
                             )
                         })

@@ -16,6 +16,12 @@ export const UPDATE_PRO_VALUE       = OBJECT_URL + 'update_property';
 const OBJECT_TYPE_URL               = BASE_URL + 'obj_type/';
 export const LIST_OBJ_TYPE          = OBJECT_TYPE_URL + 'list';
 
+/*      PROPERTY API URL    */
+const PROPERTY_URL                  = BASE_URL + 'pro/';
+export const LIST_PROPERTY          = PROPERTY_URL + 'list';
+export const Get_PRO_INFO           = PROPERTY_URL + 'get_pro_info';
+export const UPDATE_PROPERTY        = PROPERTY_URL + 'update';
+export const DELETE_PROPERTY        = PROPERTY_URL + 'delete';
 
 /*      Rules API URL   */
 const RULES_URL                     = BASE_URL + 'rules/';

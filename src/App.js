@@ -9,6 +9,7 @@ import {useDispatch} from "react-redux";
 import ObjectA from "./components/ObjectA";
 import 'react-pro-sidebar/dist/css/styles.css';
 import SideBarCustom from "./components/ProSideBarCustom";
+import Property from "./components/Property";
 
 const App = () => {
     let ListSideBarItem = [];
@@ -29,16 +30,20 @@ const App = () => {
                     for (let i of result.msg) {
                         ListSideBarItem.push({
                             ...i,
-                            icon: <FaHeart/>,
                             path: `/${i.obj_type_name.toLowerCase()}`,
                             name: i.obj_type_name,
                             autoRender: true
                         });
                     }
                     ListSideBarItem.push({
-                        icon: <BsCardList/>,
+                        icon: "BsCardList",
                         path: "/rules",
                         name: "Rules",
+                        autoRender: false
+                    }, {
+                        icon: "AiOutlinePropertySafety",
+                        path: "/property",
+                        name: "Property",
                         autoRender: false
                     });
                     setListObjectType(ListSideBarItem);
@@ -75,6 +80,10 @@ const App = () => {
 
                 <Route exact path="/rules">
                     <Rules _title="Rules"/>
+                </Route>
+
+                <Route exact path="/property">
+                    <Property _title="Rules"/>
                 </Route>
 
                 <Route>

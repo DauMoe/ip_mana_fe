@@ -1,17 +1,18 @@
 import React, {useEffect, useState} from 'react';
 import './../../GlobalStyle.sass';
-import {LIST_RULES, RULE_INFO, WEB_BASE_NAME} from "../API_URL";
+import {LIST_OBJ_TYPE, LIST_RULES, RULE_INFO, WEB_BASE_NAME} from "../API_URL";
 import {useDispatch, useSelector} from "react-redux";
 import {ERROR, LOADED} from "../Redux/ReducersAndActions/Status/StatusActionsDefinition";
 import {Link} from "react-router-dom";
 import {FaRegWindowClose, RiFunctionLine, MdOutlineSave, BiAddToQueue} from "react-icons/all";
 import {IconContext} from "react-icons";
+import Select from "react-select";
+import {ToastContainer} from "react-toastify";
 
 
 function Rules (props) {
     const {_title}                              = props;
     const dispatch                              = useDispatch();
-    const {loading, error, _msg}                = useSelector(state => state.Status);
     const [detailData, setDetailData]           = useState({});
     const [showAppBox, setShowAppBox]           = useState(false);
     const [rulesData, setRulesData]             = useState([]);
@@ -79,11 +80,12 @@ function Rules (props) {
             notMatchRegex: false,
             value: ""
         });
+        // for (let i of )
         setDetailData(item);
     }
 
     const CheckRegex = e => {
-        let regex = new RegExp(detailData.regex);
+        let regex = new RegExp(detailData.regex, 'g');
         setTestRegex({
             ...testRegex,
             value: e.target.value,
@@ -91,19 +93,80 @@ function Rules (props) {
         });
     }
 
+    const AddObjectType = item => {
+
+    }
+
     useEffect(function() {
         document.title = _title + WEB_BASE_NAME;
-        __FetchFunction(LIST_RULES, undefined, function (res) {
-            setRulesData(res);
-            OriginRulesData = JSON.parse(JSON.stringify(res));
-            if (res.length > 0) {
-                GetRuleInfo({id: res[0].id});
-            }
-        });
+        let ListAPI = [{
+           url: LIST_RULES,
+           requestOptions: {
+               method: 'POST',
+               redirect: 'follow'
+           }
+        }
+        // , {
+        //     url: LIST_OBJ_TYPE,
+        //     requestOptions: {
+        //         method: 'POST',
+        //         redirect: 'follow'
+        //     }
+        // }
+        ];
+
+        Promise.all(ListAPI.map(item => fetch(item.url, item.requestOptions)))
+            .then(responses => Promise.all(responses.map(resp => resp.json())))
+            .then(results => {
+                console.log(results);
+                let HasErr = false;
+                for (let i of results) {
+                    if (i.code !== 200) {
+                        dispatch({
+                            type: ERROR,
+                            msg: i.msg
+                        });
+                        HasErr = true;
+                    }
+                    if (!HasErr) {
+                        dispatch({type: LOADED});
+                        setRulesData(results[0].msg);
+                        // let TempArr = [];
+                        // for (let i of results[1].msg) {
+                        //     TempArr.push({
+                        //         value: i.obj_type_id,
+                        //         label: i.obj_type_name
+                        //     });
+                        // }
+                        // setListObjectType(TempArr);
+                        if (results[0].msg.length > 0) {
+                            GetRuleInfo({id: results[0].id});
+                        }
+                    }
+                }
+            })
+            .catch(e => {
+                dispatch({
+                    type: ERROR,
+                    msg: e
+                })
+            });
     }, []);
 
     return(
         <div className="container" onClick={() => setShowAppBox(false)}>
+            <ToastContainer
+                position="top-center"
+                autoClose={3000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick={true}
+                rtl={false}
+                pauseOnFocusLoss={false}
+                theme="colored"
+                draggable={false}
+                pauseOnHover/>
+
             <div className="box-style" style={{height: "calc(100% - 40px)", padding: '20px', display: 'flex', position: 'relative'}}>
 
                 <div style={{width: '300px', height: 'calc(100% - 30px)', display: 'inline-block'}}>
