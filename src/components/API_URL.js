@@ -10,6 +10,7 @@ const OBJECT_URL                    = BASE_URL + 'obj/';
 export const LIST_OBJECT            = OBJECT_URL + 'list';
 export const GET_PRO_BY_OBJ_ID      = OBJECT_URL + 'get_object_info';
 export const UPDATE_PRO_VALUE       = OBJECT_URL + 'update_property';
+export const DELETE_OBJECT          = OBJECT_URL + 'delete';
 
 
 /*      OBJECT TYPE API URL    */
@@ -22,6 +23,8 @@ export const LIST_PROPERTY          = PROPERTY_URL + 'list';
 export const Get_PRO_INFO           = PROPERTY_URL + 'get_pro_info';
 export const UPDATE_PROPERTY        = PROPERTY_URL + 'update';
 export const DELETE_PROPERTY        = PROPERTY_URL + 'delete';
+export const GET_LIST_PRO_BY_OBJ_ID = PROPERTY_URL + 'get_list_pro_by_obj_id';
+export const ADD_PRO_TO_OBJECT      = PROPERTY_URL + 'add_property_to_object';
 
 /*      Rules API URL   */
 const RULES_URL                     = BASE_URL + 'rules/';

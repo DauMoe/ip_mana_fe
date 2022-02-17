@@ -5,7 +5,7 @@ import "./Modal.sass";
 
 const Modal = (props) => {
     const { show, title, children, onClickOut, WrapClass, CloseModal, ModalWidth } = props;
-    if (!show) return null;
+    if (show !== true) return null;
     return (
         <div className={WrapClass} onClick={onClickOut}>
             <div className={"modal_container"} style={ModalWidth ? {width: ModalWidth} : undefined} onClick={e => e.stopPropagation()}>
@@ -23,7 +23,8 @@ const Modal = (props) => {
                     maxHeight: '80vh',
                     overflowY: 'auto',
                     overflowX: 'auto',
-                    padding: '0 10px'
+                    padding: '0 10px',
+                    minHeight: '300px'
                 }}>
                     {children}
                 </div>

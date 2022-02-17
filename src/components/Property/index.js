@@ -1,6 +1,5 @@
 import {ERROR, LOADED} from "../Redux/ReducersAndActions/Status/StatusActionsDefinition";
 import {useDispatch} from "react-redux";
-import {Link} from "react-router-dom";
 import {IconContext} from "react-icons";
 import {BiAddToQueue, FaRegWindowClose, MdOutlineSave, RiFunctionLine} from "react-icons/all";
 import React, {useEffect, useState} from "react";
@@ -24,8 +23,9 @@ function Property(props) {
     const [ListObjType, setListObjType]         = useState([]);
     const [ListRule, setListRule]               = useState([]);
     const [DetailData, setDetailData]           = useState({});
+    let ReloadALlData = false;
 
-    const __FetchFunction = (URL, body, callback) => {
+    const __FetchFunction = (URL, body, callback, err_cb) => {
         let myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
 
@@ -41,12 +41,14 @@ function Property(props) {
             .then(result => {
                 if (result.code === 200) {
                     dispatch({type: LOADED})
-                    callback(result.msg);
+                    callback(result.msg, null);
                 } else {
+                    callback(null, result.msg);
                     dispatch({
                         type: ERROR,
-                        msg: result.msg[0]
+                        msg: result.msg
                     });
+                    toast.error(result.msg);
                 }
             })
             .catch(e => {
@@ -61,6 +63,12 @@ function Property(props) {
 
     }
 
+    const ChangeRequired = (e, index) => {
+        let CloneDetailData = {...DetailData};
+        CloneDetailData.ListObjType[index].is_required = !DetailData.ListObjType[index].is_required;
+        setDetailData(CloneDetailData);
+    }
+
     const UpdateProperty = () => {
         let BodyData = {
             "pro_id": DetailData.pro_id,
@@ -71,10 +79,19 @@ function Property(props) {
         };
         for (let i of DetailData.ListObjType) {
             BodyData.list_obj_type.push({
-                "obj_type_id": i.value
+                "obj_type_id": i.value,
+                "is_required": i.is_required
             });
         }
         __FetchFunction(UPDATE_PROPERTY, BodyData, function(response) {
+            __FetchFunction(LIST_PROPERTY, undefined, function(resp, err) {
+                if (err !== null) {
+                    setPropertyData(resp);
+                    GetPropertyInfo(resp[0]);
+                } else {
+                    GetPropertyInfo(DetailData);
+                }
+            });
             toast.success(response);
         });
     }
@@ -97,13 +114,13 @@ function Property(props) {
             "pro_id": item.pro_id
         };
         __FetchFunction(Get_PRO_INFO, BodyData, function (response) {
-            console.log(response);
             let TempItem = {...item};
             TempItem.ListObjType = [];
             for (let i of response) {
                 TempItem.ListObjType.push({
                     value: i.obj_type_id,
-                    label: i.obj_type_name
+                    label: i.obj_type_name,
+                    is_required: i.is_required
                 });
             }
             for (let i of ListRule) {
@@ -112,12 +129,12 @@ function Property(props) {
                     break;
                 }
             }
-            console.log(TempItem);
             setDetailData(TempItem);
         });
     }
 
     const ChangeObjType = (item) => {
+        console.log(item);
         setDetailData({
             ...DetailData,
             ListObjType: item
@@ -172,12 +189,18 @@ function Property(props) {
                     }
                 }
                 if (!HasErr) {
-                    setPropertyData(resp[0].msg);
+                    let result = [];
+                    for (let i of resp[0].msg) {
+                        i.ListObjType = [];
+                        result.push(i);
+                    }
+                    setPropertyData(result);
                     let TempArr = [];
                     for (let i of resp[1].msg) {
                         TempArr.push({
                            value: i.obj_type_id,
-                           label: i.obj_type_name
+                           label: i.obj_type_name,
+                            is_required: false
                         });
                     }
                     setListObjType(TempArr);
@@ -202,9 +225,9 @@ function Property(props) {
     return(
         <div className="container" onClick={() => setShowAppBox(false)}>
             <ToastContainer
-                position="top-center"
-                autoClose={3000}
-                hideProgressBar={false}
+                position="top-right"
+                autoClose={4000}
+                hideProgressBar={true}
                 newestOnTop={false}
                 closeOnClick={true}
                 rtl={false}
@@ -292,6 +315,17 @@ function Property(props) {
                             onChange={ChangeRule}
                         />
                     </div>
+
+                    {
+                        DetailData.hasOwnProperty("ListObjType") && DetailData.ListObjType.map((item, index) => {
+                            return (
+                                <div className={"margin-top-20"} key={index}>
+                                    <input id={"__cb" + index} type={"checkbox"} checked={item.is_required} onChange={e => ChangeRequired(e, index)}/>
+                                    <label htmlFor={"__cb" + index} className={"margin-left-5"}>{DetailData.pro_name} is required in {item.label}</label>
+                                </div>
+                            );
+                        })
+                    }
 
                     <div className="margin-top-20">
                         <small className="italic">(Created: {DetailData.created_at}, Last update: {DetailData.updated_at})</small>
