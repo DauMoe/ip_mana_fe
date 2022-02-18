@@ -11,6 +11,7 @@ export const LIST_OBJECT            = OBJECT_URL + 'list';
 export const GET_PRO_BY_OBJ_ID      = OBJECT_URL + 'get_object_info';
 export const UPDATE_PRO_VALUE       = OBJECT_URL + 'update_property';
 export const DELETE_OBJECT          = OBJECT_URL + 'delete';
+export const INSERT_OBJECT          = OBJECT_URL + 'insert';
 
 
 /*      OBJECT TYPE API URL    */

@@ -4,8 +4,8 @@ import {ERROR, LOADED} from "../Redux/ReducersAndActions/Status/StatusActionsDef
 import {
     ADD_PRO_TO_OBJECT, DELETE_OBJECT,
     GET_LIST_PRO_BY_OBJ_ID,
-    GET_PRO_BY_OBJ_ID,
-    LIST_OBJECT,
+    GET_PRO_BY_OBJ_ID, INSERT_OBJECT,
+    LIST_OBJECT, LIST_PROPERTY,
     UPDATE_PRO_VALUE,
     WEB_BASE_NAME
 } from "../API_URL";
@@ -24,14 +24,15 @@ import Select from "react-select";
 import swal from "sweetalert";
 
 function ObjectA(props) {
-    const ADD_PROPERTY = 1;
+    const ADD_PROPERTY  = 1;
+    const ADD_OBJECT    = 2;
     const {_title, _obj_type_id, _obj_type_name}    = props;
     const dispatch                                  = useDispatch();
     const [DetailData, setDetailData]               = useState({obj_id: -1, obj_name: "", data: []});
     const [ObjectData, setObjectData]               = useState([]);
     const [ShowAppBox, setShowAppBox]               = useState(false);
     const [ModalData, setModalData]                 = useState({mode: -1, data: {list_property: [], list_property_assign: []}, show: false, title: "no title"});
-    const [ModalSelectData, setModalSelectData]     = useState({});
+    const [ModalSelectData, setModalSelectData]     = useState(null);
 
     const __FetchFunction = (URL, body, callback) => {
         let myHeaders = new Headers();
@@ -97,6 +98,7 @@ function ObjectA(props) {
                     ...i
                 })
             }
+            setModalSelectData(null);
             setModalData({
                 ...ModalData,
                 show: true,
@@ -107,6 +109,35 @@ function ObjectA(props) {
                 },
                 title: `Add property to ${DetailData.obj_name}`
             });
+        });
+    }
+
+    const CreateNewObject = () => {
+        let BodyData = {
+            "obj_type_id": _obj_type_id
+        }
+        __FetchFunction(LIST_PROPERTY, BodyData, function(response, err) {
+            let temp = [];
+            for (let i of response) {
+                temp.push({
+                    value: i.pro_id,
+                    label: i.pro_name,
+                    ...i
+                });
+            }
+            setModalSelectData(null);
+            setModalData({
+                show: true,
+                title: "Create new object",
+                data: {
+                    obj_name: "",
+                    obj_desc: "",
+                    obj_type_id: _obj_type_id,
+                    list_property: temp,
+                    list_property_assign: []
+                },
+                mode: ADD_OBJECT
+            })
         });
     }
 
@@ -159,20 +190,24 @@ function ObjectA(props) {
                 }
                 __FetchFunction(DELETE_OBJECT, BodyData, function(response, err) {
                     if (err != null) return;
-                    let BodyData = {
-                        "obj_type_id": _obj_type_id
-                    };
-                    __FetchFunction(LIST_OBJECT, BodyData, function(response) {
-                        for (let i of response) {
-                            i.match_regex = true;
-                        }
-                        setObjectData(response);
-                        if (response.length > 0) {
-                            GetObjectInfo(response[0], 0);
-                        }
-                    });
+                    GetListObject();
                     toast.success(response);
                 });
+            }
+        });
+    }
+
+    const GetListObject = () => {
+        let BodyData = {
+            "obj_type_id": _obj_type_id
+        };
+        __FetchFunction(LIST_OBJECT, BodyData, function(response) {
+            for (let i of response) {
+                i.match_regex = true;
+            }
+            setObjectData(response);
+            if (response.length > 0) {
+                GetObjectInfo(response[0], 0);
             }
         });
     }
@@ -267,20 +302,34 @@ function ObjectA(props) {
         });
     }
 
+    const InsertObject = () => {
+        if (ModalData.data.obj_name.trim() === "") {
+            toast.error("Object needs a name!");
+            return;
+        }
+        let tempArr = [];
+        for (let i of ModalData.data.list_property_assign) {
+            tempArr.push(i.value);
+        }
+        let BodyData = {
+            "obj_type_id": _obj_type_id,
+            "obj_name": ModalData.data.obj_name,
+            "obj_desc": ModalData.data.obj_desc,
+            "list_pro_id": tempArr
+        }
+        __FetchFunction(INSERT_OBJECT, BodyData, function(response) {
+            setModalData({
+                ...ModalData,
+                show: false
+            });
+            GetListObject();
+           toast.success(response);
+        });
+    }
+
     useEffect(function() {
         document.title = _title + WEB_BASE_NAME;
-        let BodyData = {
-            "obj_type_id": _obj_type_id
-        };
-        __FetchFunction(LIST_OBJECT, BodyData, function(response) {
-            for (let i of response) {
-                i.match_regex = true;
-            }
-            setObjectData(response);
-            if (response.length > 0) {
-                GetObjectInfo(response[0], 0);
-            }
-        });
+        GetListObject();
     }, [_obj_type_id]);
 
     return(
@@ -303,25 +352,115 @@ function ObjectA(props) {
                 onClickOut={HandleClickOut}
                 CloseModal={_ => setModalData({...ModalData, show: false})}
                 WrapClass={"modal_wrap"}>
-                {ModalData.mode === ADD_PROPERTY && (
+
+                {ModalData.mode === ADD_OBJECT && (
                     <>
-                        <Select
-                            options={ModalData.data.list_property}
-                            value={ModalSelectData}
-                            onChange={ChangeProperty}
-                        />
+                        <small className={"err_msg"}>* {_obj_type_name} has a lot of required property that will be add automatic when you create object!</small>
+                        <small className={"err_msg margin-top-5"}>* Required property CAN NOT removed by manually!</small>
+                        <div className="margin-top-20">
+                            <label htmlFor={"_insert_object_name"}>
+                                <span className="bold" style={{textTransform: "capitalize"}}>Object's name:</span>
+                            </label>
+                            <input className={"form-control"} id={"_insert_object_name"} placeholder={"Type a name..."} value={ModalData.data.obj_name} onChange={e => {setModalData({
+                                ...ModalData,
+                                data: {
+                                    ...ModalData.data,
+                                    obj_name: e.target.value
+                                }
+                            })}}/>
+                        </div>
+                        <div className="margin-top-20">
+                            <label htmlFor={"_insert_object_desc"}>
+                                <span className="bold" style={{textTransform: "capitalize"}}>Description:</span>
+                            </label>
+                            <input className={"form-control"} id={"_insert_object_desc"} placeholder={"Description"} value={ModalData.data.obj_desc} onChange={e => {setModalData({
+                                ...ModalData,
+                                data: {
+                                    ...ModalData.data,
+                                    obj_desc: e.target.value
+                                }
+                            })}}/>
+                        </div>
+                        <div className="margin-top-20 margin-bottom-20">
+                            <label>
+                                <span className="bold" style={{textTransform: "capitalize"}}>Select property:</span>
+                            </label>
+                            <Select
+                                options={ModalData.data.list_property}
+                                value={ModalSelectData}
+                                onChange={ChangeProperty}
+                                placeholder={"Select a property"}
+                                noOptionsMessage={`No property is assigned to ${_obj_type_name}`}
+                            />
+                        </div>
                         <div>
+                        {Array.isArray(ModalData.data.list_property_assign) && ModalData.data.list_property_assign.length > 0 && (
                             <table className="nice_theme margin-top-20" style={{
                                 minWidth: "650px"
                             }}>
                                 <thead className="text-center">
+                                <tr>
+                                    <th>Index</th>
+                                    <th>Property</th>
+                                    <th>Remove</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {
+                                    Array.isArray(ModalData.data.list_property_assign) && ModalData.data.list_property_assign.map((item, index) => {
+                                        return (
+                                            <tr key={item.id}>
+                                                <td className="text-center">{index+1}</td>
+                                                <td className="bold">{item.pro_name}</td>
+                                                <td className="text-center">{
+                                                    item.is_required === false ? (
+                                                            <span onClick={_ => RemoveProperty(item)}>
+                                                            <IconContext.Provider value={{color: "red", size: "20"}} >
+                                                                <FaRegTimesCircle/>
+                                                            </IconContext.Provider>
+                                                        </span>
+                                                        ) :
+                                                        (<span>Required</span>)
+                                                }</td>
+                                            </tr>
+                                        )
+                                    })
+                                }
+                                </tbody>
+                            </table>
+                        )}
+
+                            <button className={"btn pull-right"} onClick={_ => setModalData({...ModalData, show: false})}>Cancel</button>
+                            <button className={"btn theme_green pull-right margin-right-10"} onClick={InsertObject}>Create</button>
+                        </div>
+                    </>
+                )}
+                
+                {ModalData.mode === ADD_PROPERTY && (
+                    <>
+                        <div className={"margin-top-20"}>
+                            <label>
+                                <span className="bold" style={{textTransform: "capitalize"}}>Select property:</span>
+                            </label>
+                            <Select
+                                options={ModalData.data.list_property}
+                                value={ModalSelectData}
+                                onChange={ChangeProperty}
+                            />
+                        </div>
+                        <div>
+                            {Array.isArray(ModalData.data.list_property_assign) && ModalData.data.list_property_assign.length > 0 && (
+                                <table className="nice_theme margin-top-20" style={{
+                                    minWidth: "650px"
+                                }}>
+                                    <thead className="text-center">
                                     <tr>
                                         <th>Index</th>
                                         <th>Property</th>
                                         <th>Remove</th>
                                     </tr>
-                                </thead>
-                                <tbody>
+                                    </thead>
+                                    <tbody>
                                     {
                                         Array.isArray(ModalData.data.list_property_assign) && ModalData.data.list_property_assign.map((item, index) => {
                                             return (
@@ -330,20 +469,21 @@ function ObjectA(props) {
                                                     <td className="bold">{item.pro_name}</td>
                                                     <td className="text-center">{
                                                         item.is_required === false ? (
-                                                            <span onClick={_ => RemoveProperty(item)}>
-                                                                <IconContext.Provider value={{color: "red", size: "20"}} >
-                                                                    <FaRegTimesCircle/>
-                                                                </IconContext.Provider>
-                                                            </span>
-                                                        ) :
-                                                        (<span>Required</span>)
+                                                                <span onClick={_ => RemoveProperty(item)}>
+                                                                    <IconContext.Provider value={{color: "red", size: "20"}} >
+                                                                        <FaRegTimesCircle/>
+                                                                    </IconContext.Provider>
+                                                                </span>
+                                                            ) :
+                                                            (<span>Required</span>)
                                                     }</td>
                                                 </tr>
                                             )
                                         })
                                     }
-                                </tbody>
-                            </table>
+                                    </tbody>
+                                </table>
+                            )}
                             <button className={"btn pull-right"} onClick={_ => setModalData({...ModalData, show: false})}>Cancel</button>
                             <button className={"btn theme_yellow pull-right margin-right-10"} onClick={UpdatePropertyOfObject}>Save</button>
                         </div>
@@ -430,7 +570,7 @@ function ObjectA(props) {
                         </span>
 
                         <div className={ShowAppBox ? "application-box flex" : "application-box"}>
-                            <button className="btn theme_green700 margin-10">
+                            <button className="btn theme_green700 margin-10" onClick={CreateNewObject}>
                                 <IconContext.Provider value={{size: 22, className: 'middle-btn'}}>
                                     <BiAddToQueue/>
                                 </IconContext.Provider>

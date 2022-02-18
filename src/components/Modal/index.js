@@ -20,11 +20,12 @@ const Modal = (props) => {
 
                 {/*Doc: https://reactjs.org/docs/jsx-in-depth.html*/}
                 <div style={{
-                    maxHeight: '80vh',
+                    maxHeight: '95vh',
+                    minHeight: '60vh',
+                    minWidth: '60vw',
                     overflowY: 'auto',
                     overflowX: 'auto',
                     padding: '0 10px',
-                    minHeight: '300px'
                 }}>
                     {children}
                 </div>
