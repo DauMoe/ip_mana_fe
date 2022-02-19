@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from "react";
 import {useDispatch} from "react-redux";
-import {ERROR, LOADED} from "../Redux/ReducersAndActions/Status/StatusActionsDefinition";
+import {ERROR, LOADED, LOADING} from "../Redux/ReducersAndActions/Status/StatusActionsDefinition";
 import {
-    ADD_PRO_TO_OBJECT, DELETE_OBJECT,
+    ADD_PRO_TO_OBJECT, BASE_URL, DELETE_OBJECT, EXPORT_DATA,
     GET_LIST_PRO_BY_OBJ_ID,
-    GET_PRO_BY_OBJ_ID, INSERT_OBJECT,
+    GET_PRO_BY_OBJ_ID, GET_TEMPLATE, INSERT_OBJECT, INSERT_OBJECT_EXCEL,
     LIST_OBJECT, LIST_PROPERTY,
     UPDATE_PRO_VALUE,
     WEB_BASE_NAME
@@ -22,17 +22,22 @@ import 'react-toastify/dist/ReactToastify.min.css';
 import Modal from "../Modal";
 import Select from "react-select";
 import swal from "sweetalert";
+import {Link} from "react-router-dom";
 
 function ObjectA(props) {
-    const ADD_PROPERTY  = 1;
-    const ADD_OBJECT    = 2;
+    const ADD_PROPERTY      = 1;
+    const ADD_OBJECT        = 2;
+    const CREATE_OBJ_EXCEL  = 3;
+    const UPDATE_OBJ_EXCEL  = 4;
+    const DELETE_OBJ_EXCEL  = 5;
     const {_title, _obj_type_id, _obj_type_name}    = props;
     const dispatch                                  = useDispatch();
     const [DetailData, setDetailData]               = useState({obj_id: -1, obj_name: "", data: []});
     const [ObjectData, setObjectData]               = useState([]);
     const [ShowAppBox, setShowAppBox]               = useState(false);
-    const [ModalData, setModalData]                 = useState({mode: -1, data: {list_property: [], list_property_assign: []}, show: false, title: "no title"});
+    const [ModalData, setModalData]                 = useState({mode: -1, data: {}, show: false, title: "no title"});
     const [ModalSelectData, setModalSelectData]     = useState(null);
+    const [selectedFile, setSelectedFile]           = useState({uploaded: false, name: "No file", file: null});
 
     const __FetchFunction = (URL, body, callback) => {
         let myHeaders = new Headers();
@@ -51,6 +56,13 @@ function ObjectA(props) {
                 if (result.code === 200) {
                     dispatch({type: LOADED})
                     callback(result.msg, null);
+                } else if (result.code === 202) {
+                    const link = document.createElement('a');
+                    link.href = BASE_URL + result.msg;
+                    link.setAttribute("target", "_blank");
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
                 } else {
                     dispatch({
                         type: ERROR,
@@ -110,6 +122,38 @@ function ObjectA(props) {
                 title: `Add property to ${DetailData.obj_name}`
             });
         });
+    }
+
+    const ChangeProDataWithExcel = (mode = -1) => {
+        if (mode !== -1) {
+            setSelectedFile({
+                name: "No file",
+                uploaded: false,
+                file: null
+            });
+        }
+        if (mode === CREATE_OBJ_EXCEL) {
+            setModalData({
+                show: true,
+                title: "Instruction to create object with Excel file",
+                data: {},
+                mode: CREATE_OBJ_EXCEL
+            });
+        } else if (mode === UPDATE_OBJ_EXCEL) {
+            setModalData({
+                show: true,
+                title: "Instruction to update object with Excel file",
+                data: {},
+                mode: UPDATE_OBJ_EXCEL
+            });
+        }  else if (mode === DELETE_OBJ_EXCEL) {
+            setModalData({
+                show: true,
+                title: "Instruction to delete object with Excel file",
+                data: {},
+                mode: DELETE_OBJ_EXCEL
+            });
+        }
     }
 
     const CreateNewObject = () => {
@@ -326,6 +370,92 @@ function ObjectA(props) {
            toast.success(response);
         });
     }
+    
+    const GetTemplate = () => {
+        let BodyData = {
+            "obj_type_id": _obj_type_id
+        }
+        __FetchFunction(GET_TEMPLATE, BodyData, function (response) {
+            const link = document.createElement('a');
+            link.href = BASE_URL + response;
+            link.setAttribute("target", "_blank");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        });
+    }
+
+    const UploadExcel = () => {
+        let URI = "";
+        if (selectedFile.file === null) {
+            toast.error("Choose a file!");
+            return;
+        }
+
+        if (ModalData.mode === CREATE_OBJ_EXCEL) {
+            URI = INSERT_OBJECT_EXCEL;
+        } else if (ModalData.mode === UPDATE_OBJ_EXCEL) {
+            URI = "";
+        } else if (ModalData.mode === DELETE_OBJ_EXCEL) {
+            URI = "";
+        }
+
+        if (URI !== "") {
+            dispatch({
+                type: LOADING
+            });
+            let data = new FormData();
+            data.append("excel_file", selectedFile.file);
+            data.append("obj_type_id", _obj_type_id);
+
+            let requestOptions = {
+                method: 'POST',
+                body: data,
+                redirect: 'follow'
+            };
+
+            fetch(URI, requestOptions)
+                .then(response => response.json())
+                .then(result => {
+                    if (result.code === 200) {
+                        dispatch({
+                            type: LOADED,
+                            _msg: result.msg
+                        });
+                        GetListObject();
+                        toast.success(result.msg);
+                    } else {
+                        dispatch({
+                            type: ERROR,
+                            _msg: result.msg
+                        });
+                        toast.error(result.msg);
+                    }
+                })
+                .catch(e => {
+                    dispatch({
+                        type: ERROR,
+                        _msg: e
+                    });
+                });
+        }
+    }
+
+    const ExportData = () => {
+        let BodyData = {
+            "obj_type_id": _obj_type_id
+        }
+      __FetchFunction(EXPORT_DATA, BodyData);
+    }
+
+    const ChangeFiles = e => {
+        setSelectedFile({
+            ...selectedFile,
+            uploaded: true,
+            name: e.target.files[0].name,
+            file: e.target.files[0]
+        });
+    }
 
     useEffect(function() {
         document.title = _title + WEB_BASE_NAME;
@@ -353,8 +483,70 @@ function ObjectA(props) {
                 CloseModal={_ => setModalData({...ModalData, show: false})}
                 WrapClass={"modal_wrap"}>
 
+                {
+                    ModalData.mode === CREATE_OBJ_EXCEL && (
+                        <>
+                            <div>
+                                <ol>
+                                    <li>Download template <span onClick={GetTemplate} style={{cursor: "pointer", textDecoration: "underline"}}>here</span></li>
+                                    <li>Fill value into Excel</li>
+                                    <li><label className="link_style" htmlFor="upload_file">Click here</label> to upload filled Excel</li>
+                                </ol>
+                                <input className="hide" onChange={ChangeFiles} id="upload_file" type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"/>
+                                {selectedFile.file !== null ? <span className="margin-left-5">File <span className={"bold"}>{selectedFile.name}</span> is selected</span> : <span className="margin-left-5" style={{fontStyle: "italic"}}>No file selected!</span>}<br/>
+                                <span style={{fontStyle: "italic", color: "red", marginTop: '10px', display: "block"}}>* Download new template whenever creating object because list property of {_obj_type_name.toLowerCase()} can be changed in setting</span>
+                                <span style={{fontStyle: "italic", color: "red"}}>* If you want to remove a property away from object, insert '#' character to this property cell</span>
+                            </div>
+                            <div className={"margin-top-25"}>
+                                <button className={"btn pull-right"} onClick={_ => setModalData({...ModalData, show: false})}>Cancel</button>
+                                <button className={"btn theme_blue pull-right margin-right-10"} onClick={UploadExcel}>Upload</button>
+                            </div>
+                        </>
+                    )
+                }
+
+                {
+                    (ModalData.mode === UPDATE_OBJ_EXCEL) && (
+                        <>
+                            <div>
+                                <ol>
+                                    <li><label className="link_style" htmlFor="upload_file">Click here</label> to upload Excel</li>
+                                </ol>
+                                <input className="hide" onChange={ChangeFiles} id="upload_file" type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"/>
+                                {selectedFile.file !== null ? <span className="margin-left-5">File <span className={"bold"}>{selectedFile.name}</span> is selected</span> : <span className="margin-left-5" style={{fontStyle: "italic"}}>No file selected!</span>}<br/>
+                            </div>
+                            <div className={"margin-top-25"}>
+                                <button className={"btn pull-right"} onClick={_ => setModalData({...ModalData, show: false})}>Cancel</button>
+                                <button className={"btn pull-right margin-right-10 " + (ModalData.mode === UPDATE_OBJ_EXCEL ? "theme_green" : "theme_red")} onClick={UploadExcel}>Upload</button>
+                            </div>
+                        </>
+                    )
+                }
+
+                {
+                    ModalData.mode === DELETE_OBJ_EXCEL && (
+                        <>
+                            <div>
+                                <span className={"err_msg margin-bottom-10"}>* System will delete all object in {_obj_type_name} depend on 'Object ID' column in Excel file and CAN NOT recover. Please be careful!</span>
+                                <ol>
+                                    <li><label className="link_style" htmlFor="upload_file">Click here</label> to upload Excel</li>
+                                </ol>
+                                <input className="hide" onChange={ChangeFiles} id="upload_file" type="file" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"/>
+                                {selectedFile.file !== null ? <span className="margin-left-5">File <span className={"bold"}>{selectedFile.name}</span> is selected</span> : <span className="margin-left-5" style={{fontStyle: "italic"}}>No file selected!</span>}<br/>
+                            </div>
+                            <div className={"margin-top-25"}>
+                                <button className={"btn pull-right"} onClick={_ => setModalData({...ModalData, show: false})}>Cancel</button>
+                                <button className={"btn pull-right margin-right-10 " + (ModalData.mode === UPDATE_OBJ_EXCEL ? "theme_green" : "theme_red")} onClick={UploadExcel}>Upload</button>
+                            </div>
+                        </>
+                    )
+                }
+
                 {ModalData.mode === ADD_OBJECT && (
-                    <>
+                    <div style={{
+                        minHeight: '60vh',
+                        minWidth: '60vw',
+                    }}>
                         <small className={"err_msg"}>* {_obj_type_name} has a lot of required property that will be add automatic when you create object!</small>
                         <small className={"err_msg margin-top-5"}>* Required property CAN NOT removed by manually!</small>
                         <div className="margin-top-20">
@@ -393,6 +585,7 @@ function ObjectA(props) {
                                 noOptionsMessage={`No property is assigned to ${_obj_type_name}`}
                             />
                         </div>
+
                         <div>
                         {Array.isArray(ModalData.data.list_property_assign) && ModalData.data.list_property_assign.length > 0 && (
                             <table className="nice_theme margin-top-20" style={{
@@ -429,15 +622,17 @@ function ObjectA(props) {
                                 </tbody>
                             </table>
                         )}
-
                             <button className={"btn pull-right"} onClick={_ => setModalData({...ModalData, show: false})}>Cancel</button>
                             <button className={"btn theme_green pull-right margin-right-10"} onClick={InsertObject}>Create</button>
                         </div>
-                    </>
+                    </div>
                 )}
                 
                 {ModalData.mode === ADD_PROPERTY && (
-                    <>
+                    <div style={{
+                        minHeight: '60vh',
+                        minWidth: '60vw',
+                    }}>
                         <div className={"margin-top-20"}>
                             <label>
                                 <span className="bold" style={{textTransform: "capitalize"}}>Select property:</span>
@@ -487,7 +682,7 @@ function ObjectA(props) {
                             <button className={"btn pull-right"} onClick={_ => setModalData({...ModalData, show: false})}>Cancel</button>
                             <button className={"btn theme_yellow pull-right margin-right-10"} onClick={UpdatePropertyOfObject}>Save</button>
                         </div>
-                    </>
+                    </div>
                 )}
             </Modal>
 
@@ -570,19 +765,42 @@ function ObjectA(props) {
                         </span>
 
                         <div className={ShowAppBox ? "application-box flex" : "application-box"}>
+                            <button className="btn theme_blue margin-10" onClick={ExportData}>
+                                <IconContext.Provider value={{size: 22, className: 'middle-btn'}}>
+                                    <BiAddToQueue/>
+                                </IconContext.Provider>
+                                &nbsp;Export all {_obj_type_name} object</button>
+
+                            <button className="btn theme_blue margin-10" onClick={_ => ChangeProDataWithExcel(CREATE_OBJ_EXCEL)}>
+                                <IconContext.Provider value={{size: 22, className: 'middle-btn'}}>
+                                    <BiAddToQueue/>
+                                </IconContext.Provider>
+                                &nbsp;Create object (Excel)</button>
+
+                            <button className="btn theme_green margin-10" onClick={_ => ChangeProDataWithExcel(UPDATE_OBJ_EXCEL)}>
+                                <IconContext.Provider value={{size: 22, className: 'middle-btn'}}>
+                                    <BiAddToQueue/>
+                                </IconContext.Provider>
+                                &nbsp;Update object (Excel)</button>
+
+                            <button className="btn theme_red margin-10" onClick={_ => ChangeProDataWithExcel(DELETE_OBJ_EXCEL)}>
+                                <IconContext.Provider value={{size: 22, className: 'middle-btn'}}>
+                                    <BiAddToQueue/>
+                                </IconContext.Provider>
+                                &nbsp;Delete object (Excel)</button>
+
                             <button className="btn theme_green700 margin-10" onClick={CreateNewObject}>
                                 <IconContext.Provider value={{size: 22, className: 'middle-btn'}}>
                                     <BiAddToQueue/>
                                 </IconContext.Provider>
-                                &nbsp;Create new object</button>
+                                &nbsp;Create object (Manual)</button>
 
-                            <button className="btn theme_yellow margin-10" onClick={AddProperty}>
+                            <button className="btn theme_brown margin-10" onClick={AddProperty}>
                                 <IconContext.Provider value={{size: 22, className: 'middle-btn'}}>
                                     <BiAddToQueue/>
                                 </IconContext.Provider>
-                                &nbsp;Add property to object</button>
+                                &nbsp;Add property to {DetailData.obj_name}</button>
                         </div>
-
                     </div>
             </div>
         </div>
