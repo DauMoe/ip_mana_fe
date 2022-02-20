@@ -15,6 +15,7 @@ export const INSERT_OBJECT          = OBJECT_URL + 'insert';
 export const GET_TEMPLATE           = OBJECT_URL + 'get_excel_template';
 export const INSERT_OBJECT_EXCEL    = OBJECT_URL + 'insert_object_excel';
 export const EXPORT_DATA            = OBJECT_URL + 'export_data';
+export const SEARCH_OBJECT          = OBJECT_URL + 'search';
 
 /*      OBJECT TYPE API URL    */
 const OBJECT_TYPE_URL               = BASE_URL + 'obj_type/';
@@ -33,5 +34,8 @@ export const ADD_PRO_TO_OBJECT      = PROPERTY_URL + 'add_property_to_object';
 /*      Rules API URL   */
 const RULES_URL                     = BASE_URL + 'rules/';
 export const LIST_RULES             = RULES_URL + 'list';
-export const ADD_RULE               = RULES_URL + 'add_new_rule';
+export const INSERT_RULE            = RULES_URL + 'insert';
 export const RULE_INFO              = RULES_URL + 'get_rule_info';
+export const DELETE_RULE            = RULES_URL + 'delete';
+export const UPDATE_RULE            = RULES_URL + 'update';
+export const SEARCH_RULE            = RULES_URL + 'search';

@@ -1,26 +1,38 @@
 import React, {useEffect, useState} from 'react';
 import './../../GlobalStyle.sass';
-import {LIST_OBJ_TYPE, LIST_RULES, RULE_INFO, WEB_BASE_NAME} from "../API_URL";
+import {
+    DELETE_RULE,
+    INSERT_RULE,
+    LIST_OBJ_TYPE,
+    LIST_RULES,
+    RULE_INFO,
+    SEARCH_OBJECT,
+    SEARCH_RULE, UPDATE_RULE,
+    WEB_BASE_NAME
+} from "../API_URL";
 import {useDispatch, useSelector} from "react-redux";
-import {ERROR, LOADED} from "../Redux/ReducersAndActions/Status/StatusActionsDefinition";
+import {ERROR, LOADED, LOADING} from "../Redux/ReducersAndActions/Status/StatusActionsDefinition";
 import {Link} from "react-router-dom";
 import {FaRegWindowClose, RiFunctionLine, MdOutlineSave, BiAddToQueue} from "react-icons/all";
 import {IconContext} from "react-icons";
-import Select from "react-select";
-import {ToastContainer} from "react-toastify";
+import swal from "sweetalert";
+import {toast, ToastContainer} from "react-toastify";
+import Modal from "../Modal";
 
 
 function Rules (props) {
+    const ADD_RULE_MODE                         = 1;
     const {_title}                              = props;
     const dispatch                              = useDispatch();
-    const [detailData, setDetailData]           = useState({});
+    const [DetailData, setDetailData]           = useState({});
     const [showAppBox, setShowAppBox]           = useState(false);
     const [rulesData, setRulesData]             = useState([]);
-    const [searchKeyWord, setSearchKeyWord]     = useState("");
+    const [SearchBoxValue, setSearchBoxValue]   = useState("");
+    const [ModalData, setModalData]             = useState({mode: -1, data: {}, show: false, title: "no title"});
+    const { loading, error, _msg }              = useSelector(state => state.Status);
     const [testRegex, setTestRegex]             = useState({notMatchRegex: false, value: ""});
-    let OriginRulesData = [];
 
-    const __FetchFunction = (URL, body, callback) => {
+    const __FetchFunction = (URL, body, callback, dismiss = true) => {
         let myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
 
@@ -30,25 +42,31 @@ function Rules (props) {
             body: JSON.stringify(body),
             redirect: 'follow'
         };
-
+        dispatch({type: LOADING});
         fetch(URL, requestOptions)
             .then(res => res.json())
             .then(result => {
                 if (result.code === 200) {
-                    dispatch({type: LOADED})
-                    callback(result.msg);
+                    if (dismiss) dispatch({type: LOADED})
+                    callback(result.msg, null);
                 } else {
-                    dispatch({
-                        type: ERROR,
-                        msg: result.msg[0]
-                    });
+                    if (dismiss) {
+                        dispatch({
+                            type: ERROR,
+                            msg: result.msg[0]
+                        });
+                    }
+                    toast.error(result.msg);
                 }
             })
             .catch(e => {
-                dispatch({
-                    type: ERROR,
-                    msg: e
-                })
+                if (dismiss) {
+                    dispatch({
+                        type: ERROR,
+                        msg: e
+                    })
+                }
+                toast.error(e);
             });
     }
 
@@ -57,20 +75,17 @@ function Rules (props) {
         setShowAppBox(!showAppBox);
     }
 
-    const SearchByRuleName = e => {
-        setSearchKeyWord(e.target.value);
-        if (e.keyCode === 13) {
-            if (searchKeyWord.trim() === "") {
-                setRulesData(OriginRulesData);
-                return;
+    const SearchByRuleName = (e) => {
+        if (e.keyCode === 13 && loading === false) {
+            let BodyData = {
+                "rule_name": SearchBoxValue
             }
-            let MatchingSearchData = [];
-            rulesData.map((item, index) => {
-                if (item.name.toLowerCase().includes(searchKeyWord.toLowerCase())) {
-                    MatchingSearchData.push(item);
+            __FetchFunction(SEARCH_RULE, BodyData, function(response) {
+                setRulesData(response);
+                if (response.length > 0) {
+                    GetRuleInfo(response[0]);
                 }
             });
-            setRulesData(MatchingSearchData);
         }
     }
 
@@ -80,24 +95,107 @@ function Rules (props) {
             notMatchRegex: false,
             value: ""
         });
-        // for (let i of )
         setDetailData(item);
     }
 
     const CheckRegex = e => {
-        let regex = new RegExp(detailData.regex, 'g');
+        let regex = new RegExp(DetailData.rule_regex, 'g');
         setTestRegex({
             ...testRegex,
             value: e.target.value,
             notMatchRegex: e.target.value === "" ? false : !regex.test(e.target.value)
         });
     }
+    
+    const DeleteRule = () => {
+      swal({
+          title: "Delete",
+          text: `Rule data will be removed and CAN NOT recover. Continue?`,
+          icon: "warning",
+          buttons: true,
+          dangerMode: true})
+          .then(isConfirm => {
+              if (isConfirm) {
+                  let BodyData = {
+                      "rule_id": DetailData.rule_id
+                  };
+                  __FetchFunction(DELETE_RULE, BodyData, function(response) {
+                      GetListRule();
+                      toast.success(response);
+                  }, false);
+              }
+          })
+    }
 
-    const AddObjectType = item => {
+    const GetListRule = () => {
+      __FetchFunction(LIST_RULES, undefined, function (response) {
+          GetRuleInfo(response[0]);
+          setRulesData(response);
+      });
+    }
 
+    const HandleClickOut = (e) => {
+        setModalData({
+            ...ModalData,
+            show: false
+        })
+    }
+
+    const CreateNewRule = () => {
+      setModalData({
+          mode: ADD_RULE_MODE,
+          data: {
+              rule_name: "",
+              rule_desc: "",
+              rule_regex: ""
+          },
+          show: true,
+          title: "Create new rule"
+      })
+    }
+
+    const InsertRule = () => {
+      if (ModalData.data.rule_name.trim() === "") {
+          toast.error("Rule needs a name");
+          return;
+      }
+      let BodyData = {
+          "rule_name": ModalData.data.rule_name,
+          "rule_desc": ModalData.data.rule_desc,
+          "rule_regex": ModalData.data.rule_regex
+      }
+      __FetchFunction(INSERT_RULE, BodyData, function(response) {
+          setModalData({
+              ...ModalData,
+              show: false
+          });
+          GetListRule();
+          toast.success(response);
+      }, false);
+    }
+
+    const SaveRuleChange = () => {
+      if (DetailData.rule_name.trim() === "") {
+          toast.error("Rule needs a name");
+          return;
+      }
+        let BodyData = {
+            "rule_name": DetailData.rule_name,
+            "rule_desc": DetailData.rule_desc,
+            "rule_regex": DetailData.rule_regex
+        }
+        __FetchFunction(UPDATE_RULE, BodyData, function(response) {
+            setModalData({
+                ...ModalData,
+                show: false
+            });
+            GetListRule();
+            toast.success(response);
+        }, false);
     }
 
     useEffect(function() {
+        dispatch({type: LOADING});
         document.title = _title + WEB_BASE_NAME;
         let ListAPI = [{
            url: LIST_RULES,
@@ -105,20 +203,11 @@ function Rules (props) {
                method: 'POST',
                redirect: 'follow'
            }
-        }
-        // , {
-        //     url: LIST_OBJ_TYPE,
-        //     requestOptions: {
-        //         method: 'POST',
-        //         redirect: 'follow'
-        //     }
-        // }
-        ];
+        }];
 
         Promise.all(ListAPI.map(item => fetch(item.url, item.requestOptions)))
             .then(responses => Promise.all(responses.map(resp => resp.json())))
             .then(results => {
-                console.log(results);
                 let HasErr = false;
                 for (let i of results) {
                     if (i.code !== 200) {
@@ -131,16 +220,8 @@ function Rules (props) {
                     if (!HasErr) {
                         dispatch({type: LOADED});
                         setRulesData(results[0].msg);
-                        // let TempArr = [];
-                        // for (let i of results[1].msg) {
-                        //     TempArr.push({
-                        //         value: i.obj_type_id,
-                        //         label: i.obj_type_name
-                        //     });
-                        // }
-                        // setListObjectType(TempArr);
                         if (results[0].msg.length > 0) {
-                            GetRuleInfo({id: results[0].id});
+                            GetRuleInfo(results[0].msg[0]);
                         }
                     }
                 }
@@ -151,13 +232,16 @@ function Rules (props) {
                     msg: e
                 })
             });
+        return () => {
+            setRulesData([]);
+        }
     }, []);
 
     return(
         <div className="container" onClick={() => setShowAppBox(false)}>
             <ToastContainer
-                position="top-center"
-                autoClose={3000}
+                position="top-right"
+                autoClose={5000}
                 hideProgressBar={false}
                 newestOnTop={false}
                 closeOnClick={true}
@@ -167,10 +251,68 @@ function Rules (props) {
                 draggable={false}
                 pauseOnHover/>
 
+            <Modal
+                show={ModalData.show}
+                title={ModalData.title}
+                onClickOut={HandleClickOut}
+                CloseModal={_ => setModalData({...ModalData, show: false})}
+                WrapClass={"modal_wrap"}>
+                {
+                    ModalData.mode === ADD_RULE_MODE && (
+                        <div style={{
+                            minWidth: '60vw',
+                        }}>
+                            <div className="margin-top-20">
+                                <label htmlFor={"_insert_rule_name"}>
+                                    <span className="bold" style={{textTransform: "capitalize"}}>Rule's name:</span>
+                                </label>
+                                <input className={"form-control"} id={"_insert_rule_name"} placeholder={"Rule's name"} value={ModalData.data.rule_name} onChange={e => {setModalData({
+                                    ...ModalData,
+                                    data: {
+                                        ...ModalData.data,
+                                        rule_name: e.target.value
+                                    }
+                                })}}/>
+                            </div>
+
+                            <div className="margin-top-20">
+                                <label htmlFor={"_insert_rule_desc"}>
+                                    <span className="bold" style={{textTransform: "capitalize"}}>Rule's desc:</span>
+                                </label>
+                                <input className={"form-control"} id={"_insert_rule_desc"} placeholder={"Rule's name"} value={ModalData.data.rule_desc} onChange={e => {setModalData({
+                                    ...ModalData,
+                                    data: {
+                                        ...ModalData.data,
+                                        rule_desc: e.target.value
+                                    }
+                                })}}/>
+                            </div>
+
+                            <div className="margin-top-20">
+                                <label htmlFor={"_insert_rule_regex"}>
+                                    <span className="bold" style={{textTransform: "capitalize"}}>Rule's regex:</span>
+                                </label>
+                                <input className={"form-control"} id={"_insert_rule_regex"} placeholder={"Rule's name"} value={ModalData.data.rule_regex} onChange={e => {setModalData({
+                                    ...ModalData,
+                                    data: {
+                                        ...ModalData.data,
+                                        rule_regex: e.target.value
+                                    }
+                                })}}/>
+                            </div>
+                            <div className={"margin-top-25"}>
+                                <button className={"btn pull-right"} onClick={_ => setModalData({...ModalData, show: false})}>Cancel</button>
+                                <button className={"btn pull-right margin-right-10 theme_green"} onClick={InsertRule}>Create</button>
+                            </div>
+                        </div>
+                    )
+                }
+            </Modal>
+
             <div className="box-style" style={{height: "calc(100% - 40px)", padding: '20px', display: 'flex', position: 'relative'}}>
 
                 <div style={{width: '300px', height: 'calc(100% - 30px)', display: 'inline-block'}}>
-                    <input className="form-control" disabled={true} onKeyDown={SearchByRuleName} placeholder="Find by rule's name ..."/>
+                    <input className="form-control" onChange={e => setSearchBoxValue(e.target.value)} onKeyDown={SearchByRuleName} placeholder="Find by rule's name ..."/>
                     <div className="list-container margin-top-10">
                         {rulesData.length === 0 ? (
                             <div>
@@ -189,7 +331,7 @@ function Rules (props) {
                     </div>
                 </div>
 
-                <div style={{
+                {Array.isArray(rulesData) && rulesData.length > 0 && (<div style={{
                     width: 'calc(100% - 350px)',
                     height: 'calc(100% - 70px)',
                     marginLeft: '50px',
@@ -202,9 +344,9 @@ function Rules (props) {
                         <label htmlFor="name">
                             <span className="bold">Rule's name:</span>
                         </label>
-                        <input className="form-control" id="name" value={detailData.rule_name} onChange={e => {
+                        <input className="form-control" id="name" value={DetailData.rule_name} onChange={e => {
                             setDetailData({
-                                ...detailData,
+                                ...DetailData,
                                 rule_name: e.target.value
                             })
                         }}/>
@@ -214,9 +356,9 @@ function Rules (props) {
                         <label htmlFor="desc">
                             <span className="bold">Rule's description:</span>
                         </label>
-                        <input className="form-control" id="desc" value={detailData.rule_desc} onChange={e => {
+                        <input className="form-control" id="desc" value={DetailData.rule_desc} onChange={e => {
                             setDetailData({
-                                ...detailData,
+                                ...DetailData,
                                 rule_desc: e.target.value
                             })
                         }}/>
@@ -227,9 +369,9 @@ function Rules (props) {
                             <span className="bold">Rule's regex: </span>
                             (Regex instruction <Link target="_blank" to={{pathname: "https://docs.microsoft.com/en-us/dotnet/standard/base-types/regular-expression-language-quick-reference"}}>here</Link>)
                         </label>
-                        <input className="form-control" id="reg" value={detailData.rule_regex} onChange={e => {
+                        <input className="form-control" id="reg" value={DetailData.rule_regex} onChange={e => {
                             setDetailData({
-                                ...detailData,
+                                ...DetailData,
                                 rule_regex: e.target.value
                             })
                         }}/>
@@ -244,24 +386,24 @@ function Rules (props) {
                     </div>
 
                     <div className="margin-top-20">
-                        <small className="italic">(Created: {detailData.created_at}, Last update: {detailData.updated_at})</small>
+                        <small className="italic">(Created: {DetailData.created_at}, Last update: {DetailData.updated_at})</small>
                     </div>
 
                     <div className="margin-top-20">
-                        <button className="btn pull-right theme_red margin-left-10">
+                        <button className="btn pull-right theme_red margin-left-10" onClick={DeleteRule}>
                             <IconContext.Provider value={{size: 22, color: 'white', className: 'middle-btn'}}>
                                 <FaRegWindowClose/>
                             </IconContext.Provider>
                             &nbsp;Delete rule
                         </button>
-                        <button className="btn pull-right theme_cyan">
+                        <button className="btn pull-right theme_cyan" onClick={SaveRuleChange}>
                             <IconContext.Provider value={{size: 22, color: 'white', className: 'middle-btn'}}>
                                 <MdOutlineSave/>
                             </IconContext.Provider>
                             &nbsp;Save change
                         </button>
                     </div>
-                </div>
+                </div>)}
 
                 <div onClick={e => e.stopPropagation()}>
                     <span className="fab-button" onClick={ToggleApplicationBox}>
@@ -271,11 +413,11 @@ function Rules (props) {
                     </span>
 
                     <div className={showAppBox ? "application-box flex" : "application-box"}>
-                        <button className="btn theme_green700 margin-10">
+                        <button className="btn theme_green700 margin-10" onClick={CreateNewRule}>
                             <IconContext.Provider value={{size: 22, className: 'middle-btn'}}>
                                 <BiAddToQueue/>
                             </IconContext.Provider>
-                            &nbsp;New Rule</button>
+                            &nbsp;Create Rule</button>
                     </div>
                 </div>
 

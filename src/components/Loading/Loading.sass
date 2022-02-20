@@ -1,9 +1,33 @@
-@use './../../GlobalStyle'
-
 .loading_container
   position: fixed
   top: 0
   left: 0
   width: 100%
   height: 100%
-  background: #cacaca
+  background: rgba(231, 231, 231, 0.85)
+  z-index: 9998
+  animation: state .4s
+
+@keyframes state
+  from
+    opacity: 0
+  to
+    opacity: 1
+
+.loader
+  color: #1c806b
+  font-size: 30px
+  font-family: arial
+  font-weight: bold
+
+.loader:after
+  content: '\2026'
+  display: inline-block
+  overflow: hidden
+  vertical-align: bottom
+  animation: dots steps(4, end) 2s infinite
+  width: 0px
+
+@keyframes dots
+  to
+    width: 1.25em

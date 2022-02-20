@@ -5,7 +5,7 @@ import {
     ADD_PRO_TO_OBJECT, BASE_URL, DELETE_OBJECT, EXPORT_DATA,
     GET_LIST_PRO_BY_OBJ_ID,
     GET_PRO_BY_OBJ_ID, GET_TEMPLATE, INSERT_OBJECT, INSERT_OBJECT_EXCEL,
-    LIST_OBJECT, LIST_PROPERTY,
+    LIST_OBJECT, LIST_PROPERTY, SEARCH_OBJECT,
     UPDATE_PRO_VALUE,
     WEB_BASE_NAME
 } from "../API_URL";
@@ -15,14 +15,15 @@ import {
     FaRegTimesCircle,
     FaRegWindowClose,
     MdOutlineSave,
-    RiFunctionLine
+    RiFunctionLine,
+    SiMicrosoftexcel,
+    HiDocumentReport
 } from "react-icons/all";
 import {toast, ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.min.css';
 import Modal from "../Modal";
 import Select from "react-select";
 import swal from "sweetalert";
-import {Link} from "react-router-dom";
 
 function ObjectA(props) {
     const ADD_PROPERTY      = 1;
@@ -37,9 +38,11 @@ function ObjectA(props) {
     const [ShowAppBox, setShowAppBox]               = useState(false);
     const [ModalData, setModalData]                 = useState({mode: -1, data: {}, show: false, title: "no title"});
     const [ModalSelectData, setModalSelectData]     = useState(null);
+    const [SearchBoxValue, setSearchBoxValue]       = useState("");
     const [selectedFile, setSelectedFile]           = useState({uploaded: false, name: "No file", file: null});
 
-    const __FetchFunction = (URL, body, callback) => {
+    const __FetchFunction = (URL, body, callback, dismiss = true) => {
+        dispatch({type: LOADING});
         let myHeaders = new Headers();
         myHeaders.append("Content-Type", "application/json");
 
@@ -49,14 +52,14 @@ function ObjectA(props) {
             body: JSON.stringify(body),
             redirect: 'follow'
         };
-
         fetch(URL, requestOptions)
             .then(res => res.json())
             .then(result => {
                 if (result.code === 200) {
-                    dispatch({type: LOADED})
+                    if (dismiss) dispatch({type: LOADED})
                     callback(result.msg, null);
                 } else if (result.code === 202) {
+                    setShowAppBox(false);
                     const link = document.createElement('a');
                     link.href = BASE_URL + result.msg;
                     link.setAttribute("target", "_blank");
@@ -64,19 +67,23 @@ function ObjectA(props) {
                     link.click();
                     document.body.removeChild(link);
                 } else {
-                    dispatch({
-                        type: ERROR,
-                        msg: result.msg
-                    });
                     callback(null, result.msg);
+                    if (dismiss) {
+                        dispatch({
+                            type: ERROR,
+                            msg: result.msg
+                        });
+                    }
                     toast.error(result.msg);
                 }
             })
             .catch(e => {
-                dispatch({
-                    type: ERROR,
-                    msg: e
-                });
+                if (dismiss) {
+                    dispatch({
+                        type: ERROR,
+                        msg: e
+                    });
+                }
                 toast.error(e);
             });
     }
@@ -86,8 +93,17 @@ function ObjectA(props) {
         setShowAppBox(!ShowAppBox);
     }
 
-    const SearchByObjectName = () => {
-
+    const SearchByObjectName = (e) => {
+        if (e.keyCode === 13) {
+            let BodyData = {
+                "obj_name": SearchBoxValue,
+                "obj_type_id": _obj_type_id
+            }
+            __FetchFunction(SEARCH_OBJECT, BodyData, function(response) {
+                setObjectData(response);
+                GetObjectInfo(response[0], 0);
+            }, false);
+        }
     }
     
     const AddProperty = () => {
@@ -140,23 +156,34 @@ function ObjectA(props) {
                 mode: CREATE_OBJ_EXCEL
             });
         } else if (mode === UPDATE_OBJ_EXCEL) {
-            setModalData({
-                show: true,
-                title: "Instruction to update object with Excel file",
-                data: {},
-                mode: UPDATE_OBJ_EXCEL
+            swal({
+                title: "Developing features",
+                text: `This features will coming soon. We're sorry about this problem!`,
+                icon: "info"
             });
+            // setModalData({
+            //     show: true,
+            //     title: "Instruction to update object with Excel file",
+            //     data: {},
+            //     mode: UPDATE_OBJ_EXCEL
+            // });
         }  else if (mode === DELETE_OBJ_EXCEL) {
-            setModalData({
-                show: true,
-                title: "Instruction to delete object with Excel file",
-                data: {},
-                mode: DELETE_OBJ_EXCEL
+            swal({
+                title: "Developing features",
+                text: `This features will coming soon. We're sorry about this problem!`,
+                icon: "info"
             });
+            // setModalData({
+            //     show: true,
+            //     title: "Instruction to delete object with Excel file",
+            //     data: {},
+            //     mode: DELETE_OBJ_EXCEL
+            // });
         }
     }
 
     const CreateNewObject = () => {
+        dispatch({type: LOADING});
         let BodyData = {
             "obj_type_id": _obj_type_id
         }
@@ -236,12 +263,12 @@ function ObjectA(props) {
                     if (err != null) return;
                     GetListObject();
                     toast.success(response);
-                });
+                }, false);
             }
         });
     }
 
-    const GetListObject = () => {
+    const GetListObject = (cb) => {
         let BodyData = {
             "obj_type_id": _obj_type_id
         };
@@ -252,8 +279,10 @@ function ObjectA(props) {
             setObjectData(response);
             if (response.length > 0) {
                 GetObjectInfo(response[0], 0);
+            } else {
+                dispatch({type: LOADED});
             }
-        });
+        },false);
     }
 
     const GetObjectInfo = (item, index = -1) => {
@@ -268,6 +297,10 @@ function ObjectA(props) {
             "obj_id": item.obj_id
         };
         __FetchFunction(GET_PRO_BY_OBJ_ID, BodyData, function (response) {
+            for (let i of response) {
+                let reg = new RegExp(i.rule_regex, 'g');
+                i.match_regex = reg.test(i.pro_value);
+            }
             setDetailData({
                 obj_id: item.obj_id,
                 obj_name: item.obj_name,
@@ -458,8 +491,12 @@ function ObjectA(props) {
     }
 
     useEffect(function() {
+        dispatch({type: LOADING});
         document.title = _title + WEB_BASE_NAME;
         GetListObject();
+        return () => {
+            setObjectData([]);
+        }
     }, [_obj_type_id]);
 
     return(
@@ -582,7 +619,6 @@ function ObjectA(props) {
                                 value={ModalSelectData}
                                 onChange={ChangeProperty}
                                 placeholder={"Select a property"}
-                                noOptionsMessage={`No property is assigned to ${_obj_type_name}`}
                             />
                         </div>
 
@@ -689,7 +725,7 @@ function ObjectA(props) {
             <div className="box-style" style={{height: "calc(100% - 40px)", padding: '20px', display: 'flex', position: 'relative'}}>
 
                 <div style={{width: '300px', height: 'calc(100% - 30px)', display: 'inline-block'}}>
-                    <input className="form-control" disabled={true} onKeyDown={SearchByObjectName} placeholder={`Find by ${_obj_type_name.toLowerCase()} name ...`}/>
+                    <input className="form-control" onKeyDown={SearchByObjectName} onChange={e => setSearchBoxValue(e.target.value)} value={SearchBoxValue} placeholder={`Find by ${_obj_type_name.toLowerCase()} name ...`}/>
                     <div className="list-container margin-top-10">
                         {Array.isArray(ObjectData) && ObjectData.length === 0 ? (
                             <div>
@@ -719,11 +755,15 @@ function ObjectA(props) {
                             padding: '10px'}}>
                             <div style={{
                                 width: "100%",
-                                display: "block",
-                                textAlign: "right",
+                                display: "inline-block",
                                 textTransform: "capitalize"
                             }}>
-                                <h2>{_obj_type_name.toLowerCase()} : {DetailData.obj_name}</h2>
+                                <span style={{fontWeight: "bold", fontSize: "25px", display: "inline-block", marginTop: "15px"}}>{_obj_type_name.toLowerCase()} : {DetailData.obj_name}</span>
+                                <button className="btn theme_brown margin-10 pull-right" onClick={AddProperty}>
+                                    <IconContext.Provider value={{size: 22, className: 'middle-btn'}}>
+                                        <BiAddToQueue/>
+                                    </IconContext.Provider>
+                                    &nbsp;Add property to {DetailData.obj_name}</button>
                             </div>
                             {
                                 DetailData.data.map(function(item, index) {
@@ -734,7 +774,7 @@ function ObjectA(props) {
                                             </label>
                                             <input className={(item.match_regex === false) ? "form-control form-control-err" : "form-control"} placeholder={(item.pro_desc !== "") ? item.pro_desc : "Fill value"} id={"_pro_item_" + index} value={item.pro_value} onChange={e => ChangeProValue(e, index)}/>
                                             <small className="italic">(Created: {item.created_at}, Last update: {item.updated_at})</small><br/>
-                                            {item.match_regex === false && (<small style={{color: "red"}}>Not match rule of {item.pro_name.toLowerCase()}!</small>)}
+                                            {item.match_regex === false && (<small className={"err_msg italic"}>Not match rule "{item.rule_name}"</small>)}
                                         </div>
                                     );
                                 })
@@ -765,27 +805,27 @@ function ObjectA(props) {
                         </span>
 
                         <div className={ShowAppBox ? "application-box flex" : "application-box"}>
-                            <button className="btn theme_blue margin-10" onClick={ExportData}>
+                            <button className="btn theme_cyan margin-10" onClick={ExportData}>
                                 <IconContext.Provider value={{size: 22, className: 'middle-btn'}}>
-                                    <BiAddToQueue/>
+                                    <HiDocumentReport/>
                                 </IconContext.Provider>
-                                &nbsp;Export all {_obj_type_name} object</button>
+                                &nbsp;Export all {_obj_type_name} data</button>
 
-                            <button className="btn theme_blue margin-10" onClick={_ => ChangeProDataWithExcel(CREATE_OBJ_EXCEL)}>
+                            <button className="btn theme_orange margin-10" onClick={_ => ChangeProDataWithExcel(CREATE_OBJ_EXCEL)}>
                                 <IconContext.Provider value={{size: 22, className: 'middle-btn'}}>
-                                    <BiAddToQueue/>
+                                    <SiMicrosoftexcel/>
                                 </IconContext.Provider>
                                 &nbsp;Create object (Excel)</button>
 
-                            <button className="btn theme_green margin-10" onClick={_ => ChangeProDataWithExcel(UPDATE_OBJ_EXCEL)}>
+                            <button className="btn theme_orange margin-10" onClick={_ => ChangeProDataWithExcel(UPDATE_OBJ_EXCEL)}>
                                 <IconContext.Provider value={{size: 22, className: 'middle-btn'}}>
-                                    <BiAddToQueue/>
+                                    <SiMicrosoftexcel/>
                                 </IconContext.Provider>
                                 &nbsp;Update object (Excel)</button>
 
-                            <button className="btn theme_red margin-10" onClick={_ => ChangeProDataWithExcel(DELETE_OBJ_EXCEL)}>
+                            <button className="btn theme_orange margin-10" onClick={_ => ChangeProDataWithExcel(DELETE_OBJ_EXCEL)}>
                                 <IconContext.Provider value={{size: 22, className: 'middle-btn'}}>
-                                    <BiAddToQueue/>
+                                    <SiMicrosoftexcel/>
                                 </IconContext.Provider>
                                 &nbsp;Delete object (Excel)</button>
 
@@ -794,12 +834,6 @@ function ObjectA(props) {
                                     <BiAddToQueue/>
                                 </IconContext.Provider>
                                 &nbsp;Create object (Manual)</button>
-
-                            <button className="btn theme_brown margin-10" onClick={AddProperty}>
-                                <IconContext.Provider value={{size: 22, className: 'middle-btn'}}>
-                                    <BiAddToQueue/>
-                                </IconContext.Provider>
-                                &nbsp;Add property to {DetailData.obj_name}</button>
                         </div>
                     </div>
             </div>

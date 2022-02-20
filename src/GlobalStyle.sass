@@ -17,9 +17,14 @@ $theme_red: #d70b0b
 $theme_yellow: #fbb220
 $theme_gray: #737373
 $theme_cyan: #046057
+$theme_orange: rgba(255, 134, 30, 0.82)
 
 .gray
     color: $theme_gray
+
+.theme_orange
+    background-color: $theme_orange !important
+    color: $white !important
 
 .theme_blue
     background-color: $theme_blue !important
@@ -120,28 +125,6 @@ ol
 .italic
     font-style: italic
 
-.loader
-    display: inline-block
-    width: 40px
-    height: 40px
-    border: 10px solid #f3f3f3
-    border-radius: 50%
-    border-top: 10px solid #3498db
-    -webkit-animation: spin 2s linear infinite
-    animation: spin 2s linear infinite
-
-@keyframes spin
-    0%
-        transform: rotate(0deg)
-    100%
-        transform: rotate(360deg)
-
-@-webkit-keyframes spin
-    0%
-        -webkit-transform: rotate(0deg)
-    100%
-        -webkit-transform: rotate(360deg)
-
 .form-control
     width: calc(100% - 20px)
     //min-width: 300px
@@ -219,7 +202,7 @@ ol
     position: fixed
     top: 0
     left: 0
-    z-index: 100000
+    z-index: 9997
     overflow-x: hidden
     width: 100%
     height: 100%

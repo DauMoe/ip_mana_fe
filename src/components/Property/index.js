@@ -1,4 +1,4 @@
-import {ERROR, LOADED} from "../Redux/ReducersAndActions/Status/StatusActionsDefinition";
+import {ERROR, LOADED, LOADING} from "../Redux/ReducersAndActions/Status/StatusActionsDefinition";
 import {useDispatch} from "react-redux";
 import {IconContext} from "react-icons";
 import {BiAddToQueue, FaRegWindowClose, MdOutlineSave, RiFunctionLine} from "react-icons/all";
@@ -244,6 +244,7 @@ function Property(props) {
     }
 
     useEffect(function() {
+        dispatch({type: LOADING});
         document.title = _title + WEB_BASE_NAME;
         let ListAPI = [{
             url: LIST_PROPERTY,
@@ -285,6 +286,7 @@ function Property(props) {
                         result.push(i);
                     }
                     setPropertyData(result);
+                    GetPropertyInfo(result[0]);
                     let TempArr = [];
                     for (let i of resp[1].msg) {
                         TempArr.push({
@@ -310,6 +312,11 @@ function Property(props) {
                     msg: e
                 });
             });
+        return () => {
+            setPropertyData([]);
+            setListRule([]);
+            setListObjType([]);
+        }
     }, []);
 
     return(
