@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from "react";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {ERROR, LOADED, LOADING} from "../Redux/ReducersAndActions/Status/StatusActionsDefinition";
 import {
     ADD_PRO_TO_OBJECT, BASE_URL, DELETE_OBJECT, EXPORT_DATA,
@@ -33,6 +33,7 @@ function ObjectA(props) {
     const DELETE_OBJ_EXCEL  = 5;
     const {_title, _obj_type_id, _obj_type_name}    = props;
     const dispatch                                  = useDispatch();
+    const {token, is_admin}                         = useSelector(state => state.Authen);
     const [DetailData, setDetailData]               = useState({obj_id: -1, obj_name: "", data: []});
     const [ObjectData, setObjectData]               = useState([]);
     const [ShowAppBox, setShowAppBox]               = useState(false);
@@ -56,9 +57,10 @@ function ObjectA(props) {
             .then(res => res.json())
             .then(result => {
                 if (result.code === 200) {
-                    if (dismiss) dispatch({type: LOADED})
+                    if (dismiss) dispatch({type: LOADED});
                     callback(result.msg, null);
                 } else if (result.code === 202) {
+                    if (dismiss) dispatch({type: LOADED});
                     setShowAppBox(false);
                     const link = document.createElement('a');
                     link.href = BASE_URL + result.msg;
@@ -96,6 +98,7 @@ function ObjectA(props) {
     const SearchByObjectName = (e) => {
         if (e.keyCode === 13) {
             let BodyData = {
+                "ssid": token,
                 "obj_name": SearchBoxValue,
                 "obj_type_id": _obj_type_id
             }
@@ -108,7 +111,8 @@ function ObjectA(props) {
     
     const AddProperty = () => {
         let BodyData = {
-          "obj_id": DetailData.obj_id
+            "ssid": token,
+            "obj_id": DetailData.obj_id
         };
         __FetchFunction(GET_LIST_PRO_BY_OBJ_ID, BodyData, function(response) {
             let temp1 = [], temp2 = [];
@@ -185,6 +189,7 @@ function ObjectA(props) {
     const CreateNewObject = () => {
         dispatch({type: LOADING});
         let BodyData = {
+            "ssid": token,
             "obj_type_id": _obj_type_id
         }
         __FetchFunction(LIST_PROPERTY, BodyData, function(response, err) {
@@ -238,6 +243,7 @@ function ObjectA(props) {
                 });
             }
             let BodyData = {
+                "ssid": token,
                 "list_property": list_property
             }
             __FetchFunction(UPDATE_PRO_VALUE, BodyData, function (response) {
@@ -257,6 +263,7 @@ function ObjectA(props) {
         }).then(val => {
             if (val) {
                 let BodyData = {
+                    "ssid": token,
                     "obj_id": DetailData.obj_id
                 }
                 __FetchFunction(DELETE_OBJECT, BodyData, function(response, err) {
@@ -270,6 +277,7 @@ function ObjectA(props) {
 
     const GetListObject = (cb) => {
         let BodyData = {
+            "ssid": token,
             "obj_type_id": _obj_type_id
         };
         __FetchFunction(LIST_OBJECT, BodyData, function(response) {
@@ -294,6 +302,7 @@ function ObjectA(props) {
             // setObjectData(ObjectDataCopy);
         }
         let BodyData = {
+            "ssid": token,
             "obj_id": item.obj_id
         };
         __FetchFunction(GET_PRO_BY_OBJ_ID, BodyData, function (response) {
@@ -368,6 +377,7 @@ function ObjectA(props) {
             ListNewProID.push(i.value);
         }
         let BodyData = {
+            "ssid": token,
             "obj_id": DetailData.obj_id,
             "list_pro_id": ListNewProID,
             "obj_type_id": _obj_type_id
@@ -389,6 +399,7 @@ function ObjectA(props) {
             tempArr.push(i.value);
         }
         let BodyData = {
+            "ssid": token,
             "obj_type_id": _obj_type_id,
             "obj_name": ModalData.data.obj_name,
             "obj_desc": ModalData.data.obj_desc,
@@ -406,6 +417,7 @@ function ObjectA(props) {
     
     const GetTemplate = () => {
         let BodyData = {
+            "ssid": token,
             "obj_type_id": _obj_type_id
         }
         __FetchFunction(GET_TEMPLATE, BodyData, function (response) {
@@ -440,6 +452,7 @@ function ObjectA(props) {
             let data = new FormData();
             data.append("excel_file", selectedFile.file);
             data.append("obj_type_id", _obj_type_id);
+            data.append("ssid", token);
 
             let requestOptions = {
                 method: 'POST',
@@ -451,9 +464,10 @@ function ObjectA(props) {
                 .then(response => response.json())
                 .then(result => {
                     if (result.code === 200) {
-                        dispatch({
-                            type: LOADED,
-                            _msg: result.msg
+                        dispatch({type: LOADED});
+                        setModalData({
+                            ...ModalData,
+                            show: false
                         });
                         GetListObject();
                         toast.success(result.msg);
@@ -476,9 +490,10 @@ function ObjectA(props) {
 
     const ExportData = () => {
         let BodyData = {
+            "ssid": token,
             "obj_type_id": _obj_type_id
         }
-      __FetchFunction(EXPORT_DATA, BodyData);
+      __FetchFunction(EXPORT_DATA, BodyData, function() {});
     }
 
     const ChangeFiles = e => {

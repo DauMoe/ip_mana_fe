@@ -1,9 +1,7 @@
 export const BASE_URL               = process.env.REACT_APP_BASEURL;
 export const TEMPLATE_URL           = BASE_URL + "asset/template/";
 export const REPORT_URL             = BASE_URL + "asset/report/";
-export const WEB_BASE_NAME          = " | IP  Manager";
-
-export const LOGIN                  = BASE_URL + 'login';
+export const WEB_BASE_NAME          = " | IP  Manager";;
 
 /*      OBJECT API URL       */
 const OBJECT_URL                    = BASE_URL + 'obj/';
@@ -24,7 +22,7 @@ export const LIST_OBJ_TYPE          = OBJECT_TYPE_URL + 'list';
 /*      PROPERTY API URL    */
 const PROPERTY_URL                  = BASE_URL + 'pro/';
 export const LIST_PROPERTY          = PROPERTY_URL + 'list';
-export const Get_PRO_INFO           = PROPERTY_URL + 'get_pro_info';
+export const GET_PRO_INFO           = PROPERTY_URL + 'get_pro_info';
 export const UPDATE_PROPERTY        = PROPERTY_URL + 'update';
 export const INSERT_PROPERTY        = PROPERTY_URL + 'insert';
 export const DELETE_PROPERTY        = PROPERTY_URL + 'delete';
@@ -39,3 +37,8 @@ export const RULE_INFO              = RULES_URL + 'get_rule_info';
 export const DELETE_RULE            = RULES_URL + 'delete';
 export const UPDATE_RULE            = RULES_URL + 'update';
 export const SEARCH_RULE            = RULES_URL + 'search';
+
+/*      User API URL   */
+const USER_URL                     = BASE_URL + 'user/';
+export const LOGIN                 = USER_URL + 'login';
+export const LOGOUT                = USER_URL + 'logout';

@@ -1,9 +1,10 @@
 import { combineReducers } from "redux";
-import SideBarReducer from './ReducersAndActions/SideBar/SideBarReducer';
 import StatusReducer from './ReducersAndActions/Status/StatusReducer';
+import AuthenticationReducer from "./ReducersAndActions/Authentication/AuthenReducer";
 
 const RootReducer = combineReducers({
-    Status: StatusReducer
+    Status: StatusReducer,
+    Authen: AuthenticationReducer
 });
 
 export default RootReducer;

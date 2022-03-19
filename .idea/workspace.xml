@@ -1,21 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="9b1ec0a8-2949-43d5-a7d0-bc0ffe2950ff" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/ObjectA/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12-Nov-21_2_34_PM_[Changes]/shelved.patch" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_12-Nov-21_2_34_PM__Changes_.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/watcherTasks.xml" beforeDir="false" />
+    <list default="true" id="9b1ec0a8-2949-43d5-a7d0-bc0ffe2950ff" name="Changes" comment="DEMO Version">
+      <change afterPath="$PROJECT_DIR$/src/components/Login/Login.sass" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Login/banner_gioithieu.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Login/index.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Redux/ReducersAndActions/Authentication/AuthenActionsDefinition.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Redux/ReducersAndActions/Authentication/AuthenReducer.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/User/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.vscode/settings.json" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Animation.sass" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/GlobalStyle.sass" beforeDir="false" afterPath="$PROJECT_DIR$/src/GlobalStyle.sass" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/API_URL.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/API_URL.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/BlackList/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/BlackList/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ObjectA/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ObjectA/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/ProSideBarCustom/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/ProSideBarCustom/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Property/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Property/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Redux/RootReducer.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Redux/RootReducer.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Rules/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Rules/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/VLAN/VLAN.sass" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/VLAN/index.js" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -25,6 +29,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Sass File" />
         <option value="JavaScript File" />
       </list>
     </option>
@@ -32,24 +37,67 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProjectId" id="24sN7UYgTYTq8ECRo6FMmHWWNNx" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../hue" />
+    <property name="list.type.of.created.stylesheet" value="Sass" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="settings.editor.selected.configurable" value="MTConfigurable" />
+    <property name="ts.external.directory.path" value="C:\Program Files\JetBrains\WebStorm 2021.3.1\plugins\JavaScriptLanguage\jsLanguageServicesImpl\external" />
     <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\petproject\ip_mana_fe\public" />
+      <recent name="D:\petproject\ip_mana_fe\src" />
+    </key>
+  </component>
+  <component name="RunManager" selected="npm.start">
+    <configuration name="build" type="js.build_tools.npm" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="build" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <configuration name="start" type="js.build_tools.npm" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="start" />
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="npm.build" />
+      <item itemvalue="npm.start" />
+    </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -59,8 +107,66 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1644415166448</updated>
-      <workItem from="1644415168536" duration="7050000" />
+      <workItem from="1644415168536" duration="12890000" />
+      <workItem from="1644508711997" duration="12236000" />
+      <workItem from="1644751511184" duration="7890000" />
+      <workItem from="1644843944924" duration="3987000" />
+      <workItem from="1644936116723" duration="46459000" />
+      <workItem from="1645331597966" duration="4531000" />
+      <workItem from="1645366193785" duration="10469000" />
+      <workItem from="1646578299038" duration="3370000" />
+      <workItem from="1647595455370" duration="19021000" />
     </task>
+    <task id="LOCAL-00001" summary="Add new sidebar">
+      <created>1644510491157</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1644510491157</updated>
+    </task>
+    <task id="LOCAL-00002" summary="DONE Update Object Property">
+      <created>1644514352669</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1644514352669</updated>
+    </task>
+    <task id="LOCAL-00003" summary="DONE Property">
+      <created>1644773653383</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1644773653383</updated>
+    </task>
+    <task id="LOCAL-00004" summary="DONE many thing">
+      <created>1645121282821</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1645121282821</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Create object ok">
+      <created>1645152652738</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1645152652738</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Create object ok">
+      <created>1645290803385</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1645290803385</updated>
+    </task>
+    <task id="LOCAL-00007" summary="DEMO Version">
+      <created>1645379481397</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1645379481397</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -76,5 +182,15 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
+    <MESSAGE value="Add new sidebar" />
+    <MESSAGE value="DONE Update Object Property" />
+    <MESSAGE value="DONE Property" />
+    <MESSAGE value="DONE many thing" />
+    <MESSAGE value="Create object ok" />
+    <MESSAGE value="DEMO Version" />
+    <option name="LAST_COMMIT_MESSAGE" value="DEMO Version" />
   </component>
 </project>

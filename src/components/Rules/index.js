@@ -24,6 +24,7 @@ function Rules (props) {
     const ADD_RULE_MODE                         = 1;
     const {_title}                              = props;
     const dispatch                              = useDispatch();
+    const {token}                               = useSelector(state => state.Authen);
     const [DetailData, setDetailData]           = useState({});
     const [showAppBox, setShowAppBox]           = useState(false);
     const [rulesData, setRulesData]             = useState([]);
@@ -50,22 +51,18 @@ function Rules (props) {
                     if (dismiss) dispatch({type: LOADED})
                     callback(result.msg, null);
                 } else {
-                    if (dismiss) {
-                        dispatch({
-                            type: ERROR,
-                            msg: result.msg[0]
-                        });
-                    }
+                    dispatch({
+                        type: ERROR,
+                        msg: result.msg[0]
+                    });
                     toast.error(result.msg);
                 }
             })
             .catch(e => {
-                if (dismiss) {
-                    dispatch({
-                        type: ERROR,
-                        msg: e
-                    })
-                }
+                dispatch({
+                    type: ERROR,
+                    msg: e
+                })
                 toast.error(e);
             });
     }
@@ -78,6 +75,7 @@ function Rules (props) {
     const SearchByRuleName = (e) => {
         if (e.keyCode === 13 && loading === false) {
             let BodyData = {
+                "ssid": token,
                 "rule_name": SearchBoxValue
             }
             __FetchFunction(SEARCH_RULE, BodyData, function(response) {
@@ -117,6 +115,7 @@ function Rules (props) {
           .then(isConfirm => {
               if (isConfirm) {
                   let BodyData = {
+                      "ssid": token,
                       "rule_id": DetailData.rule_id
                   };
                   __FetchFunction(DELETE_RULE, BodyData, function(response) {
@@ -128,9 +127,14 @@ function Rules (props) {
     }
 
     const GetListRule = () => {
-      __FetchFunction(LIST_RULES, undefined, function (response) {
-          GetRuleInfo(response[0]);
+        let BodyData = {
+            "ssid": token
+        }
+      __FetchFunction(LIST_RULES, BodyData, function (response) {
           setRulesData(response);
+          if (response.length > 0) {
+              GetRuleInfo(response[0]);
+          }
       });
     }
 
@@ -160,6 +164,7 @@ function Rules (props) {
           return;
       }
       let BodyData = {
+          "ssid": token,
           "rule_name": ModalData.data.rule_name,
           "rule_desc": ModalData.data.rule_desc,
           "rule_regex": ModalData.data.rule_regex
@@ -180,8 +185,10 @@ function Rules (props) {
           return;
       }
         let BodyData = {
-            "rule_name": DetailData.rule_name,
-            "rule_desc": DetailData.rule_desc,
+            "ssid": token,
+            "rule_id"   : DetailData.rule_id,
+            "rule_name" : DetailData.rule_name,
+            "rule_desc" : DetailData.rule_desc,
             "rule_regex": DetailData.rule_regex
         }
         __FetchFunction(UPDATE_RULE, BodyData, function(response) {
@@ -197,11 +204,16 @@ function Rules (props) {
     useEffect(function() {
         dispatch({type: LOADING});
         document.title = _title + WEB_BASE_NAME;
+        let myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
         let ListAPI = [{
            url: LIST_RULES,
            requestOptions: {
                method: 'POST',
-               redirect: 'follow'
+               redirect: 'follow',
+               headers: myHeaders,
+               body: JSON.stringify({"ssid": token})
            }
         }];
 

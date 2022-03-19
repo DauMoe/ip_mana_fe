@@ -1,8 +1,7 @@
 @use "sass:math"
-@use './Animation'
 
 $sidebar_color: #33383E
-$white: white
+$white: rgb(255, 255, 255)
 $sidebar_item_non_selected: #a3a3a3
 $sidebar_selected_bg: #7c7c7c
 $sidebar_width: 300px
@@ -13,11 +12,12 @@ $theme_green: #008a8a
 $theme_blue: #0035a0
 $theme_brown: #362F4B
 $link_color: #008a8a
-$theme_red: #d70b0b
-$theme_yellow: #fbb220
+$theme_red: #d90808
+$theme_yellow: rgba(255, 134, 30, 0.8)
 $theme_gray: #737373
 $theme_cyan: #046057
 $theme_orange: rgba(255, 134, 30, 0.82)
+$theme_strawberry: rgba(203, 17, 118, 0.82)
 
 .gray
     color: $theme_gray
@@ -58,6 +58,10 @@ $theme_orange: rgba(255, 134, 30, 0.82)
     background-color: $theme_cyan !important
     color: $white !important
 
+.theme_strawberry
+    background-color: $theme_strawberry !important
+    color: $white !important
+
 body
     margin: 0
     padding: 0
@@ -81,7 +85,7 @@ ol
         width: math.div(100%*$i, 12)
         min-height: 1px
 
-@for $i from 0 through 20 
+@for $i from 0 through 50
     .margin-top-#{$i+5}
         margin-top: #{$i+5}px !important
     .margin-bottom-#{$i+5}
@@ -162,10 +166,21 @@ ol
     border-radius: 4px
     background-color: #cacaca
     color: black
-    font-size: 14px
+    font-size: 15px
     font-family: 'Ubuntu', sans-serif
     letter-spacing: .02em
     cursor: pointer
+    animation: ToggleButton .5s ease-in-out
+
+@keyframes ToggleButton
+    from
+        opacity: 0
+    to
+        opacity: 1
+
+.btn-block
+    width: 100%
+    display: block
 
 .pull-right
     float: right

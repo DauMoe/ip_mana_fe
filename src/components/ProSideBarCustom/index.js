@@ -5,12 +5,21 @@ import {Link} from "react-router-dom";
 import SideBarBackGroundImage from './sidebar_bg.png';
 import VNPTIcon from './vnpt.svg';
 import {IconContext} from "react-icons/lib";
+import {FiLogOut, IoIosLogOut, MdLogout, MdOutlineSave} from "react-icons/all";
+import {ERROR, LOADED} from "../Redux/ReducersAndActions/Status/StatusActionsDefinition";
+import {toast, ToastContainer} from "react-toastify";
+import {useDispatch, useSelector} from "react-redux";
+import {LOGOUT} from "../API_URL";
+import {NOT_LOGGED_IN} from "../Redux/ReducersAndActions/Authentication/AuthenActionsDefinition";
 
 // ProSidebar: https://www.npmjs.com/package/react-pro-sidebar
 
 function SideBarCustom(props) {
-    const {list_item} = props;
+    const {list_item}                       = props;
+    const dispatch                          = useDispatch();
+    const {token}                           = useSelector(state => state.Authen);
     const [SideBarClosing, setSideBarState] = useState(true);
+
     const getWindowDimensions = () => {
         const { innerWidth: width, innerHeight: height } = window;
         return { width, height };
@@ -24,6 +33,49 @@ function SideBarCustom(props) {
             return <Icons.FaBeer />;
         }
         return <IconComponent />;
+    }
+
+    const __FetchFunction = (URL, body, callback, err_cb) => {
+        let myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        let requestOptions = {
+            method: 'POST',
+            headers: myHeaders,
+            body: JSON.stringify(body),
+            redirect: 'follow'
+        };
+
+        fetch(URL, requestOptions)
+            .then(res => res.json())
+            .then(result => {
+                if (result.code === 200) {
+                    callback(result.msg, null);
+                } else {
+                    toast.error(result.msg);
+                    callback(null, result.msg);
+                    dispatch({
+                        type: ERROR,
+                        msg: result.msg
+                    });
+                }
+            })
+            .catch(e => {
+                dispatch({
+                    type: ERROR,
+                    msg: e
+                })
+            });
+    }
+
+    const Logout = () => {
+        let BodyData = {
+            "ssid": token
+        }
+        __FetchFunction(LOGOUT, BodyData, function (resp) {
+            toast.success(resp.msg);
+            dispatch({type: NOT_LOGGED_IN});
+        });
     }
 
     useEffect(function() {
@@ -49,6 +101,19 @@ function SideBarCustom(props) {
                 "left": "0"
             }}
         >
+
+            <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick={true}
+                rtl={false}
+                pauseOnFocusLoss={false}
+                theme="colored"
+                draggable={false}
+                pauseOnHover/>
+
             <SidebarHeader>
                 <div
                     style={{
@@ -89,7 +154,35 @@ function SideBarCustom(props) {
                     style={{
                         padding: '20px 24px',
                     }}>
-                    <img alt={"VNPT Icon"} width={"30"} src={VNPTIcon}/>
+                    {/*<img alt={"VNPT Icon"} width={"30"} src={VNPTIcon}/>*/}
+
+                    {!SideBarClosing && (
+                        <button onClick={Logout} className={"btn btn-block theme_strawberry"}>
+                            <span style={{overflow: "hidden", whiteSpace: 'nowrap', textOverflow: 'ellipsis'}}>
+                                Logout&nbsp;&nbsp;
+                            </span>
+                            <IconContext.Provider value={{size: 22, color: 'white', className: 'middle-btn'}}>
+                                <MdLogout/>
+                            </IconContext.Provider>
+                        </button>
+                    )}
+
+                    {SideBarClosing && (
+                        <button
+                            onClick={Logout}
+                            className={"theme_strawberry"}
+                            style={{
+                                borderRadius: "50%",
+                                padding: "10px 7px 10px 13px",
+                                border: "none",
+                                cursor: "pointer"
+                        }}>
+                            <IconContext.Provider value={{size: 22, color: 'white', className: 'middle-btn'}}>
+                                <MdLogout/>
+                            </IconContext.Provider>
+                        </button>
+                    )}
+
                 </div>
             </SidebarFooter>
         </ProSidebar>

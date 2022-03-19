@@ -1,11 +1,11 @@
 import {ERROR, LOADED, LOADING} from "../Redux/ReducersAndActions/Status/StatusActionsDefinition";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {IconContext} from "react-icons";
 import {BiAddToQueue, FaRegWindowClose, MdOutlineSave, RiFunctionLine} from "react-icons/all";
 import React, {useEffect, useState} from "react";
 import {
-    DELETE_PROPERTY,
-    Get_PRO_INFO, INSERT_PROPERTY,
+    DELETE_PROPERTY, GET_PRO_INFO,
+    INSERT_PROPERTY,
     LIST_OBJ_TYPE,
     LIST_PROPERTY,
     LIST_RULES,
@@ -17,9 +17,10 @@ import {toast, ToastContainer} from "react-toastify";
 import Modal from "../Modal";
 
 function Property(props) {
-    const CREATE_PROPERTY = 1;
-    const {_title} = props;
-    const dispatch = useDispatch();
+    const CREATE_PROPERTY                       = 1;
+    const {_title}                              = props;
+    const dispatch                              = useDispatch();
+    const {token}                               = useSelector(state => state.Authen);
     const [ShowAppBox, setShowAppBox]           = useState(false);
     const [PropertyData, setPropertyData]       = useState([]);
     const [ListObjType, setListObjType]         = useState([]);
@@ -68,6 +69,8 @@ function Property(props) {
     }
 
     const CreateProperty = () => {
+        console.log(ListObjType);
+
         setModalSelectData(null);
         setModalSelectData1(null);
         setModalData({
@@ -96,7 +99,16 @@ function Property(props) {
     }
 
     const UpdateProperty = () => {
+        if (typeof (DetailData.rule) !== "object") {
+            toast.error("Choose a RULE");
+            return;
+        }
+        if (Array.isArray(DetailData.ListObjType) && DetailData.ListObjType.length === 0) {
+            toast.error("Choose at least one OBJECT TYPE");
+            return;
+        }
         let BodyData = {
+            "ssid": token,
             "pro_id": DetailData.pro_id,
             "pro_name": DetailData.pro_name,
             "pro_desc": DetailData.pro_desc,
@@ -110,10 +122,12 @@ function Property(props) {
             });
         }
         __FetchFunction(UPDATE_PROPERTY, BodyData, function(response) {
-            __FetchFunction(LIST_PROPERTY, undefined, function(resp, err) {
+            __FetchFunction(LIST_PROPERTY, BodyData, function(resp, err) {
                 if (err !== null) {
                     setPropertyData(resp);
-                    GetPropertyInfo(resp[0]);
+                    if (resp.length > 0) {
+                        GetPropertyInfo(resp[0]);
+                    }
                 } else {
                     GetPropertyInfo(DetailData);
                 }
@@ -146,10 +160,11 @@ function Property(props) {
         }
 
       let BodyData = {
-          "pro_name": ModalData.data.pro_name,
-          "pro_desc": ModalData.data.pro_desc,
-          "rule_id": ModalSelectData.value,
-          "list_obj_type": []
+            "ssid": token,
+            "pro_name": ModalData.data.pro_name,
+            "pro_desc": ModalData.data.pro_desc,
+            "rule_id": ModalSelectData.value,
+            "list_obj_type": []
       }
         for (let i of ModalSelectData1) {
             BodyData.list_obj_type.push({
@@ -170,12 +185,15 @@ function Property(props) {
 
     const DeleteProperty = () => {
         let BodyData = {
+            "ssid": token,
             "pro_id": DetailData.pro_id
         };
         __FetchFunction(DELETE_PROPERTY, BodyData, function(response) {
-            __FetchFunction(LIST_PROPERTY, undefined, function(resp) {
+            __FetchFunction(LIST_PROPERTY, BodyData, function(resp) {
                 setPropertyData(resp);
-                GetPropertyInfo(resp[0]);
+                if (resp.length > 0) {
+                    GetPropertyInfo(resp[0]);
+                }
             });
             toast.success(response);
         });
@@ -183,9 +201,10 @@ function Property(props) {
 
     const GetPropertyInfo = (item) => {
         let BodyData = {
+            "ssid": token,
             "pro_id": item.pro_id
         };
-        __FetchFunction(Get_PRO_INFO, BodyData, function (response) {
+        __FetchFunction(GET_PRO_INFO, BodyData, function (response) {
             let TempItem = {...item};
             TempItem.ListObjType = [];
             for (let i of response) {
@@ -246,23 +265,31 @@ function Property(props) {
     useEffect(function() {
         dispatch({type: LOADING});
         document.title = _title + WEB_BASE_NAME;
+        let myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
         let ListAPI = [{
             url: LIST_PROPERTY,
             requestOptions: {
                 method: 'POST',
-                redirect: 'follow'
+                redirect: 'follow',
+                headers: myHeaders,
+                body: JSON.stringify({"ssid": token})
             }
         }, {
             url: LIST_OBJ_TYPE,
             requestOptions: {
                 method: 'POST',
-                redirect: 'follow'
+                redirect: 'follow',
+                headers: myHeaders,
+                body: JSON.stringify({"ssid": token})
             }
         }, {
             url: LIST_RULES,
             requestOptions: {
                 method: 'POST',
-                redirect: 'follow'
+                redirect: 'follow',
+                headers: myHeaders,
+                body: JSON.stringify({"ssid": token})
             }
         }];
 
@@ -280,18 +307,21 @@ function Property(props) {
                     }
                 }
                 if (!HasErr) {
+                    dispatch({type: LOADED});
                     let result = [];
                     for (let i of resp[0].msg) {
                         i.ListObjType = [];
                         result.push(i);
                     }
                     setPropertyData(result);
-                    GetPropertyInfo(result[0]);
+                    if (result.length > 0) {
+                        GetPropertyInfo(result[0]);
+                    }
                     let TempArr = [];
                     for (let i of resp[1].msg) {
                         TempArr.push({
-                           value: i.obj_type_id,
-                           label: i.obj_type_name,
+                            value: i.obj_type_id,
+                            label: i.obj_type_name,
                             is_required: false
                         });
                     }
@@ -340,7 +370,9 @@ function Property(props) {
                 CloseModal={_ => setModalData({...ModalData, show: false})}
                 WrapClass={"modal_wrap"}>
                 {ModalData.mode === CREATE_PROPERTY && (
-                    <>
+                    <div style={{
+                        minWidth: '60vw',
+                    }}>
                         <div className="margin-top-20">
                             <label htmlFor={"_insert_property_name"}>
                                 <span className="bold" style={{textTransform: "capitalize"}}>Property's name:</span>
@@ -375,8 +407,6 @@ function Property(props) {
                                 value={ModalSelectData1}
                                 onChange={ChangeObjectTypeinModal}
                                 isMulti
-                                placeholder={"Select a object type"}
-                                noOptionsMessage={"No object type"}
                             />
                         </div>
 
@@ -388,8 +418,6 @@ function Property(props) {
                                 options={ListRule}
                                 value={ModalSelectData}
                                 onChange={ChangeProperty}
-                                placeholder={"Select a rule"}
-                                noOptionsMessage={"No rule"}
                             />
                         </div>
 
@@ -406,7 +434,7 @@ function Property(props) {
 
                         <button className={"btn pull-right"} onClick={_ => setModalData({...ModalData, show: false})}>Cancel</button>
                         <button className={"btn theme_green pull-right margin-right-10"} onClick={InsertProperty}>Create</button>
-                    </>
+                    </div>
                 )}
             </Modal>
 
@@ -432,94 +460,96 @@ function Property(props) {
                     </div>
                 </div>
 
-                <div style={{
-                    width: 'calc(100% - 350px)',
-                    height: 'calc(100% - 70px)',
-                    marginLeft: '50px',
-                    marginTop: '50px',
-                    display: 'inline-block',
-                    overflow: 'auto',
-                    padding: '10px'}}>
+                {Array.isArray(PropertyData) && PropertyData.length > 0 && (
+                    <div style={{
+                        width: 'calc(100% - 350px)',
+                        height: 'calc(100% - 70px)',
+                        marginLeft: '50px',
+                        marginTop: '50px',
+                        display: 'inline-block',
+                        overflow: 'auto',
+                        padding: '10px'}}>
 
-                    <div className="margin-top-20">
-                        <label htmlFor="name">
-                            <span className="bold">Property's name:</span>
-                        </label>
-                        <input className="form-control" id="name" value={DetailData.pro_name} onChange={e => {
-                            setDetailData({
-                                ...DetailData,
-                                pro_name: e.target.value
+                        <div className="margin-top-20">
+                            <label htmlFor="name">
+                                <span className="bold">Property's name:</span>
+                            </label>
+                            <input className="form-control" id="name" value={DetailData.pro_name} onChange={e => {
+                                setDetailData({
+                                    ...DetailData,
+                                    pro_name: e.target.value
+                                })
+                            }}/>
+                        </div>
+
+                        <div className="margin-top-20">
+                            <label htmlFor="desc">
+                                <span className="bold">Property's description:</span>
+                            </label>
+                            <input className="form-control" id="desc" value={DetailData.pro_desc} onChange={e => {
+                                setDetailData({
+                                    ...DetailData,
+                                    pro_desc: e.target.value
+                                })
+                            }}/>
+                        </div>
+
+                        <div className="margin-top-20">
+                            <label htmlFor="type">
+                                <span className="bold">Object type:</span>
+                            </label>
+                            <Select
+                                id="type"
+                                isMulti
+                                value={DetailData.ListObjType}
+                                options={ListObjType}
+                                onChange={ChangeObjType}
+                            />
+                        </div>
+
+                        <div className="margin-top-20">
+                            <label htmlFor="rule">
+                                <span className="bold">Rule:</span>
+                            </label>
+                            <Select
+                                id="rule"
+                                value={DetailData.rule}
+                                options={ListRule}
+                                onChange={ChangeRule}
+                            />
+                        </div>
+
+                        {
+                            DetailData.hasOwnProperty("ListObjType") && DetailData.ListObjType.map((item, index) => {
+                                return (
+                                    <div className={"margin-top-20"} key={index}>
+                                        <input id={"__cb" + index} type={"checkbox"} checked={item.is_required} onChange={e => ChangeRequired(e, index)}/>
+                                        <label htmlFor={"__cb" + index} className={"margin-left-5"}>'{DetailData.pro_name}' is required in {item.label}</label>
+                                    </div>
+                                );
                             })
-                        }}/>
-                    </div>
+                        }
 
-                    <div className="margin-top-20">
-                        <label htmlFor="desc">
-                            <span className="bold">Property's description:</span>
-                        </label>
-                        <input className="form-control" id="desc" value={DetailData.pro_desc} onChange={e => {
-                            setDetailData({
-                                ...DetailData,
-                                pro_desc: e.target.value
-                            })
-                        }}/>
-                    </div>
+                        <div className="margin-top-20">
+                            <small className="italic">(Created: {DetailData.created_at}, Last update: {DetailData.updated_at})</small>
+                        </div>
 
-                    <div className="margin-top-20">
-                        <label htmlFor="type">
-                            <span className="bold">Object type:</span>
-                        </label>
-                        <Select
-                            id="type"
-                            isMulti
-                            value={DetailData.ListObjType}
-                            options={ListObjType}
-                            onChange={ChangeObjType}
-                        />
+                        <div className="margin-top-20">
+                            <button className="btn pull-right theme_red margin-left-10" onClick={DeleteProperty}>
+                                <IconContext.Provider value={{size: 22, color: 'white', className: 'middle-btn'}}>
+                                    <FaRegWindowClose/>
+                                </IconContext.Provider>
+                                &nbsp;Delete
+                            </button>
+                            <button className="btn pull-right theme_cyan" onClick={UpdateProperty}>
+                                <IconContext.Provider value={{size: 22, color: 'white', className: 'middle-btn'}}>
+                                    <MdOutlineSave/>
+                                </IconContext.Provider>
+                                &nbsp;Save change
+                            </button>
+                        </div>
                     </div>
-
-                    <div className="margin-top-20">
-                        <label htmlFor="rule">
-                            <span className="bold">Rule:</span>
-                        </label>
-                        <Select
-                            id="rule"
-                            value={DetailData.rule}
-                            options={ListRule}
-                            onChange={ChangeRule}
-                        />
-                    </div>
-
-                    {
-                        DetailData.hasOwnProperty("ListObjType") && DetailData.ListObjType.map((item, index) => {
-                            return (
-                                <div className={"margin-top-20"} key={index}>
-                                    <input id={"__cb" + index} type={"checkbox"} checked={item.is_required} onChange={e => ChangeRequired(e, index)}/>
-                                    <label htmlFor={"__cb" + index} className={"margin-left-5"}>'{DetailData.pro_name}' is required in {item.label}</label>
-                                </div>
-                            );
-                        })
-                    }
-
-                    <div className="margin-top-20">
-                        <small className="italic">(Created: {DetailData.created_at}, Last update: {DetailData.updated_at})</small>
-                    </div>
-
-                    <div className="margin-top-20">
-                        <button className="btn pull-right theme_red margin-left-10" onClick={DeleteProperty}>
-                            <IconContext.Provider value={{size: 22, color: 'white', className: 'middle-btn'}}>
-                                <FaRegWindowClose/>
-                            </IconContext.Provider>
-                            &nbsp;Delete
-                        </button>
-                        <button className="btn pull-right theme_cyan" onClick={UpdateProperty}>
-                            <IconContext.Provider value={{size: 22, color: 'white', className: 'middle-btn'}}>
-                                <MdOutlineSave/>
-                            </IconContext.Provider>
-                            &nbsp;Save change
-                        </button>
-                    </div>
-                </div>
+                )}
 
                 <div onClick={e => e.stopPropagation()}>
                     <span className="fab-button" onClick={ToggleApplicationBox}>
