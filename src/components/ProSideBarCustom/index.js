@@ -17,8 +17,8 @@ import {NOT_LOGGED_IN} from "../Redux/ReducersAndActions/Authentication/AuthenAc
 function SideBarCustom(props) {
     const {list_item}                       = props;
     const dispatch                          = useDispatch();
-    const {token}                           = useSelector(state => state.Authen);
-    const [SideBarClosing, setSideBarState] = useState(true);
+    const {token, fullname, is_admin}       = useSelector(state => state.Authen);
+    const [SideBarClosed, setSideBarState] = useState(true);
 
     const getWindowDimensions = () => {
         const { innerWidth: width, innerHeight: height } = window;
@@ -92,7 +92,7 @@ function SideBarCustom(props) {
         <ProSidebar
             image={SideBarBackGroundImage}
             breakPoint="md"
-            collapsed={SideBarClosing}
+            collapsed={SideBarClosed}
             style={{
                 "height": windowsSize.height + 'px',
                 "display": "inline-block",
@@ -130,12 +130,18 @@ function SideBarCustom(props) {
                         color: "#e5e5e5"
                     }}
                 >
-                    <span onClick={() => setSideBarState(!SideBarClosing)}>
+                    <span onClick={() => setSideBarState(!SideBarClosed)}>
                         <IconContext.Provider value={{"size": "30"}}>
-                            {SideBarClosing === false ? <Icons.IoIosArrowDropleftCircle/> : <Icons.IoIosArrowDroprightCircle/>}
+                            {SideBarClosed === false ? <Icons.IoIosArrowDropleftCircle/> : <Icons.IoIosArrowDroprightCircle/>}
                         </IconContext.Provider>
                     </span>
-                    {SideBarClosing === false && <span style={{display: "inline-block", "marginLeft": "10px"}}>IP Manager</span>}
+                    {SideBarClosed === false && (
+                        <span style={{display: "inline-block", "marginLeft": "10px"}}>
+                            IP Manager
+                            <br/>
+                            <span style={{fontSize: '10px', fontWeight: 600}}>{fullname} ({is_admin ? "ADMIN" : "MEMBER"})</span>
+                        </span>
+                    )}
                 </div>
             </SidebarHeader>
             <SidebarContent>
@@ -156,7 +162,7 @@ function SideBarCustom(props) {
                     }}>
                     {/*<img alt={"VNPT Icon"} width={"30"} src={VNPTIcon}/>*/}
 
-                    {!SideBarClosing && (
+                    {!SideBarClosed && (
                         <button onClick={Logout} className={"btn btn-block theme_strawberry"}>
                             <span style={{overflow: "hidden", whiteSpace: 'nowrap', textOverflow: 'ellipsis'}}>
                                 Logout&nbsp;&nbsp;
@@ -167,7 +173,7 @@ function SideBarCustom(props) {
                         </button>
                     )}
 
-                    {SideBarClosing && (
+                    {SideBarClosed && (
                         <button
                             onClick={Logout}
                             className={"theme_strawberry"}

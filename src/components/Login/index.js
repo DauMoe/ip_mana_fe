@@ -1,12 +1,10 @@
 import "./Login.sass";
 import React, {useEffect, useState} from "react";
-import {BASE_URL, LOGIN, WEB_BASE_NAME} from "../API_URL";
+import {LOGIN, WEB_BASE_NAME} from "../API_URL";
 import {useDispatch, useSelector} from "react-redux";
 import {LOGGED_IN, NOT_LOGGED_IN} from "../Redux/ReducersAndActions/Authentication/AuthenActionsDefinition";
-import {ERROR, LOADED, LOADING} from "../Redux/ReducersAndActions/Status/StatusActionsDefinition";
+import {LOADING} from "../Redux/ReducersAndActions/Status/StatusActionsDefinition";
 import {toast, ToastContainer} from "react-toastify";
-import {Redirect} from "react-router-dom";
-import jwt_decode from "jwt-decode";
 
 function Login(props) {
     const {_title}          = props;
@@ -55,19 +53,20 @@ function Login(props) {
             pass: pass
         };
         __FetchFunction(LOGIN, BodyData, function(response) {
-            const {is_admin} = jwt_decode(response.token);
             dispatch({
                 type: LOGGED_IN,
-                token: response.token,
-                is_admin: is_admin
+                token: response.token
             });
-            <Redirect to={"/rules"}/>
         });
     }
 
     useEffect(() => {
         dispatch({type: NOT_LOGGED_IN});
         document.title = _title + WEB_BASE_NAME;
+        return () => {
+            setEmail("");
+            setPass("");
+        }
     }, [token]);
     return(
         <div className={"login_container"}>

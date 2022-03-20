@@ -69,8 +69,6 @@ function Property(props) {
     }
 
     const CreateProperty = () => {
-        console.log(ListObjType);
-
         setModalSelectData(null);
         setModalSelectData1(null);
         setModalData({

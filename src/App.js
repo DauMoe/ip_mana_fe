@@ -11,6 +11,7 @@ import SideBarCustom from "./components/ProSideBarCustom";
 import Property from "./components/Property";
 import Loading from "./components/Loading";
 import Login from "./components/Login";
+import User from "./components/User";
 
 const App = () => {
     let ListSideBarItem                         = [];
@@ -112,7 +113,7 @@ const App = () => {
                                     </Route>
 
                                     <Route exact path="/users">
-                                        <Property _title="Users"/>
+                                        <User _title="Users"/>
                                     </Route>
                                 </>
                             )}
